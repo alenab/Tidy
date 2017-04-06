@@ -1,3 +1,358 @@
-.test {
-  border: dashed;
+@import "bootstrap.less";
+@import (css) url('//fonts.googleapis.com/css?family=Dosis:300,400');
+
+@text-color: #3ACCCC;
+@background-color: rgba(147, 229, 227, 1);
+
+@brand-primary: rgba(58, 204, 204, 1);
+@btn-primary-border: @brand-primary;
+
+@font-family-base: Dosis, sans-serif;
+
+@font-face {
+  font-family: TheHand;
+  src: url("../fonts/the_hand_bold.otf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: TheHand;
+  src: url("../fonts/the_hand_regular.otf");
+}
+
+// Small screen / tablet
+@container-tablet: 540px;
+
+// Medium screen / desktop
+@container-desktop: 760px;
+
+// Large screen / wide desktop
+@container-large-desktop: 980px;
+
+@font-size-h1: 60px;
+@font-size-h3: 55px;
+@font-size-h4: 25px;
+@font-size-h5: 20px;
+@font-size-h6: 16px;
+
+h1 {
+  margin-top: 50px;
+}
+
+h1, h3 {
+  text-align: center;
+  text-transform: uppercase;
+  font-family: TheHand;
+  font-weight: bold;
+}
+
+h4 {
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+h5, h6 {
+  color: #999999;
+}
+
+@navbar-default-bg: transparent;
+@navbar-default-link-color: #999999;
+@navbar-default-link-hover-color: @text-color;
+
+//div {
+//  border: 1px dotted;
+//}
+
+.btn-primary {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 25px;
+  font-weight: 300;
+
+  &:hover, &:focus, &:active {
+    @dark-primary: rgba(26, 176, 183, 1);
+    background-color: @dark-primary;
+    border-color: @dark-primary;
+    color: white;
+  }
+}
+
+.btn-success {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: rgba(58, 204, 204, 1);
+  border-color: rgba(58, 204, 204, 1);
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.btn-success:hover, .btn-success:focus, .btn-success:active, .open > .dropdown-toggle.btn-success {
+  color: #fff;
+  background-color: rgba(26, 176, 183, 1);
+  border-color: rgba(26, 176, 183, 1);
+}
+
+.btn-default {
+  height: 42px;
+  width: 142px;
+  font-size: 15px;
+  border-color: rgba(26, 176, 183, 1);
+  color: @text-color;
+
+}
+
+.btn-default:hover, .btn-info:focus, .btn-success:active, .open > .dropdown-toggle.btn-success {
+  color: #fff;
+  background-color: rgba(26, 176, 183, 1);
+  border-color: rgba(26, 176, 183, 1);
+}
+
+.block-header {
+  a {
+    font-size: 15px;
+  }
+}
+
+.block-top {
+  background-image: url("../images/calendar_with_cup.png"), url("../images/kitchen_background.webp");
+  background-position: bottom, center;
+  background-repeat: no-repeat, no-repeat;
+  background-size: auto, cover;
+  height: 540px;
+  text-align: center;
+  .btn {
+    height: 50px;
+    width: 180px;
+  }
+}
+
+.block-value {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  h3 {
+    margin-bottom: 50px;
+  }
+  img {
+    align-content: center;
+    height: 70px;
+    width: 85px;
+  }
+  h5 {
+    text-transform: uppercase;
+  }
+
+  .values_mobile {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #999999;
+    font-size: 24px;
+    text-transform: uppercase;
+    text-align: left;
+  }
+}
+
+@media screen and (min-width: @container-desktop) {
+  .block-advantage {
+    background: url("../images/window_with_girl.webp") no-repeat center;
+    background-size: cover;
+  }
+}
+
+@media screen and (max-width: @container-md) {
+  .block-advantage {
+    background: url("../images/window.webp") no-repeat center;
+    background-size: cover;
+  }
+}
+
+.block-advantage {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  h3 {
+    margin-bottom: 50px;
+  }
+  h5 {
+    text-transform: uppercase;
+  }
+  .advantage_mobile {
+    h5 {
+      font-size: 24px;
+    }
+    h6 {
+      font-size: 18px;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+  }
+}
+
+.block-easy_book {
+  padding-top: 50px;
+  .btn {
+    height: 50px;
+    width: 260px;
+  }
+  .easy_book_text {
+    margin-top: 80px;
+  }
+}
+
+.block-makes_tidy {
+  padding-bottom: 50px;
+  background: rgba(242, 242, 242, 1);
+  .row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  img {
+    height: 60px;
+    width: 60px;
+  }
+  .makes_tidy_header {
+    h5 {
+      font-size: 24px;
+      text-transform: none;
+    }
+    h6 {
+      font-size: 18px;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+  }
+
+  .makes_tidy_header {
+    margin-top: 0;
+    padding-top: 50px;
+    background: @background-color;
+
+    h3 {
+      color: white;
+      padding-bottom: 50px;
+    }
+  }
+
+  svg {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .ribbon {
+    padding-top: 50px;
+    .ribbon-side {
+      fill: rgba(58, 204, 204, 1);
+    }
+
+    .ribbon-shadow {
+      fill: rgba(26, 176, 183, 1);
+    }
+
+    .ribbon-bg {
+      fill: rgba(139, 209, 205, 1);
+    }
+
+    .ribbon-text {
+      font-size: 55px;
+      text-align: center;
+      text-transform: uppercase;
+      font-family: TheHand;
+      font-weight: bold;
+      fill: white;
+    }
+  }
+}
+
+.block-reviews {
+  background-image: url("../images/city_final.png");
+  height: 630px;
+
+}
+
+.block-ready_book {
+  height: 700px;
+  font-size: 16px;
+
+  @media screen and (min-width: @container-desktop) {
+    background: url("../images/people_with_nout.png") no-repeat -5px bottom;
+    background: contain;
+    .ready_book_text {
+      margin-top: 150px;
+    }
+  }
+
+  @media screen and (max-width: @container-md) {
+    background: url("../images/people_with_nout_mobile.png") no-repeat left bottom;
+    background-size: contain;
+    .ready_book_text {
+      margin-top: 50px;
+    }
+  }
+
+  .btn {
+    height: 50px;
+    width: 287px;
+  }
+}
+
+.block-feedback {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  color: white;
+  font-size: 20px;
+
+  h3 {
+    color: white;
+    margin-bottom: 0;
+  }
+
+  img {
+    width: 38px;
+    height: 38px;
+    margin-right: 20px;
+  }
+
+  .social_networks {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .button, .button:hover, .button:active, button:focus {
+    height: 30px;
+    width: 75px;
+    float: right;
+    font-size: 14px;
+    margin: 0;
+    padding: 5px;
+    border: 2px solid white;
+  }
+
+  input, textarea {
+    margin-bottom: 3px;
+  }
+
+  textarea {
+    resize: none;
+  }
+}
+
+.block-feedback, .block-links {
+  background: @background-color;
+}
+
+.block-links {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  color: #FFFFFF;
+  font-size: 16px;
+
+  a {
+    color: #FFFFFF;
+  }
+
+  span {
+    margin-right: 10px;
+    margin-left: 10px;
+    color: white;
+    font-size: 16px;
+  }
 }

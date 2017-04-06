@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>feedback</title>
+
+    <link rel="stylesheet/less" type="text/css" href="../../static/less/style.less" data-th-href="@{/less/style.less}"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js" data-th-src="@{/js/less.min.js}"
+            type="text/javascript"></script>
+
+</head>
+<body>
+<div data-th-fragment="feedback" class="block-feedback container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <h3>get in touch</h3>
+                <span>We love hearing from you. Use the contact form to reach out and we’ll get back to you right
+                    away.<br/><br/>We’re a social bunch! Join us:</span>
+                <div class="social_networks">
+                    <img data-th-src="@{/images/f_icon.png}" src="../../static/images/f_icon.png"/>
+                    <img data-th-src="@{/images/ins_icon.png}" src="../../static/images/ins_icon.png"/>
+                    <img data-th-src="@{/images/twitter_icon.png}" src="../../static/images/twitter_icon.png"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-group-sm">
+                        <input class="form-control" type="text" name="name" placeholder="Name"/>
+                        <input class="form-control" type="email" name="email" placeholder="Email"/>
+                        <input class="form-control" type="text" name="subject" placeholder="Subject"/>
+                        <textarea class="form-control" name="message" placeholder="Message" rows="7"></textarea>
+                        <input class="button btn btn-default" type="submit" value="Click to send"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

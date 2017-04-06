@@ -1,21 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>test</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#1AB0B7"/>
+    <title>main</title>
 
-    <link rel="stylesheet/less" type="text/css" href="/less/style.less" data-th-href="@{/less/style.less}"/>
-    <link rel="stylesheet/less" type="text/css" href="/less/contact_us.less" data-th-href="@{/less/contact_us.less}"/>
+    <link rel="stylesheet/less" type="text/css" href="../static/less/style.less" data-th-href="@{/less/style.less}"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js" data-th-src="@{/js/less.min.js}"
             type="text/javascript"></script>
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    <!--<link rel="stylesheet" type="text/css" href="../static/css/style.css" data-th-href="@{/css/style.css}"/>-->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,44 +20,34 @@
     <![endif]-->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script data-th-src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script src="../static/js/jquery-3.1.1.min.js" data-th-src="@{/js/jquery-3.1.1.min.js}"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+
 </head>
 <body>
-<div class="container-fluid footer">
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h2>GET IN TOUCH</h2>
-                    <h4>We love hearing from you. Use the contact form to reach out and we’ll get back to you right
-                        away.</h4>
-                </div>
-                <div class="col-md-6">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control" type="text" name="name" placeholder="Name"/>
-                    </div>
-                    <div class="input-group input-group-sm">
-                        <input class="form-control" type="email" name="email" placeholder="Email"/>
-                    </div>
-                    <div class="input-group input-group-sm">
-                        <input class="form-control" type="text" name="subject" placeholder="Subject"/>
-                    </div>
-                    <div class="input-group input-group-sm">
-                        <textarea class="form-control" name="message" placeholder="Message" rows="6"></textarea>
-                    </div>
-                    <div class="input-group input-group-sm">
-                        <input class="btn btn-default" type="submit" value="Click to send"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-</div>
-<p data-th-text="#{hello}">test</p>
+
+<div data-th-include="fragments/header :: header" class="container block-header"></div>
+
+<div data-th-include="fragments/top :: top" class="container-fluid block-top"></div>
+
+<div data-th-include="fragments/value :: value" class="container block-value"></div>
+
+<div data-th-include="fragments/advantage :: advantage" class="container-fluid block-advantage"></div>
+
+<div data-th-include="fragments/easy_book :: easy_book" class="container block-easy_book"></div>
+
+<div data-th-include="fragments/makes_tidy :: makes_tidy" class="container-fluid block-makes_tidy"></div>
+
+<div data-th-include="fragments/reviews :: reviews" class="container-fluid block-reviews"></div>
+
+<div data-th-include="fragments/ready_book :: ready_book" class="container block-ready_book"></div>
+
+<div data-th-include="fragments/feedback :: feedback" class="container-fluid block-feedback text-center"></div>
+
+<div data-th-include="fragments/links :: links" class="container-fluid block-links"></div>
 </body>
 </html>
