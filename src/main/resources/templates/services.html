@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#1AB0B7"/>
+    <title>main</title>
+
+    <link rel="stylesheet/less" type="text/css" href="../static/less/style.less" data-th-href="@{/less/style.less}"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js" data-th-src="@{/js/less.min.js}"
+            type="text/javascript"></script>
+    <!--<link rel="stylesheet" type="text/css" href="../static/css/style.css" data-th-href="@{/css/style.css}"/>-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../static/js/jquery-3.1.1.min.js" data-th-src="@{/js/jquery-3.1.1.min.js}"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div data-th-include="fragments/services_header :: services_header" class="container-fluid block-services_header"></div>
+
+<div data-th-include="fragments/standart_checklist :: standart_checklist" class="container-fluide block-standart_checklist"></div>
+
+<div data-th-include="fragments/ready_book :: ready_book" class="container block-ready_book"></div>
+
+<div data-th-include="fragments/feedback :: feedback" class="container-fluid block-feedback text-center"></div>
+
+<div data-th-include="fragments/links :: links" class="container-fluid block-links"></div>
+
+</body>
+</html>

@@ -1,7 +1,12 @@
 @import "bootstrap.less";
 @import (css) url('//fonts.googleapis.com/css?family=Dosis:300,400');
 
+//div {
+//  border: 1px dotted;
+//}
+
 @text-color: #3ACCCC;
+@dark-btn-color: rgba(26, 176, 183, 1);
 @background-color: rgba(147, 229, 227, 1);
 
 @brand-primary: rgba(58, 204, 204, 1);
@@ -30,6 +35,7 @@
 @container-large-desktop: 980px;
 
 @font-size-h1: 60px;
+@font-size-h2: 50px;
 @font-size-h3: 55px;
 @font-size-h4: 25px;
 @font-size-h5: 20px;
@@ -39,7 +45,7 @@ h1 {
   margin-top: 50px;
 }
 
-h1, h3 {
+h1, h2, h3 {
   text-align: center;
   text-transform: uppercase;
   font-family: TheHand;
@@ -59,10 +65,6 @@ h5, h6 {
 @navbar-default-link-color: #999999;
 @navbar-default-link-hover-color: @text-color;
 
-//div {
-//  border: 1px dotted;
-//}
-
 .btn-primary {
   margin-top: 10px;
   margin-bottom: 20px;
@@ -70,44 +72,73 @@ h5, h6 {
   font-weight: 300;
 
   &:hover, &:focus, &:active {
-    @dark-primary: rgba(26, 176, 183, 1);
-    background-color: @dark-primary;
-    border-color: @dark-primary;
+    background-color: @dark-btn-color;
+    border-color: @dark-btn-color;
     color: white;
   }
 }
 
-.btn-success {
-  margin-top: 10px;
-  margin-bottom: 20px;
-  background-color: rgba(58, 204, 204, 1);
-  border-color: rgba(58, 204, 204, 1);
-  font-size: 25px;
-  font-weight: 300;
-}
-
-.btn-success:hover, .btn-success:focus, .btn-success:active, .open > .dropdown-toggle.btn-success {
-  color: #fff;
-  background-color: rgba(26, 176, 183, 1);
-  border-color: rgba(26, 176, 183, 1);
-}
-
-.btn-default {
+.btn-header {
+  margin-top: 3px;
   height: 42px;
   width: 142px;
   font-size: 15px;
-  border-color: rgba(26, 176, 183, 1);
-  color: @text-color;
+  border-color: @dark-btn-color;
+  color: @dark-btn-color;
+  background-color: white;
 
+  &:hover, &:focus, &:active {
+    color: #fff;
+    background-color: @dark-btn-color;
+  }
 }
 
-.btn-default:hover, .btn-info:focus, .btn-success:active, .open > .dropdown-toggle.btn-success {
-  color: #fff;
-  background-color: rgba(26, 176, 183, 1);
-  border-color: rgba(26, 176, 183, 1);
+.btn-choice {
+  @brand-info-x: rgba(153, 153, 153, 1);
+  background-color: @brand-info-x;
+  border-color: @brand-info-x;
+  height: 40px;
+  width: 190px;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: white;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: rgba(139, 209, 205, 1);
+    border-color: rgba(139, 209, 205, 1);
+    color: white;
+  }
+}
+
+.ribbon {
+  padding-top: 50px;
+  .ribbon-side {
+    fill: rgba(58, 204, 204, 1);
+  }
+
+  .ribbon-shadow {
+    fill: rgba(26, 176, 183, 1);
+  }
+
+  .ribbon-bg {
+    fill: rgba(139, 209, 205, 1);
+  }
+
+  .ribbon-text {
+    font-size: 55px;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: TheHand;
+    font-weight: bold;
+    fill: white;
+  }
 }
 
 .block-header {
+  margin-top: 5px;
+  padding-left: 0;
   a {
     font-size: 15px;
   }
@@ -236,30 +267,6 @@ h5, h6 {
     margin-top: 30px;
     margin-bottom: 30px;
   }
-
-  .ribbon {
-    padding-top: 50px;
-    .ribbon-side {
-      fill: rgba(58, 204, 204, 1);
-    }
-
-    .ribbon-shadow {
-      fill: rgba(26, 176, 183, 1);
-    }
-
-    .ribbon-bg {
-      fill: rgba(139, 209, 205, 1);
-    }
-
-    .ribbon-text {
-      font-size: 55px;
-      text-align: center;
-      text-transform: uppercase;
-      font-family: TheHand;
-      font-weight: bold;
-      fill: white;
-    }
-  }
 }
 
 .block-reviews {
@@ -274,7 +281,6 @@ h5, h6 {
 
   @media screen and (min-width: @container-desktop) {
     background: url("../images/people_with_nout.png") no-repeat -5px bottom;
-    background: contain;
     .ready_book_text {
       margin-top: 150px;
     }
@@ -316,14 +322,15 @@ h5, h6 {
     padding-bottom: 10px;
   }
 
-  .button, .button:hover, .button:active, button:focus {
+  .btn-feedback, .btn-feedback:hover, .btn-feedback:active, .btn-feedback:focus {
     height: 30px;
     width: 75px;
     float: right;
     font-size: 14px;
-    margin: 0;
-    padding: 5px;
-    border: 2px solid white;
+    padding: 3px;
+    color: @text-color;
+    background-color: white;
+    border-color: white;
   }
 
   input, textarea {
@@ -355,4 +362,103 @@ h5, h6 {
     color: white;
     font-size: 16px;
   }
+}
+
+.block-services_header {
+  &:before {
+    position: absolute;
+    background: url("../images/services_background.webp") no-repeat center;
+    background-size: cover;
+    height: 350px;
+    width: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0.15;
+  }
+
+  h2 {
+    text-align: left;
+    margin-bottom: 30px;
+  }
+
+  span {
+    font-size: 70px;
+    color: #3ACCCC;
+    text-align: center;
+    font-family: TheHand;
+    font-weight: bold;
+  }
+  .services_top {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+  .frame_price {
+    border: 2px solid @text-color;
+  }
+
+  .btn {
+    margin-bottom: 30px;
+  }
+}
+
+.block-standart_checklist {
+
+  .checklist {
+    padding: 0;
+    border: 7px solid #cbcbcb;
+  }
+  .checklist_block {
+    padding-left: 10px;
+    border: 7px solid #cbcbcb;
+  }
+
+  .checklist_head {
+    margin-top: 0;
+    padding-top: 20px;
+    background: @background-color;
+
+    h3 {
+      color: white;
+      padding-bottom: 20px;
+    }
+  }
+
+  .row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .block-name {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .bathroom-block_space {
+    margin-top: 115px;
+  }
+
+  .block_balcony-lg {
+    margin-top: 23px;
+    border-top: 14px solid #cbcbcb;
+  }
+
+  .block_balcony-xs {
+    border: 7px solid #cbcbcb;
+  }
+
+  span {
+    margin-left: 7px;
+    color: #4F4F4F;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .item {
+    margin-top: 5px;
+    text-transform: none;
+    font-size: 15px;
+    font-weight: normal;
+  }
+
 }
