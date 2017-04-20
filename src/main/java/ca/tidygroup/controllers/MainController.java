@@ -17,4 +17,10 @@ public class MainController {
     public String services() {
         return "services";
     }
+
+    @GetMapping("/faq")
+    public String faq() {
+        return "faq";
+    }
+
 }

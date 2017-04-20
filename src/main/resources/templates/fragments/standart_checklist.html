@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>makes_tidy</title>
@@ -12,8 +12,10 @@
 <body>
 <div data-th-fragment="standart_checklist" class="block-standart_checklist container-fluid text-center">
     <div class="container-fluid">
-        <div data-th-include="fragments/ribbon :: ribbon"
-             class=" visible-lg visible-md-block container-fluid ribbon-fragment"></div>
+        <div data-th-include="fragments/ribbon :: ribbon ('STANDARD CLEANING CHECKLIST')"
+             class="visible-lg visible-md container-fluid ribbon-fragment text-center">
+        </div>
+
         <div class="row checklist_head visible-xs-block visible-sm-block">
             <h3>STANDARD CLEANING CHECKLIST</h3>
         </div>

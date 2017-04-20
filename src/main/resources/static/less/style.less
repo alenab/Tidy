@@ -113,7 +113,10 @@ h5, h6 {
 }
 
 .ribbon {
-  padding-top: 50px;
+  &.makes-tidy {
+    padding-top: 50px;
+  }
+
   .ribbon-side {
     fill: rgba(58, 204, 204, 1);
   }
@@ -403,13 +406,27 @@ h5, h6 {
 
 .block-standart_checklist {
 
+  .ribbon-fragment {
+    svg {
+      width: @container-large-desktop + 160px;
+      height: 90px;
+    }
+    padding-top: 52px;
+    height: 130px;
+    .ribbon-text {
+      font-size: 35px;
+    }
+  }
+
   .checklist {
     padding: 0;
     border: 7px solid #cbcbcb;
+    background: #cbcbcb;
   }
   .checklist_block {
     padding-left: 10px;
     border: 7px solid #cbcbcb;
+    background: white;
   }
 
   .checklist_head {
@@ -460,5 +477,33 @@ h5, h6 {
     font-size: 15px;
     font-weight: normal;
   }
+}
 
+.block-faq_header {
+  &:before {
+    position: absolute;
+    background: url("../images/faq_background.webp") no-repeat center;
+    background-size: auto;
+    height: 350px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.15;
+  }
+  height: 350px;
+
+  h2 {
+    color: @dark-btn-color;
+    text-align: center;
+    margin-top: 70px;
+  }
+}
+
+.block-faq_content {
+  .questions_search {
+    padding-top: 40px;
+    .glyphicon-search {
+      font-size: 150%;
+    }
+  }
 }

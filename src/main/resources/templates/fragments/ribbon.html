@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>makes_tidy</title>
@@ -10,15 +10,15 @@
 
 </head>
 <body>
-<div data-th-fragment="ribbon" class="ribbon-fragment container-fluid">
-        <svg xmlns="http://www.w3.org/2000/svg" class="ribbon" viewBox="0 0 980 114">
-            <polygon class="ribbon-side" points="0,14 30,63 0,113 70,113 70,14"></polygon>
-            <polygon class="ribbon-shadow" points="70,113 50,100 70,100"></polygon>
-            <polygon class="ribbon-side" points="980,14 950,63 980,113 910,113 910,14"></polygon>
-            <polygon class="ribbon-shadow" points="910,113 930,100 910,100"></polygon>
-            <rect class="ribbon-bg" x="50" width="880" height="100"></rect>
-            <text class="ribbon-text" x="480" y="70" text-anchor="middle">STANDARD CLEANING CHECKLIST</text>
-        </svg>
+<div data-th-fragment="ribbon (text)" class="ribbon-fragment container-fluid">
+    <svg xmlns="http://www.w3.org/2000/svg" class="ribbon" viewBox="0 0 980 114" preserveAspectRatio="none">
+        <polygon class="ribbon-side" points="0,14 30,63 0,113 70,113 70,14"></polygon>
+        <polygon class="ribbon-shadow" points="70,113 50,100 70,100"></polygon>
+        <polygon class="ribbon-side" points="980,14 950,63 980,113 910,113 910,14"></polygon>
+        <polygon class="ribbon-shadow" points="910,113 930,100 910,100"></polygon>
+        <rect class="ribbon-bg" x="50" width="880" height="100"></rect>
+        <text data-th-text="${text}" class="ribbon-text" x="480" y="70" text-anchor="middle">TEXT</text>
+    </svg>
 </div>
 </body>
 </html>
