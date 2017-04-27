@@ -27,5 +27,10 @@ public class MainController {
     public String careers() {
         return "careers";
     }
+
+    @GetMapping("/terms")
+    public String terms() {
+        return "terms";
+    }
 }
 

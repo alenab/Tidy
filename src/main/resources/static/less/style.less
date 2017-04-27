@@ -507,6 +507,7 @@ h5, h6 {
     }
   }
 }
+
 .block-careers_header {
   &:before {
     position: absolute;
@@ -523,25 +524,15 @@ h5, h6 {
   h2 {
     color: @dark-btn-color;
     text-align: center;
-    margin-top: 50px;
   }
 }
+
 .block-careers_content {
   .position {
     padding-top: 30px;
-  }
-  .row {
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
-  .position_description {
-    padding-left: 0;
-    h5 {
-      color: @dark-btn-color;
-    }
-  }
-  .full_description {
-    border-left: solid 1px;
+    padding-bottom: 20px;
+    font-size: 21px;
+    color: #999999;
   }
   .contact {
     padding: 30px;
@@ -553,5 +544,56 @@ h5, h6 {
   .mail {
     text-decoration: underline;
     color: @dark-btn-color;
+  }
+}
+
+.row {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.position_description {
+  padding-left: 0;
+  h5 {
+    color: @dark-btn-color;
+  }
+}
+
+.full_description {
+  padding-left: 30px;
+  border-left: solid 1px;
+  h6 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+}
+
+.block-terms_header {
+  &:before {
+    position: absolute;
+    background: url("../images/city_final.png") no-repeat center;
+    background-size: auto;
+    height: 300px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.5;
+  }
+  height: 300px;
+  h2 {
+    color: @dark-btn-color;
+    text-align: center;
+    font-size: 100px;
+  }
+}
+
+.block-terms_content {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #999999;
   }
 }
