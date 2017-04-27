@@ -507,3 +507,51 @@ h5, h6 {
     }
   }
 }
+.block-careers_header {
+  &:before {
+    position: absolute;
+    background: url("../images/careers_background.webp") no-repeat center;
+    background-size: auto;
+    height: 300px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.1;
+  }
+  height: 300px;
+
+  h2 {
+    color: @dark-btn-color;
+    text-align: center;
+    margin-top: 50px;
+  }
+}
+.block-careers_content {
+  .position {
+    padding-top: 30px;
+  }
+  .row {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  .position_description {
+    padding-left: 0;
+    h5 {
+      color: @dark-btn-color;
+    }
+  }
+  .full_description {
+    border-left: solid 1px;
+  }
+  .contact {
+    padding: 30px;
+  }
+  span {
+    font-size: 25px;
+    color: #999999;
+  }
+  .mail {
+    text-decoration: underline;
+    color: @dark-btn-color;
+  }
+}

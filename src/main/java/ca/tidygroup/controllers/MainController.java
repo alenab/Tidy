@@ -23,4 +23,9 @@ public class MainController {
         return "faq";
     }
 
+    @GetMapping("/careers")
+    public String careers() {
+        return "careers";
+    }
 }
+
