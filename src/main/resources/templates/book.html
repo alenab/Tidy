@@ -1,10 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#1AB0B7"/>
+    <title>book</title>
+
+    <!--<link rel="stylesheet/less" type="text/css" href="../static/less/style.less" data-th-href="@{/less/style.less}"/>-->
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js" data-th-src="@{/js/less.min.js}"-->
+    <!--type="text/javascript"></script>-->
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" data-th-href="@{/css/style.css}"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../static/js/jquery-3.1.1.min.js" data-th-src="@{/js/jquery-3.1.1.min.js}"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
 </head>
 <body>
+<div class="container">
+    <!--/*@thymesVar id="booking" type="ca.tidygroup.dto.BookingForm"*/-->
+    <form th:action="@{/book}" method="post" data-th-object="${booking}">
+        <div class="form-group">
+            <label class="control-label">Postcode</label>
+            <input class="form-control" type="text" data-th-field="*{postCode}"/>
+            <span class="help-block" data-th-errors="*{postCode}">error</span>
+        </div>
 
+        <div class="form-group">
+            <label class="control-label">City</label>
+            <input class="form-control" type="text" data-th-field="*{city}"/>
+            <span class="help-block" data-th-errors="*{city}">error</span>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Address</label>
+            <input class="form-control" type="text" data-th-field="*{address}"/>
+            <span class="help-block" data-th-errors="*{address}">error</span>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">First name</label>
+            <input class="form-control" type="text" data-th-field="*{firstName}"/>
+            <span class="help-block" data-th-errors="*{firstName}">error</span>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Last name</label>
+            <input class="form-control" type="text" data-th-field="*{lastName}"/>
+            <span class="help-block" data-th-errors="*{lastName}">error</span>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Email</label>
+            <input class="form-control" type="text" data-th-field="*{email}"/>
+            <span class="help-block" data-th-errors="*{email}">error</span>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Phone</label>
+            <input class="form-control" type="text" data-th-field="*{phone}"/>
+            <span class="help-block" data-th-errors="*{phone}">error</span>
+        </div>
+
+        <input class="form-control" type="submit"/>
+    </form>
+</div>
 </body>
 </html>

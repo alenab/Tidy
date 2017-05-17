@@ -86,11 +86,6 @@ h5, h6 {
   border-color: @dark-btn-color;
   color: @dark-btn-color;
   background-color: white;
-
-  &:hover, &:focus, &:active {
-    color: #fff;
-    background-color: @dark-btn-color;
-  }
 }
 
 .btn-choice {
@@ -495,15 +490,28 @@ h5, h6 {
   h2 {
     color: @dark-btn-color;
     text-align: center;
-    margin-top: 70px;
+    margin-top: 50px;
   }
 }
 
 .block-faq_content {
-  .questions_search {
-    padding-top: 40px;
-    .glyphicon-search {
-      font-size: 150%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  .row {
+    padding-bottom: 20px;
+  }
+  .collapse {
+    margin-top: 20px;
+  }
+  .question {
+    border-bottom: solid @dark-btn-color 2px;
+  }
+  .glyphicon {
+    font-size: 150%;
+  }
+  a {
+    &:hover {
+      text-decoration: none;
     }
   }
 }
