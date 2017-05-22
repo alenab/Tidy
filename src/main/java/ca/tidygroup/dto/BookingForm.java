@@ -2,10 +2,8 @@ package ca.tidygroup.dto;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 public class BookingForm {
 
@@ -31,6 +29,26 @@ public class BookingForm {
 
     @NotBlank
     private String phone;
+
+    @Min(0)
+    @Max(5)
+    private String numberOfRooms;
+
+    @Min(1)
+    @Max(4)
+    private String numberOfBathrooms;
+
+    private String specialRequest;
+
+    @Min(0)
+    @Max(100)
+    private String discount;
+
+    @NotBlank
+    private String cleaningDate;
+
+    @NotBlank
+    private String cleaningTime;
 
     public String getPostCode() {
         return postCode;
@@ -86,5 +104,53 @@ public class BookingForm {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getNumberOfRooms() {
+        return numberOfRooms;
+    }
+
+    public void setNumberOfRooms(String numberOfRooms) {
+        this.numberOfRooms = numberOfRooms;
+    }
+
+    public String getNumberOfBathrooms() {
+        return numberOfBathrooms;
+    }
+
+    public void setNumberOfBathrooms(String numberOfBathrooms) {
+        this.numberOfBathrooms = numberOfBathrooms;
+    }
+
+    public String getSpecialRequest() {
+        return specialRequest;
+    }
+
+    public void setSpecialRequest(String specialRequest) {
+        this.specialRequest = specialRequest;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getCleaningDate() {
+        return cleaningDate;
+    }
+
+    public void setCleaningDate(String cleaningDate) {
+        this.cleaningDate = cleaningDate;
+    }
+
+    public String getCleaningTime() {
+        return cleaningTime;
+    }
+
+    public void setCleaningTime(String cleaningTime) {
+        this.cleaningTime = cleaningTime;
     }
 }

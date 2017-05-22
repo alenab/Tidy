@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 import javax.persistence.Entity;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @EntityScan(basePackages = {"ca.tidygroup.model"})
 public class Application extends SpringBootServletInitializer {
 
