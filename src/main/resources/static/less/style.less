@@ -86,6 +86,12 @@ h5, h6 {
   border-color: @dark-btn-color;
   color: @dark-btn-color;
   background-color: white;
+
+  &:hover, &:focus, &:active {
+    background-color: @dark-btn-color;
+    border-color: @dark-btn-color;
+    color: white;
+  }
 }
 
 .btn-choice {
@@ -553,17 +559,20 @@ h5, h6 {
     text-decoration: underline;
     color: @dark-btn-color;
   }
-}
-
-.row {
-  margin-top: 30px;
-  margin-bottom: 30px;
+  .row {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
 }
 
 .position_description {
   padding-left: 0;
   h5 {
     color: @dark-btn-color;
+  }
+  .row {
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 }
 
@@ -592,7 +601,7 @@ h5, h6 {
   h2 {
     color: @dark-btn-color;
     text-align: center;
-    font-size: 100px;
+    font-size: 50px;
   }
 }
 
@@ -603,5 +612,9 @@ h5, h6 {
     font-size: 16px;
     font-weight: bold;
     color: #999999;
+  }
+  .row {
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 }
