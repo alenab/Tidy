@@ -1,9 +1,12 @@
 package ca.tidygroup.dto;
 
+import ca.tidygroup.model.CleaningOption;
+import ca.tidygroup.model.CleaningPlan;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 public class BookingForm {
 
@@ -49,6 +52,14 @@ public class BookingForm {
 
     @NotBlank
     private String cleaningTime;
+
+    private List<CleaningOption> cleaningOptions;
+
+    private CleaningPlan cleaningPlan;
+
+    public BookingForm() {
+        setCity("Vancouver");
+    }
 
     public String getPostCode() {
         return postCode;
@@ -152,5 +163,42 @@ public class BookingForm {
 
     public void setCleaningTime(String cleaningTime) {
         this.cleaningTime = cleaningTime;
+    }
+
+    public List<CleaningOption> getCleaningOptions() {
+        return cleaningOptions;
+    }
+
+    public void setCleaningOptions(List<CleaningOption> cleaningOptions) {
+        this.cleaningOptions = cleaningOptions;
+    }
+
+    public CleaningPlan getCleaningPlan() {
+        return cleaningPlan;
+    }
+
+    public void setCleaningPlan(CleaningPlan cleaningPlan) {
+        this.cleaningPlan = cleaningPlan;
+    }
+
+    @Override
+    public String toString() {
+        return "BookingForm{" +
+                "postCode='" + postCode + '\'' +
+                ", city='" + city + '\'' +
+                ", address='" + address + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", numberOfRooms='" + numberOfRooms + '\'' +
+                ", numberOfBathrooms='" + numberOfBathrooms + '\'' +
+                ", specialRequest='" + specialRequest + '\'' +
+                ", discount='" + discount + '\'' +
+                ", cleaningDate='" + cleaningDate + '\'' +
+                ", cleaningTime='" + cleaningTime + '\'' +
+                ", cleaningOptions=" + cleaningOptions +
+                ", cleaningPlan=" + cleaningPlan +
+                '}';
     }
 }

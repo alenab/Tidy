@@ -601,7 +601,6 @@ h5, h6 {
   h2 {
     color: @dark-btn-color;
     text-align: center;
-    font-size: 50px;
   }
 }
 
@@ -618,3 +617,47 @@ h5, h6 {
     margin-bottom: 30px;
   }
 }
+
+.block-book_header {
+  &:before {
+    position: absolute;
+    background: url("../images/book_background.webp") no-repeat center;
+    background-size: auto;
+    height: 300px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.2;
+  }
+  height: 300px;
+  h2 {
+    color: @dark-btn-color;
+    text-align: center;
+    opacity: 1;
+  }
+}
+
+.block-thankyou_content {
+  .ribbon-fragment {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+  span {
+    display: block;
+    text-align: center;
+    font-size: 18px;
+    color: @text-color;
+    margin-bottom: 20px;
+  }
+  h6 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .social_networks{
+    background-color: #999999;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+}
+

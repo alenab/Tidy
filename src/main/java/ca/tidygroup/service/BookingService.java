@@ -1,12 +1,8 @@
 package ca.tidygroup.service;
 
 import ca.tidygroup.dto.BookingForm;
-import ca.tidygroup.model.Account;
-import ca.tidygroup.model.Address;
-import ca.tidygroup.model.Booking;
-import ca.tidygroup.repository.AccountRepository;
-import ca.tidygroup.repository.AddressRepository;
-import ca.tidygroup.repository.BookingRepository;
+import ca.tidygroup.model.*;
+import ca.tidygroup.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +12,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BookingService {
@@ -26,11 +23,17 @@ public class BookingService {
 
     private AccountRepository accountRepository;
 
+    private OptionRepository optionRepository;
+
+    private CleaningPlanRepository cleaningPlanRepository;
+
     @Autowired
-    public BookingService(BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository) {
+    public BookingService(BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository) {
         this.bookingRepository = bookingRepository;
         this.addressRepository = addressRepository;
         this.accountRepository = accountRepository;
+        this.optionRepository = optionRepository;
+        this.cleaningPlanRepository = cleaningPlanRepository;
     }
 
     @Transactional
@@ -60,12 +63,16 @@ public class BookingService {
         booking.setDiscountPercent(Integer.parseInt(bookingForm.getDiscount()));
         booking.setCleaningTime(ZonedDateTime.of(LocalDate.parse(bookingForm.getCleaningDate()),
                 LocalTime.parse(bookingForm.getCleaningTime()), ZoneId.systemDefault()));
-         bookingRepository.save(booking);
-
+        booking.setCleaningPlan(bookingForm.getCleaningPlan());
+        booking.setAdditionalOptions(bookingForm.getCleaningOptions());
+        bookingRepository.save(booking);
     }
 
-    public String getAddressByPostCode(String postCode) {
-        Address address = addressRepository.findOneByPostcodeEquals(postCode);
-        return address.getAddress();
+    public List<CleaningOption> getAllCleaningOptions() {
+        return optionRepository.findAll();
+    }
+
+    public List<CleaningPlan> getAllCleaningPlans() {
+        return cleaningPlanRepository.findAll();
     }
 }

@@ -52,7 +52,14 @@ public class MainController {
     @GetMapping("/book")
     public String book(Model model) {
         model.addAttribute("booking", new BookingForm());
+        model.addAttribute("allOptions", bookingService.getAllCleaningOptions());
+        model.addAttribute("allPlans", bookingService.getAllCleaningPlans());
         return "book";
+    }
+
+    @GetMapping("/thankyou")
+    public String thankyou() {
+        return "thankyou";
     }
 
     @PostMapping("/book")
@@ -61,9 +68,13 @@ public class MainController {
             System.out.println(bindingResult.getAllErrors());
             return "book";
         }
-
         bookingService.add(booking);
-        return "redirect:/book";
+        return "thankyou";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
     }
 }
 

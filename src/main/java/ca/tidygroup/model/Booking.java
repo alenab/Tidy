@@ -1,14 +1,12 @@
 package ca.tidygroup.model;
 
-import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Entity
-@Table (name = "booking")
+@Table(name = "booking")
 public class Booking {
 
     public static final int TAX = 12;
@@ -32,14 +30,21 @@ public class Booking {
     @JoinColumn(name = "address_id")
     private Address addressForClean;
 
-    @Column(name="cleaning_time")
+    @Column(name = "cleaning_time")
     private ZonedDateTime cleaningTime;
 
     @Column(name = "create_booking", insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createBooking;
 
-//    private CleaningPlan cleaningPlan;
-//    private List<CleaningOption> additionalOptions;
+    @ManyToOne
+    @JoinColumn(name="plan_id")
+    private CleaningPlan cleaningPlan;
+
+    @ManyToMany
+    @JoinTable(name = "booking_addOptions",
+            joinColumns = @JoinColumn(name = "booking_id"),
+            inverseJoinColumns = @JoinColumn(name = "option_id"))
+    private List<CleaningOption> additionalOptions;
 
     @Column(name = "special_request")
     private String specialRequest;
@@ -132,6 +137,22 @@ public class Booking {
 
     public void setDiscountPercent(int discountPercent) {
         this.discountPercent = discountPercent;
+    }
+
+    public List<CleaningOption> getAdditionalOptions() {
+        return additionalOptions;
+    }
+
+    public void setAdditionalOptions(List<CleaningOption> additionalOptions) {
+        this.additionalOptions = additionalOptions;
+    }
+
+    public CleaningPlan getCleaningPlan() {
+        return cleaningPlan;
+    }
+
+    public void setCleaningPlan(CleaningPlan cleaningPlan) {
+        this.cleaningPlan = cleaningPlan;
     }
 
     public double getPrice() {
