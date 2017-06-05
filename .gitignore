@@ -3,4 +3,7 @@
 target
 **/static/**
 
+application.properties
+production.properties
+
 out
