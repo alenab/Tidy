@@ -27,13 +27,16 @@ public class BookingService {
 
     private CleaningPlanRepository cleaningPlanRepository;
 
+    private MailingService mailingService;
+
     @Autowired
-    public BookingService(BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository) {
+    public BookingService(BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService) {
         this.bookingRepository = bookingRepository;
         this.addressRepository = addressRepository;
         this.accountRepository = accountRepository;
         this.optionRepository = optionRepository;
         this.cleaningPlanRepository = cleaningPlanRepository;
+        this.mailingService = mailingService;
     }
 
     @Transactional
@@ -66,6 +69,8 @@ public class BookingService {
         booking.setCleaningPlan(bookingForm.getCleaningPlan());
         booking.setAdditionalOptions(bookingForm.getCleaningOptions());
         bookingRepository.save(booking);
+
+        mailingService.sendEmail(bookingForm);
     }
 
     public List<CleaningOption> getAllCleaningOptions() {
