@@ -1,6 +1,7 @@
 package ca.tidygroup.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "cleaning_plan")
@@ -13,6 +14,17 @@ public class CleaningPlan {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "cleaningPlan")
+    private List<ApartmentUnit> units;
+
+    public List<ApartmentUnit> getUnits() {
+        return units;
+    }
+
+    public void setUnits(List<ApartmentUnit> units) {
+        this.units = units;
+    }
 
     public String getName() {
         return name;

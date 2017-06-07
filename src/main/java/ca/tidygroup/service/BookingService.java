@@ -17,6 +17,8 @@ import java.util.List;
 @Service
 public class BookingService {
 
+    private PricingService pricingService;
+
     private BookingRepository bookingRepository;
 
     private AddressRepository addressRepository;
@@ -28,7 +30,8 @@ public class BookingService {
     private CleaningPlanRepository cleaningPlanRepository;
 
     @Autowired
-    public BookingService(BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository) {
+    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository) {
+        this.pricingService = pricingService;
         this.bookingRepository = bookingRepository;
         this.addressRepository = addressRepository;
         this.accountRepository = accountRepository;
@@ -57,14 +60,18 @@ public class BookingService {
         Booking booking = new Booking();
         booking.setAccount(account);
         booking.setAddressForClean(address);
-        booking.setNumberOfRooms(Integer.parseInt(bookingForm.getNumberOfRooms()));
-        booking.setNumberOfBathrooms(Integer.parseInt(bookingForm.getNumberOfBathrooms()));
+        int numberOfRooms = Integer.parseInt(bookingForm.getNumberOfRooms());
+        booking.setNumberOfRooms(numberOfRooms);
+        int numberOfBathrooms = Integer.parseInt(bookingForm.getNumberOfBathrooms());
+        booking.setNumberOfBathrooms(numberOfBathrooms);
         booking.setSpecialRequest(bookingForm.getSpecialRequest());
         booking.setDiscountPercent(Integer.parseInt(bookingForm.getDiscount()));
         booking.setCleaningTime(ZonedDateTime.of(LocalDate.parse(bookingForm.getCleaningDate()),
                 LocalTime.parse(bookingForm.getCleaningTime()), ZoneId.systemDefault()));
-        booking.setCleaningPlan(bookingForm.getCleaningPlan());
+        CleaningPlan cleaningPlan = bookingForm.getCleaningPlan();
+        booking.setCleaningPlan(cleaningPlan);
         booking.setAdditionalOptions(bookingForm.getCleaningOptions());
+        booking.setPrice(pricingService.getPrice(bookingForm));
         bookingRepository.save(booking);
     }
 
@@ -75,4 +82,5 @@ public class BookingService {
     public List<CleaningPlan> getAllCleaningPlans() {
         return cleaningPlanRepository.findAll();
     }
+
 }
