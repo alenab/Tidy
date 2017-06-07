@@ -29,14 +29,17 @@ public class BookingService {
 
     private CleaningPlanRepository cleaningPlanRepository;
 
+    private MailingService mailingService;
+
     @Autowired
-    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository) {
+    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService) {
         this.pricingService = pricingService;
         this.bookingRepository = bookingRepository;
         this.addressRepository = addressRepository;
         this.accountRepository = accountRepository;
         this.optionRepository = optionRepository;
         this.cleaningPlanRepository = cleaningPlanRepository;
+        this.mailingService = mailingService;
     }
 
     @Transactional
@@ -60,19 +63,18 @@ public class BookingService {
         Booking booking = new Booking();
         booking.setAccount(account);
         booking.setAddressForClean(address);
-        int numberOfRooms = Integer.parseInt(bookingForm.getNumberOfRooms());
-        booking.setNumberOfRooms(numberOfRooms);
-        int numberOfBathrooms = Integer.parseInt(bookingForm.getNumberOfBathrooms());
-        booking.setNumberOfBathrooms(numberOfBathrooms);
+        booking.setNumberOfRooms(Integer.parseInt(bookingForm.getNumberOfRooms()));
+        booking.setNumberOfBathrooms(Integer.parseInt(bookingForm.getNumberOfBathrooms()));
         booking.setSpecialRequest(bookingForm.getSpecialRequest());
         booking.setDiscountPercent(Integer.parseInt(bookingForm.getDiscount()));
         booking.setCleaningTime(ZonedDateTime.of(LocalDate.parse(bookingForm.getCleaningDate()),
                 LocalTime.parse(bookingForm.getCleaningTime()), ZoneId.systemDefault()));
-        CleaningPlan cleaningPlan = bookingForm.getCleaningPlan();
-        booking.setCleaningPlan(cleaningPlan);
+        booking.setCleaningPlan(bookingForm.getCleaningPlan());
         booking.setAdditionalOptions(bookingForm.getCleaningOptions());
         booking.setPrice(pricingService.getPrice(bookingForm));
         bookingRepository.save(booking);
+
+        mailingService.sendEmail(bookingForm);
     }
 
     public List<CleaningOption> getAllCleaningOptions() {
@@ -82,5 +84,4 @@ public class BookingService {
     public List<CleaningPlan> getAllCleaningPlans() {
         return cleaningPlanRepository.findAll();
     }
-
 }
