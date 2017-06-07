@@ -3,7 +3,5 @@
 target
 **/static/**
 
-application.properties
-production.properties
-
-out
+application-dev.properties
+application-prod.properties
