@@ -9,8 +9,6 @@ import java.util.List;
 @Table(name = "booking")
 public class Booking {
 
-    public static final int TAX = 12;
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -41,7 +39,7 @@ public class Booking {
     private CleaningPlan cleaningPlan;
 
     @ManyToMany
-    @JoinTable(name = "booking_addOptions",
+    @JoinTable(name = "booking_add_Options",
             joinColumns = @JoinColumn(name = "booking_id"),
             inverseJoinColumns = @JoinColumn(name = "option_id"))
     private List<CleaningOption> additionalOptions;
@@ -52,20 +50,8 @@ public class Booking {
     @Column(name = "discount")
     private int discountPercent;
 
+    @Column(name = "price")
     private double price;
-
-    public double getPriceWithDiscount() {
-        return price - price * discountPercent / 100;
-    }
-
-    public double getFinalPrice() {
-        double price = getPriceWithDiscount();
-        return price + price * TAX / 100;
-    }
-
-    public static int getTAX() {
-        return TAX;
-    }
 
     public long getId() {
         return id;

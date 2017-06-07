@@ -17,6 +17,8 @@ import java.util.List;
 @Service
 public class BookingService {
 
+    private PricingService pricingService;
+
     private BookingRepository bookingRepository;
 
     private AddressRepository addressRepository;
@@ -30,7 +32,8 @@ public class BookingService {
     private MailingService mailingService;
 
     @Autowired
-    public BookingService(BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService) {
+    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService) {
+        this.pricingService = pricingService;
         this.bookingRepository = bookingRepository;
         this.addressRepository = addressRepository;
         this.accountRepository = accountRepository;
@@ -68,6 +71,7 @@ public class BookingService {
                 LocalTime.parse(bookingForm.getCleaningTime()), ZoneId.systemDefault()));
         booking.setCleaningPlan(bookingForm.getCleaningPlan());
         booking.setAdditionalOptions(bookingForm.getCleaningOptions());
+        booking.setPrice(pricingService.getPrice(bookingForm));
         bookingRepository.save(booking);
 
         mailingService.sendEmail(bookingForm);
