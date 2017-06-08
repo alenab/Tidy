@@ -26,8 +26,7 @@ public class PricingService {
         int numberOfRooms = Integer.parseInt(form.getNumberOfRooms());
         int numberOfBathrooms = Integer.parseInt(form.getNumberOfBathrooms());
         Double basePrice = getApartmentUnit(form.getCleaningPlan(), numberOfRooms, numberOfBathrooms).getPrice();
-        int discount = Integer.parseInt(form.getDiscount());
-        return getFinalPrice(basePrice, discount, form.getCleaningOptions());
+        return getPriceWithOptions(basePrice, form.getCleaningOptions());
     }
 
     private double getPriceWithOptions(double basePrice, List<CleaningOption> additionalOptions) {
