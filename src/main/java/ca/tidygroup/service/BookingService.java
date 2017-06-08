@@ -31,8 +31,10 @@ public class BookingService {
 
     private MailingService mailingService;
 
+    private DiscountRepository discountRepository;
+
     @Autowired
-    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService) {
+    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService, DiscountRepository discountRepository) {
         this.pricingService = pricingService;
         this.bookingRepository = bookingRepository;
         this.addressRepository = addressRepository;
@@ -40,6 +42,7 @@ public class BookingService {
         this.optionRepository = optionRepository;
         this.cleaningPlanRepository = cleaningPlanRepository;
         this.mailingService = mailingService;
+        this.discountRepository = discountRepository;
     }
 
     @Transactional
@@ -66,12 +69,21 @@ public class BookingService {
         booking.setNumberOfRooms(Integer.parseInt(bookingForm.getNumberOfRooms()));
         booking.setNumberOfBathrooms(Integer.parseInt(bookingForm.getNumberOfBathrooms()));
         booking.setSpecialRequest(bookingForm.getSpecialRequest());
-        booking.setDiscountPercent(Integer.parseInt(bookingForm.getDiscount()));
+        String discount = bookingForm.getDiscount();
+        booking.setDiscountPercent(discount != null ? Integer.parseInt(discount) : 0);
         booking.setCleaningTime(ZonedDateTime.of(LocalDate.parse(bookingForm.getCleaningDate()),
                 LocalTime.parse(bookingForm.getCleaningTime()), ZoneId.systemDefault()));
         booking.setCleaningPlan(bookingForm.getCleaningPlan());
         booking.setAdditionalOptions(bookingForm.getCleaningOptions());
-        booking.setPrice(pricingService.getPrice(bookingForm));
+
+        // validate that price which was shown to the end user on web page is the same as calculated on the server side
+        double serverPrice = pricingService.getPrice(bookingForm);
+        double clientPrice = Double.parseDouble(bookingForm.getPrice());
+        if (Math.abs(serverPrice - clientPrice) >= 0.01) {
+            throw new RuntimeException("The prices are changed! Try again");
+        }
+
+        booking.setPrice(serverPrice);
         bookingRepository.save(booking);
 
         mailingService.sendEmail(bookingForm);
@@ -83,5 +95,14 @@ public class BookingService {
 
     public List<CleaningPlan> getAllCleaningPlans() {
         return cleaningPlanRepository.findAll();
+    }
+
+    public boolean applyActivationCode(BookingForm form, String code) {
+        Discount discount = discountRepository.findByCodeEqualsIgnoringCase(code);
+        if (discount != null) {
+            form.setDiscount(String.valueOf(discount.getPercent()));
+            return true;
+        }
+        return false;
     }
 }
