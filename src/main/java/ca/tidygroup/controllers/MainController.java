@@ -72,9 +72,6 @@ public class MainController {
         return "thankyou";
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin";
-    }
+
 }
 
