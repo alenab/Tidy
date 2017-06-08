@@ -30,18 +30,27 @@ function updatePrice() {
     var rooms = Number($('#numberOfRooms').val());
     var baths = Number($('#numberOfBathrooms').val());
     var res = getPrice(planId, rooms, baths);
+
+    var $formPrice = $('input[type="hidden"]#price');
     if (res !== 0) {
-        var price = res;
+        var rawPrice = res;
 
         $('input[type="checkbox"]:checked').each(function () {
-            price += Number($(this).data('price'));
+            rawPrice += Number($(this).data('price'));
         });
 
-        $price.text(price.toFixed(2));
-        $priceTax.text((price * 0.12).toFixed(2));
-        $priceTotal.text((price * 1.12).toFixed(2));
+        var $discountTag = $('span.booking-discount');
+        var discount = $discountTag.length ? Number($discountTag.data('discount')) : 0;
+
+        $formPrice.val(rawPrice.toFixed(2));
+        var priceWithDiscount = ((100 - discount) / 100) * rawPrice;
+        $price.text(priceWithDiscount.toFixed(2));
+        $priceTax.text((priceWithDiscount * 0.12).toFixed(2));
+        $priceTotal.text((priceWithDiscount * 1.12).toFixed(2));
     } else {
+        $formPrice.val(0);
         $price.text("N/A");
+
         $priceTax.text("N/A");
         $priceTotal.text("N/A");
     }
