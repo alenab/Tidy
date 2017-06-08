@@ -39,6 +39,10 @@ function updatePrice() {
             price += Number($(this).data('price'));
         });
 
+        var $discountTag = $('span.booking-discount');
+        var discount = $discountTag.length ? Number($discountTag.data('discount')) : 0;
+        price = ((100 - discount) / 100) * price;
+
         $formPrice.val(price.toFixed(2));
         $price.text(price.toFixed(2));
 
