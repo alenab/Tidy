@@ -1,5 +1,6 @@
 package ca.tidygroup.service;
 
+import ca.tidygroup.dto.ApartmentUnitDTO;
 import ca.tidygroup.dto.BookingForm;
 import ca.tidygroup.model.ApartmentUnit;
 import ca.tidygroup.model.CleaningOption;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PricingService {
@@ -20,6 +22,13 @@ public class PricingService {
     @Autowired
     public PricingService(ApartmentUnitRepository apartmentUnitRepository) {
         this.apartmentUnitRepository = apartmentUnitRepository;
+    }
+
+    public List<ApartmentUnitDTO> getAllApartmentUnits() {
+        return apartmentUnitRepository.findAll().stream()
+                .map(item -> new ApartmentUnitDTO(item.getCleaningPlan().getId(), item.getNumberOfBedrooms(),
+                        item.getNumberOfBathrooms(), item.getPrice())
+                ).collect(Collectors.toList());
     }
 
     public double getPrice(BookingForm form) {
