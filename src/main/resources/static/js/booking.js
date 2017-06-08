@@ -30,6 +30,8 @@ function updatePrice() {
     var rooms = Number($('#numberOfRooms').val());
     var baths = Number($('#numberOfBathrooms').val());
     var res = getPrice(planId, rooms, baths);
+
+    var $formPrice = $('input[type="hidden"]#price');
     if (res !== 0) {
         var price = res;
 
@@ -37,11 +39,15 @@ function updatePrice() {
             price += Number($(this).data('price'));
         });
 
+        $formPrice.val(price.toFixed(2));
         $price.text(price.toFixed(2));
+
         $priceTax.text((price * 0.12).toFixed(2));
         $priceTotal.text((price * 1.12).toFixed(2));
     } else {
+        $formPrice.val(0);
         $price.text("N/A");
+
         $priceTax.text("N/A");
         $priceTotal.text("N/A");
     }

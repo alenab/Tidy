@@ -55,6 +55,8 @@ public class BookingForm {
 
     private CleaningPlan cleaningPlan;
 
+    private String price;
+
     public BookingForm() {
         setCity("Vancouver");
     }
@@ -179,6 +181,14 @@ public class BookingForm {
         this.cleaningPlan = cleaningPlan;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "BookingForm{" +
@@ -197,6 +207,7 @@ public class BookingForm {
                 ", cleaningTime='" + cleaningTime + '\'' +
                 ", cleaningOptions=" + cleaningOptions +
                 ", cleaningPlan=" + cleaningPlan +
+                ", price='" + price + '\'' +
                 '}';
     }
 }
