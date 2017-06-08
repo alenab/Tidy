@@ -31,8 +31,10 @@ public class BookingService {
 
     private MailingService mailingService;
 
+    private DiscountRepository discountRepository;
+
     @Autowired
-    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService) {
+    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService, DiscountRepository discountRepository) {
         this.pricingService = pricingService;
         this.bookingRepository = bookingRepository;
         this.addressRepository = addressRepository;
@@ -40,6 +42,7 @@ public class BookingService {
         this.optionRepository = optionRepository;
         this.cleaningPlanRepository = cleaningPlanRepository;
         this.mailingService = mailingService;
+        this.discountRepository = discountRepository;
     }
 
     @Transactional
@@ -83,5 +86,14 @@ public class BookingService {
 
     public List<CleaningPlan> getAllCleaningPlans() {
         return cleaningPlanRepository.findAll();
+    }
+
+    public boolean applyActivationCode(BookingForm form, String code) {
+        Discount discount = discountRepository.findByCodeEqualsIgnoringCase(code);
+        if (discount != null) {
+            form.setDiscount(String.valueOf(discount.getPercent()));
+            return true;
+        }
+        return false;
     }
 }

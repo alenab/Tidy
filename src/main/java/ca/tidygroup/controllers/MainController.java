@@ -1,6 +1,7 @@
 package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.BookingForm;
+import ca.tidygroup.model.Discount;
 import ca.tidygroup.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,14 @@ public class MainController {
     @Autowired
     public MainController(BookingService bookingService) {
         this.bookingService = bookingService;
+    }
+
+    @ModelAttribute
+    public void bookingModelAttributes(Model model) {
+        model.addAttribute("booking", new BookingForm());
+        model.addAttribute("allOptions", bookingService.getAllCleaningOptions());
+        model.addAttribute("allPlans", bookingService.getAllCleaningPlans());
+        model.addAttribute("discount", new Discount());
     }
 
     @GetMapping("/")
@@ -50,10 +59,7 @@ public class MainController {
     }
 
     @GetMapping("/book")
-    public String book(Model model) {
-        model.addAttribute("booking", new BookingForm());
-        model.addAttribute("allOptions", bookingService.getAllCleaningOptions());
-        model.addAttribute("allPlans", bookingService.getAllCleaningPlans());
+    public String book() {
         return "book";
     }
 
@@ -70,6 +76,16 @@ public class MainController {
         }
         bookingService.add(booking);
         return "thankyou";
+    }
+
+    @PostMapping("/applyActivationCode")
+    public String applyActivationCode(@ModelAttribute("discount") Discount discount,
+                                      @ModelAttribute("booking") BookingForm booking, BindingResult bindingResult) {
+        boolean isApplied = bookingService.applyActivationCode(booking, discount.getCode());
+        if (bindingResult.hasErrors() || !isApplied) {
+            System.out.println(bindingResult.getAllErrors());
+        }
+        return "book";
     }
 
     @GetMapping("/admin")

@@ -11,14 +11,16 @@
 </head>
 <body>
 <div data-th-fragment="book_form" class="block-book_form container">
+    <!--/*@thymesVar id="discount" type="ca.tidygroup.model.Discount"*/-->
+    <form id="discountForm" th:action="@{/applyActivationCode}" method="post" data-th-object="${discount}"></form>
     <!--/*@thymesVar id="booking" type="ca.tidygroup.dto.BookingForm"*/-->
-    <form th:action="@{/book}" method="post" data-th-object="${booking}">
+    <form id="bookingForm" th:action="@{/book}" method="post" data-th-object="${booking}">
         <div class="row">
             <div class="col-md-9">
 
                 <div class="form-group row">
                     <div class="col-md-6">
-                        <select class="form-control" data-th-field="*{cleaningPlan}">
+                        <select class="form-control" data-th-field="*{cleaningPlan}" form="bookingForm">
                             <!--/*@thymesVar id="allPlans" type="java.util.List<ca.tidygroup.model.CleaningPlan>"*/-->
                             <th:block th:each="plan : ${allPlans}">
                                 <option data-th-id="${{plan}}" data-th-value="${{plan}}"
@@ -31,7 +33,7 @@
                 <div class="form-inline row">
                     <div class="form-group col-md-6">
                         <label class="control-label">Number of bedrooms</label>
-                        <select class="form-control" data-th-field="*{numberOfRooms}">
+                        <select class="form-control" data-th-field="*{numberOfRooms}" form="bookingForm">
                             <option value="0">Studio</option>
                             <option value="1">1 Bedroom</option>
                             <option value="2">2 Bedrooms</option>
@@ -43,7 +45,7 @@
 
                     <div class="form-group col-md-6">
                         <label class="control-label">Number of bathrooms</label>
-                        <select class="form-control" data-th-field="*{numberOfBathrooms}">
+                        <select class="form-control" data-th-field="*{numberOfBathrooms}" form="bookingForm">
                             <option value="1">1 bathroom</option>
                             <option value="2">2 bathrooms</option>
                             <option value="3">3 bathrooms</option>
@@ -61,7 +63,8 @@
                             <tr>
                                 <td>
                                     <input type="checkbox" data-th-id="${{option}}" data-th-value="${{option}}"
-                                           data-th-field="*{cleaningOptions}" th:attr="data-price=${option.price}"/>
+                                           data-th-field="*{cleaningOptions}" th:attr="data-price=${option.price}"
+                                           form="bookingForm"/>
                                     <br/>
                                 </td>
                                 <td th:text="${option.name}"><br/></td>
@@ -72,27 +75,28 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Special request</label>
-                    <input class="form-control" type="text" data-th-field="*{specialRequest}"/>
+                    <input class="form-control" type="text" data-th-field="*{specialRequest}" form="bookingForm"/>
                     <span class="help-block" data-th-errors="*{specialRequest}">error</span>
                 </div>
                 <div class="form-inline">
                     <div class="form-group">
                         <label class="control-label">Postcode</label>
                         <input class="form-control" type="text" data-th-field="*{postCode}" required="required"
-                               placeholder="Zip Code"/>
+                               form="bookingForm" placeholder="Zip Code"/>
                         <span class="help-block" data-th-errors="*{postCode}">error</span>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">City</label>
-                        <input class="form-control" type="text" data-th-field="*{city}" disabled="disabled"/>
+                        <input class="form-control" type="text" data-th-field="*{city}" disabled="disabled"
+                               form="bookingForm"/>
                         <span class="help-block" data-th-errors="*{city}">error</span>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Address</label>
                         <input class="form-control" type="text" data-th-field="*{address}" placeholder="Address"
-                               required="required"/>
+                               form="bookingForm" required="required"/>
                         <span class="help-block" data-th-errors="*{address}">error</span>
                     </div>
                 </div>
@@ -101,15 +105,14 @@
                     <div class="form-group col-md-6">
                         <label class="control-label col-md-4">First name</label>
                         <input class="form-control col-md-8" type="text" data-th-field="*{firstName}"
-                               required="required"
-                               placeholder="First name"/>
+                               required="required" form="bookingForm" placeholder="First name"/>
                         <span class="help-block" data-th-errors="*{firstName}">error</span>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label class="control-label col-md-4">Last name</label>
                         <input class="form-control col-md-8" type="text" data-th-field="*{lastName}" required="required"
-                               placeholder="Last name"/>
+                               placeholder="Last name" form="bookingForm"/>
                         <span class="help-block" data-th-errors="*{lastName}">error</span>
                     </div>
                 </div>
@@ -118,42 +121,49 @@
                     <div class="form-group col-md-6">
                         <label class="control-label col-md-4">Email</label>
                         <input class="form-control col-md-8" type="email" data-th-field="*{email}" required="required"
-                               placeholder="Email"/>
+                               placeholder="Email" form="bookingForm"/>
                         <span class="help-block" data-th-errors="*{email}">error</span>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label class="control-label col-md-4">Phone</label>
                         <input class="form-control col-md-8" type="tel" data-th-field="*{phone}" required="required"
-                               placeholder="Phone"/>
+                               placeholder="Phone" form="bookingForm"/>
                         <span class="help-block" data-th-errors="*{phone}">error</span>
                     </div>
                 </div>
                 <br/>
 
                 <div class="form-group row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" th:if="${booking.discount != null}">
                         <label class="control-label">Discount</label>
-                        <input class="form-control" type="number" data-th-field="*{discount}"/>
-                        <span class="help-block" data-th-errors="*{discount}">error</span>
+                        <input class="form-control" type="number" data-th-field="${booking.discount}"
+                               form="bookingForm" readonly="readonly"/>
+                        <span class="help-block" data-th-errors="${booking.discount}">error</span>
+                    </div>
+                    <div class="col-md-6" th:if="${booking.discount == null}">
+                        <label class="control-label">Discount</label>
+                        <input class="form-control" type="text" form="discountForm" data-th-field="${discount.code}"/>
+                        <input class="form-control" type="submit" form="discountForm"/>
+                        <span class="help-block" data-th-errors="${discount.code}">error</span>
                     </div>
                 </div>
 
                 <div class="form-inline row">
                     <div class="form-group col-md-6">
                         <label class="control-label">Date of cleaning</label>
-                        <input class="form-control" type="date" data-th-field="*{cleaningDate}"/>
+                        <input class="form-control" type="date" data-th-field="*{cleaningDate}" form="bookingForm"/>
                         <span class="help-block" data-th-errors="*{cleaningDate}">error</span>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label class="control-label">Time of cleaning</label>
-                        <input class="form-control" type="time" data-th-field="*{cleaningTime}"/>
+                        <input class="form-control" type="time" data-th-field="*{cleaningTime}" form="bookingForm"/>
                         <span class="help-block" data-th-errors="*{cleaningTime}">error</span>
                     </div>
                 </div>
                 <br/>
-                <input class="form-control" type="submit"/>
+                <input class="form-control" type="submit" form="bookingForm"/>
             </div>
             <div class="col-md-3">
                 <h4>BOOKING SUMMARY</h4>

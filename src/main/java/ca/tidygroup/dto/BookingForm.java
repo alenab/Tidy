@@ -43,8 +43,6 @@ public class BookingForm {
 
     private String specialRequest;
 
-    @Min(0)
-    @Max(100)
     private String discount;
 
     @NotBlank
