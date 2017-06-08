@@ -78,6 +78,7 @@ public class MainController {
         return "thankyou";
     }
 
+
     @PostMapping("/applyActivationCode")
     public String applyActivationCode(@ModelAttribute("discount") Discount discount,
                                       @ModelAttribute("booking") BookingForm booking, BindingResult bindingResult) {
@@ -86,11 +87,6 @@ public class MainController {
             System.out.println(bindingResult.getAllErrors());
         }
         return "book";
-    }
-
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin";
     }
 }
 

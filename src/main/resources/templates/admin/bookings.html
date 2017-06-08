@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head data-th-include="fragments/head :: head">
+    <title>bookings</title>
+</head>
+
+<body>
+<div class="container">
+    <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+
+    <div class="form-group">
+        <table class="table table-stripped">
+            <tr>
+                <th>ID</th>
+                <th>Cleaning Plan</th>
+                <th>Number Of Rooms</th>
+                <th>Number Of Bathrooms</th>
+                <th>Cleaning Options</th>
+                <th>Special Request</th>
+                <th>Cleaning Time</th>
+                <th>Postcode</th>
+                <th>City</th>
+                <th>Address</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>e-mail</th>
+                <th>Phone</th>
+                <th>Discount</th>
+                <th>Price</th>
+                <th>Final Price</th>
+            </tr>
+            <!--/*@thymesVar id="allBookings" type="java.util.List<ca.tidygroup.dto.BookingDTO>"*/-->
+            <tr th:each="bookind: ${allBookings}">
+                <td th:text="${bookind.id}"></td>
+                <td th:text="${bookind.cleaningPlan}"></td>
+                <td th:text="${bookind.numberOfRooms}"></td>
+                <td th:text="${bookind.numberOfBathrooms}"></td>
+                <td th:text="${bookind.cleaningOptions}"></td>
+                <td th:text="${bookind.specialRequest}"></td>
+                <td th:text="${bookind.cleaningTime}"></td>
+                <td th:text="${bookind.postcode}"></td>
+                <td th:text="${bookind.city}"></td>
+                <td th:text="${bookind.address}"></td>
+                <td th:text="${bookind.firstName}"></td>
+                <td th:text="${bookind.lastName}"></td>
+                <td th:text="${bookind.email}"></td>
+                <td th:text="${bookind.phone}"></td>
+                <td th:text="${bookind.discount}"></td>
+                <td th:text="${bookind.price}"></td>
+                <td th:text="${bookind.finalPrice}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
