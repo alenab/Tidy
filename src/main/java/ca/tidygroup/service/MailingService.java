@@ -15,7 +15,7 @@ public class MailingService {
 
     private static final Logger log = LoggerFactory.getLogger(MailingService.class);
 
-    @Value("${spring.mail.username}")
+    @Value("${tidy.email.from}")
     private String mailBoxUserEmail;
 
     @Value("${tidy.admin.email}")
@@ -41,6 +41,7 @@ public class MailingService {
         message.setText("You have new booking on the website!\n\r" + obj);
         try {
             mailSender.send(message);
+            log.debug("Email sent successfully");
         } catch (MailException e) {
             log.error("Exception is thrown at attempt to send an email", e);
         }
