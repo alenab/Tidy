@@ -1,5 +1,7 @@
 package ca.tidygroup;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +20,8 @@ import java.util.concurrent.Executor;
 @SpringBootApplication
 @EntityScan(basePackages = {"ca.tidygroup.model"})
 public class Application extends SpringBootServletInitializer implements AsyncConfigurer {
+
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
@@ -41,7 +45,7 @@ public class Application extends SpringBootServletInitializer implements AsyncCo
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        //FIXME when there will be logger
-        return (ex, method, params) -> ex.printStackTrace();
+        return (ex, method, params) ->
+                log.error("Exception during async execution! Method: {}, Params: {}. Exception: {}", method, params, ex);
     }
 }

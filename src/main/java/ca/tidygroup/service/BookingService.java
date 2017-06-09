@@ -3,6 +3,8 @@ package ca.tidygroup.service;
 import ca.tidygroup.dto.BookingForm;
 import ca.tidygroup.model.*;
 import ca.tidygroup.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,8 @@ import java.util.List;
 
 @Service
 public class BookingService {
+
+    private static final Logger log = LoggerFactory.getLogger(BookingService.class);
 
     private PricingService pricingService;
 
@@ -47,6 +51,7 @@ public class BookingService {
 
     @Transactional
     public void add(BookingForm bookingForm) {
+        log.info("Adding new booking: {}", bookingForm);
         Address address = new Address();
         address.setPostcode(bookingForm.getPostCode());
         address.setCity(bookingForm.getCity());
@@ -80,6 +85,7 @@ public class BookingService {
         double serverPrice = pricingService.getPrice(bookingForm);
         double clientPrice = Double.parseDouble(bookingForm.getPrice());
         if (Math.abs(serverPrice - clientPrice) >= 0.01) {
+            log.warn("Prices on the server and client are different. Server: {}; Client: {}", serverPrice, clientPrice);
             throw new RuntimeException("The prices are changed! Try again");
         }
 
@@ -100,9 +106,11 @@ public class BookingService {
     public boolean applyActivationCode(BookingForm form, String code) {
         Discount discount = discountRepository.findByCodeEqualsIgnoringCase(code);
         if (discount != null) {
+            log.info("Discount code {} applied successfully. Discount is: {}%", code, discount.getPercent());
             form.setDiscount(String.valueOf(discount.getPercent()));
             return true;
         }
+        log.info("Discount code {} not found", code);
         return false;
     }
 }

@@ -1,5 +1,7 @@
 package ca.tidygroup.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MailingService {
+
+    private static final Logger log = LoggerFactory.getLogger(MailingService.class);
 
     @Value("${spring.mail.username}")
     private String mailBoxUserEmail;
@@ -26,6 +30,10 @@ public class MailingService {
 
     @Async
     public void sendEmail(Object obj) {
+        log.info("Going to send an email to admin");
+        if (log.isDebugEnabled()) {
+            log.debug("Using mailbox: {} and sending to: {}", mailBoxUserEmail, adminEmail);
+        }
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(mailBoxUserEmail);
         message.setTo(adminEmail);
@@ -34,8 +42,7 @@ public class MailingService {
         try {
             mailSender.send(message);
         } catch (MailException e) {
-            // FIXME update when there will be logger
-            e.printStackTrace();
+            log.error("Exception is thrown at attempt to send an email", e);
         }
     }
 }
