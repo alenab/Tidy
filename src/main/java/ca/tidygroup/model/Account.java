@@ -1,17 +1,20 @@
 package ca.tidygroup.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "account")
-public class Account {
+@Table(name = "account", uniqueConstraints = @UniqueConstraint(columnNames = {"email", "login"}))
+public class Account implements Serializable {
+
+    private static final long serialVersionUID = -1234033283573161796L;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -29,17 +32,20 @@ public class Account {
     @JoinColumn(name = "account_id")
     private List<Address> userAddress;
 
-    @Column(name = "login")
+    @Column(name = "login", nullable = false)
     private String login;
 
     @Column(name = "password")
     private String password;
 
-    public int getId() {
+    @Enumerated(EnumType.STRING)
+    private Role userRole;
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -99,6 +105,13 @@ public class Account {
         this.password = password;
     }
 
+    public Role getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(Role role) {
+        this.userRole = role;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
