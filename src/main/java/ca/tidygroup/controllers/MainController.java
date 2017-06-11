@@ -1,6 +1,7 @@
 package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.BookingForm;
+import ca.tidygroup.model.Account;
 import ca.tidygroup.model.Discount;
 import ca.tidygroup.service.BookingService;
 import org.slf4j.Logger;
@@ -92,6 +93,17 @@ public class MainController {
                     bindingResult.getAllErrors(), isApplied);
         }
         return "book";
+    }
+
+    @GetMapping("/login")
+    public String loginGet(Model model) {
+        model.addAttribute("account", new Account());
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/";
     }
 }
 

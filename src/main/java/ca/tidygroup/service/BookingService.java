@@ -66,6 +66,9 @@ public class BookingService {
         ArrayList<Address> addresses = new ArrayList<>();
         addresses.add(address);
         account.setUserAddress(addresses);
+        // using email as login
+        account.setLogin(bookingForm.getEmail());
+        account.setUserRole(Role.USER);
         accountRepository.save(account);
 
         Booking booking = new Booking();

@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -18,6 +19,7 @@ import java.util.concurrent.Executor;
 @Configuration
 @EnableAsync
 @SpringBootApplication
+@EnableJpaRepositories(basePackages = "ca.tidygroup.repository")
 @EntityScan(basePackages = {"ca.tidygroup.model"})
 public class Application extends SpringBootServletInitializer implements AsyncConfigurer {
 
