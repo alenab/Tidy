@@ -1,21 +1,29 @@
 package ca.tidygroup.controllers;
 
+import ca.tidygroup.dto.ApartmentUnitListDTO;
 import ca.tidygroup.service.AdminService;
+import ca.tidygroup.service.PricingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
 
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
 
     private AdminService adminService;
+    private PricingService pricingService;
 
     @Autowired
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, PricingService pricingService) {
         this.adminService = adminService;
+        this.pricingService = pricingService;
     }
 
     @GetMapping("/")
@@ -31,7 +39,17 @@ public class AdminController {
 
 
     @GetMapping("/prices")
-    public String prices() {
+    public String prices(Model model) {
+        ApartmentUnitListDTO dto = new ApartmentUnitListDTO();
+        dto.setUnits(new ArrayList<>(pricingService.getAllApartUnits()));
+        model.addAttribute("allUnits", dto);
         return "admin/prices";
     }
+
+    @PostMapping("/prices-save")
+    public String savePrices(@ModelAttribute("allUnits") ApartmentUnitListDTO allUnits) {
+        pricingService.updatePrices(allUnits);
+        return "admin/admin";
+    }
+
 }

@@ -8,6 +8,31 @@
 <body>
 <div class="container">
     <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+    <!--/*@thymesVar id="allUnits" type="ca.tidygroup.dto.ApartmentUnitListDTO"*/-->
+    <form th:action="@{/admin/prices-save}" method="post" data-th-object="${allUnits}">
+        <table class="table table-stripped">
+            <tr>
+                <th>Cleaning Plan</th>
+                <th>Number Of Rooms</th>
+                <th>Number Of Bathrooms</th>
+                <th>Price</th>
+            </tr>
+            <tr th:each="unit, stat : ${allUnits.units}">
+                <td data-th-text="${unit.cleaningPlan.name}"></td>
+                <td data-th-text="${unit.numberOfBedrooms}"></td>
+                <td data-th-text="${unit.numberOfBathrooms}"></td>
+                <td>
+                    <input type="number" class="form-control"
+                           data-th-field="*{units[__${stat.index}__].price}" />
+                    <input type="hidden" data-th-field="*{units[__${stat.index}__].id}"/>
+                    <input type="hidden" data-th-field="*{units[__${stat.index}__].numberOfBedrooms}"/>
+                    <input type="hidden" data-th-field="*{units[__${stat.index}__].numberOfBathrooms}"/>
+                    <input type="hidden" data-th-field="*{units[__${stat.index}__].cleaningPlan}"/>
+                </td>
+            </tr>
+        </table>
+        <input class="form-control" type="submit"/>
+    </form>
 </div>
 
 </body>
