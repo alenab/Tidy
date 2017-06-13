@@ -1,14 +1,17 @@
 package ca.tidygroup.service;
 
 import ca.tidygroup.dto.ApartmentUnitDTO;
+import ca.tidygroup.dto.ApartmentUnitListDTO;
 import ca.tidygroup.dto.BookingForm;
 import ca.tidygroup.model.ApartmentUnit;
 import ca.tidygroup.model.CleaningOption;
 import ca.tidygroup.model.CleaningPlan;
 import ca.tidygroup.repository.ApartmentUnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +32,10 @@ public class PricingService {
                 .map(item -> new ApartmentUnitDTO(item.getCleaningPlan().getId(), item.getNumberOfBedrooms(),
                         item.getNumberOfBathrooms(), item.getPrice())
                 ).collect(Collectors.toList());
+    }
+
+    public List<ApartmentUnit> getAllApartUnits() {
+        return apartmentUnitRepository.findAll(new Sort(Sort.Direction.ASC, ApartmentUnit.ID_COL_NAME));
     }
 
     public double getPrice(BookingForm form) {
@@ -58,5 +65,10 @@ public class PricingService {
 
     private ApartmentUnit getApartmentUnit(CleaningPlan plan, int numberOfRooms, int numberOfBathroom) {
         return apartmentUnitRepository.findApartmentUnitByCleaningPlanAndNumberOfBedroomsAndNumberOfBathrooms(plan, numberOfRooms, numberOfBathroom);
+    }
+
+    @Transactional
+    public void updatePrices(ApartmentUnitListDTO allUnits) {
+        apartmentUnitRepository.save(allUnits.getUnits());
     }
 }
