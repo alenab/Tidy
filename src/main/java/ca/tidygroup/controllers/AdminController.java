@@ -1,6 +1,7 @@
 package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.ApartmentUnitListDTO;
+import ca.tidygroup.dto.OptionListDTO;
 import ca.tidygroup.service.AdminService;
 import ca.tidygroup.service.PricingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,20 @@ public class AdminController {
     @PostMapping("/prices-save")
     public String savePrices(@ModelAttribute("allUnits") ApartmentUnitListDTO allUnits) {
         pricingService.updatePrices(allUnits);
+        return "admin/admin";
+    }
+
+    @GetMapping("/options_prices")
+    public String optionsPrices(Model model) {
+        OptionListDTO dto = new OptionListDTO();
+        dto.setOptions(new ArrayList<>(pricingService.getAllOptions()));
+        model.addAttribute("allOptions", dto);
+        return "admin/options_prices";
+    }
+
+    @PostMapping("/options-prices-save")
+    public String savePrices(@ModelAttribute("allOptions") OptionListDTO allOptions) {
+        pricingService.updateOptionsPrices(allOptions);
         return "admin/admin";
     }
 
