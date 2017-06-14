@@ -6,8 +6,10 @@ import javax.persistence.*;
 @Table(name = "option")
 public class CleaningOption {
 
+    public static final String ID_COL_NAME = "id";
+
     @Id
-    @Column(name = "id", columnDefinition = "serial")
+    @Column(name = ID_COL_NAME, columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 

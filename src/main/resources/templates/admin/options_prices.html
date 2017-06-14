@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head data-th-include="fragments/head :: head">
+    <title>options_prices</title>
+</head>
+<body>
+<div class="container">
+    <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+    <!--/*@thymesVar id="allOptions" type="ca.tidygroup.dto.OptionListDTO"*/-->
+    <form th:action="@{/admin/options-prices-save}" method="post" data-th-object="${allOptions}">
+        <table class="table table-stripped">
+            <tr>
+                <th>Option name</th>
+                <th>Price</th>
+            </tr>
+            <tr th:each="option, stat : ${allOptions.options}">
+                <td data-th-text="${option.name}"></td>
+                <td>
+                    <input type="number" class="form-control"
+                           data-th-field="*{options[__${stat.index}__].price}" />
+                    <input type="hidden" data-th-field="*{options[__${stat.index}__].id}"/>
+                    <input type="hidden" data-th-field="*{options[__${stat.index}__].name}"/>
+                </td>
+            </tr>
+        </table>
+        <input class="form-control" type="submit"/>
+    </form>
+</div>
+
+</body>
+</html>

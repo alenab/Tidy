@@ -3,10 +3,12 @@ package ca.tidygroup.service;
 import ca.tidygroup.dto.ApartmentUnitDTO;
 import ca.tidygroup.dto.ApartmentUnitListDTO;
 import ca.tidygroup.dto.BookingForm;
+import ca.tidygroup.dto.OptionListDTO;
 import ca.tidygroup.model.ApartmentUnit;
 import ca.tidygroup.model.CleaningOption;
 import ca.tidygroup.model.CleaningPlan;
 import ca.tidygroup.repository.ApartmentUnitRepository;
+import ca.tidygroup.repository.OptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,12 @@ public class PricingService {
 
     private ApartmentUnitRepository apartmentUnitRepository;
 
+    private OptionRepository optionRepository;
+
     @Autowired
-    public PricingService(ApartmentUnitRepository apartmentUnitRepository) {
+    public PricingService(ApartmentUnitRepository apartmentUnitRepository, OptionRepository optionRepository) {
         this.apartmentUnitRepository = apartmentUnitRepository;
+        this.optionRepository = optionRepository;
     }
 
     public List<ApartmentUnitDTO> getAllApartmentUnits() {
@@ -70,5 +75,15 @@ public class PricingService {
     @Transactional
     public void updatePrices(ApartmentUnitListDTO allUnits) {
         apartmentUnitRepository.save(allUnits.getUnits());
+    }
+
+    @Transactional
+    public void updateOptionsPrices(OptionListDTO allOptions) {
+        optionRepository.save(allOptions.getOptions());
+
+    }
+
+    public List<CleaningOption> getAllOptions() {
+        return optionRepository.findAll(new Sort(Sort.Direction.ASC, CleaningOption.ID_COL_NAME));
     }
 }
