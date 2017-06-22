@@ -24,6 +24,7 @@
         <java.version>1.8</java.version>
         <hibernate.version>5.2.10.Final</hibernate.version>
         <mail.version>1.4.7</mail.version>
+        <postgresql.version>42.1.1.jre7</postgresql.version>
     </properties>
 
     <profiles>

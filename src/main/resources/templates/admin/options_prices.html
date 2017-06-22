@@ -6,7 +6,9 @@
 </head>
 <body>
 <div class="container">
-    <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+    <a href="/">
+        <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+    </a>
     <!--/*@thymesVar id="allOptions" type="ca.tidygroup.dto.OptionListDTO"*/-->
     <form th:action="@{/admin/options-prices-save}" method="post" data-th-object="${allOptions}">
         <table class="table table-stripped">
