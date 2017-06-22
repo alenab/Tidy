@@ -28,8 +28,7 @@ public class Account implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToMany
-    @JoinColumn(name = "account_id")
+    @OneToMany(mappedBy = "account")
     private List<Address> userAddress;
 
     @Column(name = "login", nullable = false)
@@ -111,17 +110,5 @@ public class Account implements Serializable {
 
     public void setUserRole(Role role) {
         this.userRole = role;
-    }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Account)) return false;
-        Account account = (Account) o;
-        return getId() == account.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
     }
 }

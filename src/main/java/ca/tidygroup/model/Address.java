@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Address {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
@@ -20,6 +20,10 @@ public class Address {
 
     @Column(name = "address")
     private String address;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     public long getId() {
         return id;
@@ -53,16 +57,11 @@ public class Address {
         this.address = address;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Address)) return false;
-        Address address = (Address) o;
-        return getId() == address.getId();
+    public Account getAccount() {
+        return account;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
