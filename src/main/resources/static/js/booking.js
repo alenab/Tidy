@@ -3,6 +3,11 @@ $(function () {
     $.get("/api/price-matrix", function (data) {
         $.priceList = data;
         updatePrice();
+        updateBathroomsOptions();
+    });
+
+    $('select#cleaningPlan, select#numberOfRooms').on('change', function () {
+        updateBathroomsOptions();
     });
 
     $('select').on('change', function () {
@@ -19,6 +24,26 @@ function getPrice(planId, rooms, baths) {
         return item.planId === planId && item.rooms === rooms && item.bathrooms === baths;
     });
     return resAr.length > 0 ? resAr[0].price : 0;
+}
+
+function updateBathroomsOptions() {
+    var rooms = Number($('#numberOfRooms').val());
+    var planId = Number($('#cleaningPlan').val());
+    // filtered bathrooms, only ones which fits the plan and rooms quantity
+    var resAr = $.priceList.filter(function (item) {
+        return item.planId === planId && item.rooms === rooms;
+    });
+
+    // clean up list of bathroom options in html
+    var $bathrooms = $("#numberOfBathrooms");
+    $bathrooms.find("option").remove();
+
+    // forming new list of available options
+    $.each(resAr, function (idx, item) {
+        var text = item.bathrooms === 1 ? "bathroom" : "bathrooms";
+        var $option = $("<option/>").val(item.bathrooms).text(item.bathrooms + " " + text);
+        $bathrooms.append($option);
+    });
 }
 
 function updatePrice() {
@@ -45,8 +70,8 @@ function updatePrice() {
         $formPrice.val(rawPrice.toFixed(2));
         var priceWithDiscount = ((100 - discount) / 100) * rawPrice;
         $price.text(priceWithDiscount.toFixed(2));
-        $priceTax.text((priceWithDiscount * 0.12).toFixed(2));
-        $priceTotal.text((priceWithDiscount * 1.12).toFixed(2));
+        $priceTax.text((priceWithDiscount * 0.05).toFixed(2));
+        $priceTotal.text((priceWithDiscount * 1.05).toFixed(2));
     } else {
         $formPrice.val(0);
         $price.text("N/A");

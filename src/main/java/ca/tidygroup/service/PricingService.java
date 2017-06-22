@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class PricingService {
 
-    public static final int TAX = 12;
+    public static final int TAX = 5;
 
     private ApartmentUnitRepository apartmentUnitRepository;
 
