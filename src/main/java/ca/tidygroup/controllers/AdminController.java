@@ -1,16 +1,15 @@
 package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.ApartmentUnitListDTO;
+import ca.tidygroup.dto.BookingDTOAdmin;
 import ca.tidygroup.dto.OptionListDTO;
 import ca.tidygroup.service.AdminService;
+import ca.tidygroup.service.BookingService;
 import ca.tidygroup.service.PricingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -20,11 +19,13 @@ public class AdminController {
 
     private AdminService adminService;
     private PricingService pricingService;
+    private BookingService bookingService;
 
     @Autowired
-    public AdminController(AdminService adminService, PricingService pricingService) {
+    public AdminController(AdminService adminService, PricingService pricingService, BookingService bookingService) {
         this.adminService = adminService;
         this.pricingService = pricingService;
+        this.bookingService = bookingService;
     }
 
     @GetMapping("/")
@@ -65,6 +66,22 @@ public class AdminController {
     public String savePrices(@ModelAttribute("allOptions") OptionListDTO allOptions) {
         pricingService.updateOptionsPrices(allOptions);
         return "admin/admin";
+    }
+
+    @GetMapping("/bookings/{id}")
+    public String changeBooking(@PathVariable("id") long id, Model model) {
+        BookingDTOAdmin dto = adminService.getBookingById(id);
+        model.addAttribute("adminBooking", dto);
+        model.addAttribute("allOptions", bookingService.getAllCleaningOptions());
+        model.addAttribute("allPlans", bookingService.getAllCleaningPlans());
+        model.addAttribute("allBedrooms", bookingService.getListOfBedrooms());
+        return "admin/change_booking";
+    }
+
+    @PostMapping("/bookings/{id}/save")
+    public String saveChangesOfBooking(@PathVariable("id") long id, BookingDTOAdmin bookingDTOAdmin) {
+        bookingService.updateBooking(id, bookingDTOAdmin);
+        return "redirect:/admin/bookings";
     }
 
 }

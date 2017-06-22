@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head data-th-include="fragments/head :: head">
+    <title>Change booking</title>
+
+    <link rel="stylesheet/less" type="text/css" href="../../static/less/style.less" data-th-href="@{/less/style.less}"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js" data-th-src="@{/js/less.min.js}"
+            type="text/javascript"></script>
+
+</head>
+<body>
+<div class="container">
+    <a href="/">
+        <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+    </a>
+    <!--/*@thymesVar id="adminBooking" type="ca.tidygroup.dto.BookingDTOAdmin"*/-->
+    <form method="post" data-th-action="@{/admin/bookings/{bid}/save(bid=${adminBooking.id})}" data-th-object="${adminBooking}">
+        <div th:class="row">
+            <div th:class="col-md-4">
+                <select class="form-control" data-th-field="*{cleaningPlan}">
+                    <!--/*@thymesVar id="allPlans" type="java.util.List<ca.tidygroup.model.CleaningPlan>"*/-->
+                    <th:block th:each="plan : ${allPlans}">
+                        <option data-th-id="${{plan}}" data-th-value="${{plan}}"
+                                data-th-text="${plan.name}"></option>
+                    </th:block>
+                </select>
+                <br/>
+                    <select class="form-control" data-th-field="*{numberOfRooms}">
+                        <!--/*@thymesVar id="allBedrooms" type="java.util.List<java.lang.Integer>"*/-->
+                        <th:block th:each="numberOfBedroom : ${allBedrooms}">
+                            <option data-th-id="${{numberOfBedroom}}" data-th-value="${{numberOfBedroom}}"
+                                    data-th-text="${numberOfBedroom}"></option>
+                        </th:block>
+                    </select>
+                <span class="help-block" data-th-errors="${adminBooking.numberOfRooms}">error</span>
+                <br/>
+
+                <label class="control-label">Number of bathrooms</label>
+                <select class="form-control" data-th-field="*{numberOfBathrooms}">
+                    <option value="1">1 bathroom</option>
+                    <option value="2">2 bathroom</option>
+                    <option value="3">3 bathroom</option>
+                    <option value="4">4 bathroom</option>
+                </select>
+                <span class="help-block" data-th-errors="${adminBooking.numberOfBathrooms}">error</span>
+                <br/>
+
+
+                <label class="control-label">Extra services</label>
+                <table>
+                    <!--/*@thymesVar id="allOptions" type="java.util.List<ca.tidygroup.model.CleaningOption>"*/-->
+                    <th:block th:each="option: ${allOptions}">
+                        <tr>
+                            <td>
+                                <input type="checkbox" data-th-id="${{option}}" data-th-value="${{option}}"
+                                       data-th-field="${adminBooking.cleaningOptions}"
+                                       th:attr="data-price=${option.price}"/>
+                                <br/>
+                            </td>
+                            <td th:text="${option.name}"><br/></td>
+                            <td th:text="${option.price}"><br/></td>
+                        </tr>
+                    </th:block>
+                </table>
+                <label class="control-label">Special request</label>
+                <input class="form-control" type="text" data-th-field="${adminBooking.specialRequest}"/>
+                <span class="help-block" data-th-errors="${adminBooking.specialRequest}">error</span>
+                <br/>
+            </div>
+            <div th:class="col-md-4">
+                <label class="control-label">Postcode</label>
+                <input class="form-control" type="text" data-th-field="${adminBooking.postcode}" required="required"
+                       placeholder="Zip Code"/>
+                <span class="help-block" data-th-errors="${adminBooking.postcode}">error</span>
+
+                <label class="control-label">Address</label>
+                <input class="form-control" type="text" data-th-field="${adminBooking.address}" placeholder="Address"
+                       required="required"/>
+                <span class="help-block" data-th-errors="${adminBooking.address}">error</span>
+
+                <label class="control-label">First name</label>
+                <input class="form-control" type="text" data-th-field="${adminBooking.firstName}"
+                       required="required"/>
+                <span class="help-block" data-th-errors="${adminBooking.firstName}">error</span>
+
+                <label class="control-label">Last name</label>
+                <input class="form-control" type="text" data-th-field="${adminBooking.lastName}"
+                       required="required"/>
+                <span class="help-block" data-th-errors="${adminBooking.lastName}">error</span>
+
+                <label class="control-label">Email</label>
+                <input class="form-control" type="email" data-th-field="${adminBooking.email}" required="required"/>
+                <span class="help-block" data-th-errors="${adminBooking.email}">error</span>
+
+                <label class="control-label">Phone</label>
+                <input class="form-control" type="tel" data-th-field="${adminBooking.phone}" required="required"/>
+                <span class="help-block" data-th-errors="${adminBooking.phone}">error</span>
+
+                <label class="control-label">Date of cleaning</label>
+                <input class="form-control" type="date" data-th-field="${adminBooking.cleaningDate}"/>
+                <span class="help-block" data-th-errors="${adminBooking.cleaningDate}">error</span>
+
+                <label class="control-label">Time of cleaning</label>
+                <input class="form-control" type="time" data-th-field="${adminBooking.cleaningTime}"/>
+                <span class="help-block" data-th-errors="${adminBooking.cleaningTime}">error</span>
+
+                <label class="control-label">Discount</label>
+                <input class="form-control" type="number" data-th-field="${adminBooking.discount}"/>
+                <span class="help-block" data-th-errors="${adminBooking.discount}">error</span>
+
+            </div>
+
+
+            <div th:class="col-md-4">
+                <h4>BOOKING SUMMARY</h4>
+                <div class="form-group row">
+                    Price without discount and taxes
+                    <label class="control-label col-md-6">ORIGINAL PRICE</label>
+                    <span class="col-md-6" data-th-text="${adminBooking.price}">100</span>
+                    <input type="hidden" data-th-field="*{price}"/>
+                </div>
+
+                <hr/>
+
+                <div class="form-group row">
+                    <label class="control-label col-md-6">SUB-TOTAL</label>
+                    <span class="booking-price price col-md-6">100</span>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-6 ">SALES TAX</label>
+                    <span class="booking-price-tax price col-md-6">10</span>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-6">DISCOUNT</label>
+                    <span class="booking-discount price col-md-6" data-th-text="${adminBooking.discount} + '%'">0</span>
+                </div>
+
+                <div class="form-group row">
+                    <label class="control-label col-md-6">TOTAL</label>
+                    <span class="booking-price-total price col-md-6">110</span>
+                </div>
+            </div>
+            <input type="submit"/>
+        </div>
+    </form>
+    <script src="../../static/js/booking.js" data-th-src="@{/js/change_booking.js}" type="text/javascript"></script>
+</div>
+</body>
+</html>

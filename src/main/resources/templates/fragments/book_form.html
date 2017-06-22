@@ -34,11 +34,11 @@
                     <div class="form-group col-md-6">
                         <label class="control-label">Number of bedrooms</label>
                         <select class="form-control" data-th-field="*{numberOfRooms}" form="bookingForm">
-                            <option value="0">Studio</option>
-                            <option value="1">1 Bedroom</option>
-                            <option value="2">2 Bedrooms</option>
-                            <option value="3">3 Bedrooms</option>
-                            <option value="4">4 Bedrooms</option>
+                            <!--/*@thymesVar id="allBedrooms" type="java.util.List<java.lang.Integer>"*/-->
+                            <th:block th:each="numberOfBedroom : ${allBedrooms}">
+                                <option data-th-id="${{numberOfBedroom}}" data-th-value="${{numberOfBedroom}}"
+                                        data-th-text="${numberOfBedroom}"></option>
+                            </th:block>
                         </select>
                         <span class="help-block" data-th-errors="*{numberOfRooms}">error</span>
                     </div>
@@ -47,9 +47,6 @@
                         <label class="control-label">Number of bathrooms</label>
                         <select class="form-control" data-th-field="*{numberOfBathrooms}" form="bookingForm">
                             <option value="1">1 bathroom</option>
-                            <option value="2">2 bathrooms</option>
-                            <option value="3">3 bathrooms</option>
-                            <option value="4">4 bathrooms</option>
                         </select>
                         <span class="help-block" data-th-errors="*{numberOfBathrooms}">error</span>
                     </div>
@@ -164,11 +161,11 @@
                 <h4>BOOKING SUMMARY</h4>
                 <div class="form-group row">
                     <label class="control-label col-md-6">SUB-TOTAL</label>
-                    <span class="booking-price price col-md-6">100</span>
+                    <span class="booking-price price col-md-6"></span>
                 </div>
                 <div class="form-group row">
                     <label class="control-label col-md-6 ">SALES TAX</label>
-                    <span class="booking-price-tax price col-md-6">10</span>
+                    <span class="booking-price-tax price col-md-6"></span>
                 </div>
                 <div class="form-group row" th:if="${booking.discount != null}">
                     <label class="control-label col-md-6">DISCOUNT</label>
@@ -178,7 +175,7 @@
                 </div>
                 <div class="form-group row">
                     <label class="control-label col-md-6">TOTAL</label>
-                    <span class="booking-price-total price col-md-6">110</span>
+                    <span class="booking-price-total price col-md-6"></span>
                 </div>
             </div>
         </div>

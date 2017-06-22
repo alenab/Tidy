@@ -1,23 +1,30 @@
 package ca.tidygroup.dto;
 
+import ca.tidygroup.model.CleaningOption;
+import ca.tidygroup.model.CleaningPlan;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
-public class BookingDTO {
+public class BookingDTOAdmin {
 
     private long id;
 
-    private String cleaningPlan;
+    private CleaningPlan cleaningPlan;
 
     private int numberOfRooms;
 
     private int numberOfBathrooms;
 
-    private List<String> cleaningOptions;
+    private List<CleaningOption> cleaningOptions;
 
     private String specialRequest;
 
-    private LocalDateTime cleaningTime;
+    private String cleaningDate;
+
+    private String cleaningTime;
 
     private String postcode;
 
@@ -47,11 +54,11 @@ public class BookingDTO {
         this.id = id;
     }
 
-    public String getCleaningPlan() {
+    public CleaningPlan getCleaningPlan() {
         return cleaningPlan;
     }
 
-    public void setCleaningPlan(String cleaningPlan) {
+    public void setCleaningPlan(CleaningPlan cleaningPlan) {
         this.cleaningPlan = cleaningPlan;
     }
 
@@ -71,11 +78,11 @@ public class BookingDTO {
         this.numberOfBathrooms = numberOfBathrooms;
     }
 
-    public List<String> getCleaningOptions() {
+    public List<CleaningOption> getCleaningOptions() {
         return cleaningOptions;
     }
 
-    public void setCleaningOptions(List<String> cleaningOptions) {
+    public void setCleaningOptions(List<CleaningOption> cleaningOptions) {
         this.cleaningOptions = cleaningOptions;
     }
 
@@ -87,11 +94,19 @@ public class BookingDTO {
         this.specialRequest = specialRequest;
     }
 
-    public LocalDateTime getCleaningTime() {
+    public String getCleaningDate() {
+        return cleaningDate;
+    }
+
+    public void setCleaningDate(String cleaningDate) {
+        this.cleaningDate = cleaningDate;
+    }
+
+    public String getCleaningTime() {
         return cleaningTime;
     }
 
-    public void setCleaningTime(LocalDateTime cleaningTime) {
+    public void setCleaningTime(String cleaningTime) {
         this.cleaningTime = cleaningTime;
     }
 
