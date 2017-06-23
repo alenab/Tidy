@@ -49,10 +49,10 @@ public class AdminService {
         bookingDTOAdmin.setCity(booking.getAddressForClean().getCity());
         bookingDTOAdmin.setPostcode(booking.getAddressForClean().getPostcode());
         bookingDTOAdmin.setAddress(booking.getAddressForClean().getAddress());
-        bookingDTOAdmin.setFirstName(booking.getAccount().getFirstName());
-        bookingDTOAdmin.setLastName(booking.getAccount().getLastName());
+        bookingDTOAdmin.setFirstName(booking.getCustomer().getFirstName());
+        bookingDTOAdmin.setLastName(booking.getCustomer().getLastName());
         bookingDTOAdmin.setEmail(booking.getAccount().getEmail());
-        bookingDTOAdmin.setPhone(booking.getAccount().getPhoneNumber());
+        bookingDTOAdmin.setPhone(booking.getCustomer().getPhoneNumber());
         bookingDTOAdmin.setDiscount(booking.getDiscountPercent());
         bookingDTOAdmin.setPrice(booking.getPrice());
         bookingDTOAdmin.setFinalPrice(getFinalPrice(booking));

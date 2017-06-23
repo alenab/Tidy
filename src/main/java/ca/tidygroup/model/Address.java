@@ -22,8 +22,8 @@ public class Address {
     private String address;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     public long getId() {
         return id;
@@ -57,11 +57,11 @@ public class Address {
         this.address = address;
     }
 
-    public Account getAccount() {
-        return account;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

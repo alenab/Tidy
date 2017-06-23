@@ -21,9 +21,9 @@
             </tr>
             <!--/*@thymesVar id="allBookings" type="java.util.List<ca.tidygroup.dto.BookingDTOAdmin>"*/-->
             <tr th:each="booking: ${allBookings}">
-                <td th:text="|${booking.cleaningDate}, ${booking.cleaningTime}|"></td>
-                <td th:text="|${booking.firstName}, ${booking.lastName}|"></td>
-                <td th:text="|${booking.postcode}, ${booking.city}, ${booking.address}|"></td>
+                <td th:text="|${booking.cleaningDate} / ${booking.cleaningTime}|"></td>
+                <td th:text="|${booking.firstName} ${booking.lastName}|"></td>
+                <td th:text="|${booking.address}, ${booking.city}, ${booking.postcode}|"></td>
                 <td th:text="|${booking.finalPrice}|"></td>
                 <td>
                     <a data-th-href="@{bookings/{bId}(bId=${booking.id})}">

@@ -189,4 +189,28 @@ public class BookingDTOAdmin {
     public void setFinalPrice(double finalPrice) {
         this.finalPrice = finalPrice;
     }
+
+    @Override
+    public String toString() {
+        return "BookingDTOAdmin{" +
+                "id=" + id +
+                ", cleaningPlan=" + cleaningPlan +
+                ", numberOfRooms=" + numberOfRooms +
+                ", numberOfBathrooms=" + numberOfBathrooms +
+                ", cleaningOptions=" + cleaningOptions +
+                ", specialRequest='" + specialRequest + '\'' +
+                ", cleaningDate='" + cleaningDate + '\'' +
+                ", cleaningTime='" + cleaningTime + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", city='" + city + '\'' +
+                ", address='" + address + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", discount=" + discount +
+                ", price=" + price +
+                ", finalPrice=" + finalPrice +
+                '}';
+    }
 }
