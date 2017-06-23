@@ -41,8 +41,12 @@ public class BookingService {
 
     private ApartmentUnitRepository apartmentUnitRepository;
 
+    private CustomerRepository customerRepository;
+
+    private EmployeeRepository employeeRepository;
+
     @Autowired
-    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService, DiscountRepository discountRepository, ApartmentUnitRepository apartmentUnitRepository) {
+    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService, DiscountRepository discountRepository, ApartmentUnitRepository apartmentUnitRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository) {
         this.pricingService = pricingService;
         this.bookingRepository = bookingRepository;
         this.addressRepository = addressRepository;
@@ -52,19 +56,26 @@ public class BookingService {
         this.mailingService = mailingService;
         this.discountRepository = discountRepository;
         this.apartmentUnitRepository = apartmentUnitRepository;
+        this.customerRepository = customerRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @Transactional
     public void add(BookingForm bookingForm) {
         log.info("Adding new booking: {}", bookingForm);
 
-//        address = addressRepository.save(address);
-
+        // using email as login
         Account account = new Account();
-        account.setFirstName(bookingForm.getFirstName());
-        account.setLastName(bookingForm.getLastName());
+        account.setLogin(bookingForm.getEmail());
         account.setEmail(bookingForm.getEmail());
-        account.setPhoneNumber(bookingForm.getPhone());
+        account.setUserRole(Role.USER);
+        account = accountRepository.save(account);
+
+        Customer customer = new Customer();
+        customer.setFirstName(bookingForm.getFirstName());
+        customer.setLastName(bookingForm.getLastName());
+        customer.setPhoneNumber(bookingForm.getPhone());
+        customer.setAccount(account);
 
         ArrayList<Address> addresses = new ArrayList<>();
         Address address = new Address();
@@ -73,17 +84,15 @@ public class BookingService {
         address.setAddress(bookingForm.getAddress());
 
         addresses.add(address);
-        account.setUserAddress(addresses);
-        // using email as login
-        account.setLogin(bookingForm.getEmail());
-        account.setUserRole(Role.USER);
-        account = accountRepository.save(account);
+        customer.setUserAddress(addresses);
+        customer = customerRepository.save(customer);
 
-        address.setAccount(account);
+        address.setCustomer(customer);
         address = addressRepository.save(address);
 
         Booking booking = new Booking();
         booking.setAccount(account);
+        booking.setCustomer(customer);
         booking.setAddressForClean(address);
         booking.setNumberOfRooms(Integer.parseInt(bookingForm.getNumberOfRooms()));
         booking.setNumberOfBathrooms(Integer.parseInt(bookingForm.getNumberOfBathrooms()));
@@ -104,6 +113,7 @@ public class BookingService {
         }
 
         booking.setPrice(serverPrice);
+        booking.setEmployee(employeeRepository.findAll().get(0));
         bookingRepository.save(booking);
 
         mailingService.sendEmail(bookingForm);
@@ -135,25 +145,29 @@ public class BookingService {
 
     @Transactional
     public void updateBooking(long id, BookingDTOAdmin bookingDTOAdmin) {
-        Account account = bookingRepository.getOne(id).getAccount();
+        log.info("Updating booking: {}", bookingDTOAdmin);
 
-        account.setFirstName(bookingDTOAdmin.getFirstName());
-        account.setLastName(bookingDTOAdmin.getLastName());
+        Customer customer = bookingRepository.getOne(id).getCustomer();
+
+        // using email as login
+        Account account =customer.getAccount();
+        account.setLogin(bookingDTOAdmin.getEmail());
         account.setEmail(bookingDTOAdmin.getEmail());
-        account.setPhoneNumber(bookingDTOAdmin.getPhone());
+
+        customer.setFirstName(bookingDTOAdmin.getFirstName());
+        customer.setLastName(bookingDTOAdmin.getLastName());
+        customer.setPhoneNumber(bookingDTOAdmin.getPhone());
+        customer.setAccount(account);
 
         Address address = bookingRepository.getOne(id).getAddressForClean();
         address.setPostcode(bookingDTOAdmin.getPostcode());
-        address.setCity(bookingDTOAdmin.getCity());
         address.setAddress(bookingDTOAdmin.getAddress());
 
-        // using email as login
-
-        address.setAccount(account);
+        address.setCustomer(customer);
         address = addressRepository.save(address);
 
         Booking booking = bookingRepository.findOne(id);
-        booking.setAccount(account);
+        booking.setCustomer(customer);
         booking.setAddressForClean(address);
         booking.setNumberOfRooms(bookingDTOAdmin.getNumberOfRooms());
         booking.setNumberOfBathrooms(bookingDTOAdmin.getNumberOfBathrooms());

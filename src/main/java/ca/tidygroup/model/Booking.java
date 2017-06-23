@@ -18,6 +18,14 @@ public class Booking {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    @ManyToOne
+    @JoinColumn(name="customer_id")
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
     @Column(name = "rooms_number")
     private int numberOfRooms;
 
@@ -53,6 +61,9 @@ public class Booking {
     @Column(name = "price")
     private double price;
 
+    @Column(name="duration")
+    private double duration;
+
     public long getId() {
         return id;
     }
@@ -67,6 +78,22 @@ public class Booking {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public int getNumberOfRooms() {
@@ -147,5 +174,13 @@ public class Booking {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
     }
 }

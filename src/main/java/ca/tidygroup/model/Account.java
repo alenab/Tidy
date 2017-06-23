@@ -16,26 +16,14 @@ public class Account implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @OneToMany(mappedBy = "account")
-    private List<Address> userAddress;
-
     @Column(name = "login", nullable = false)
     private String login;
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "email")
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private Role userRole;
@@ -46,46 +34,6 @@ public class Account implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public List<Address> getUserAddress() {
-        return userAddress;
-    }
-
-    public void setUserAddress(List<Address> userAddress) {
-        this.userAddress = userAddress;
     }
 
     public String getLogin() {
@@ -110,5 +58,13 @@ public class Account implements Serializable {
 
     public void setUserRole(Role role) {
         this.userRole = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
