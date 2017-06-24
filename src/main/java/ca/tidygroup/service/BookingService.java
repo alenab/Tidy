@@ -65,25 +65,49 @@ public class BookingService {
         log.info("Adding new booking: {}", bookingForm);
 
         // using email as login
+
         Account account = new Account();
-        account.setLogin(bookingForm.getEmail());
-        account.setEmail(bookingForm.getEmail());
-        account.setUserRole(Role.USER);
-        account = accountRepository.save(account);
-
         Customer customer = new Customer();
-        customer.setFirstName(bookingForm.getFirstName());
-        customer.setLastName(bookingForm.getLastName());
-        customer.setPhoneNumber(bookingForm.getPhone());
-        customer.setAccount(account);
-
-        ArrayList<Address> addresses = new ArrayList<>();
+        List<Address> addresses = new ArrayList<>();
         Address address = new Address();
-        address.setPostcode(bookingForm.getPostCode());
-        address.setCity(bookingForm.getCity());
-        address.setAddress(bookingForm.getAddress());
 
-        addresses.add(address);
+        if (accountRepository.findAccountByEmail(bookingForm.getEmail()) == null) {
+            account.setLogin(bookingForm.getEmail());
+            account.setEmail(bookingForm.getEmail());
+            account.setUserRole(Role.USER);
+            account = accountRepository.save(account);
+
+            customer.setFirstName(bookingForm.getFirstName());
+            customer.setLastName(bookingForm.getLastName());
+            customer.setPhoneNumber(bookingForm.getPhone());
+            customer.setAccount(account);
+
+            address.setPostcode(bookingForm.getPostCode());
+            address.setCity(bookingForm.getCity());
+            address.setAddress(bookingForm.getAddress());
+            addresses.add(address);
+
+
+        } else {
+            account = accountRepository.findAccountByEmail(bookingForm.getEmail());
+            customer = customerRepository.findCustomerByAccount(account);
+            addresses = customer.getUserAddress();
+            boolean isExistingAddress = false;
+            for(Address addr : addresses) {
+                if (addr.getPostcode().toLowerCase().equalsIgnoreCase(bookingForm.getPostCode().toLowerCase()) &
+                        addr.getAddress().toLowerCase().equalsIgnoreCase(bookingForm.getAddress().toLowerCase())) {
+                    address = addr;
+                    isExistingAddress = true;
+                    break;
+                }
+            }
+            if (!isExistingAddress) {
+                address.setPostcode(bookingForm.getPostCode());
+                address.setCity(bookingForm.getCity());
+                address.setAddress(bookingForm.getAddress());
+                addresses.add(address);
+            }
+        }
         customer.setUserAddress(addresses);
         customer = customerRepository.save(customer);
 

@@ -46,6 +46,8 @@ public class BookingDTOAdmin {
 
     private double finalPrice;
 
+    private double duration;
+
     public long getId() {
         return id;
     }
@@ -190,6 +192,14 @@ public class BookingDTOAdmin {
         this.finalPrice = finalPrice;
     }
 
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
         return "BookingDTOAdmin{" +
@@ -211,6 +221,7 @@ public class BookingDTOAdmin {
                 ", discount=" + discount +
                 ", price=" + price +
                 ", finalPrice=" + finalPrice +
+                ", duration=" + duration +
                 '}';
     }
 }
