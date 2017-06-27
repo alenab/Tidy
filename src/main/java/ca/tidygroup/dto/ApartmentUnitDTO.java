@@ -16,14 +16,15 @@ public class ApartmentUnitDTO {
     @JsonProperty
     private double price;
 
-    public ApartmentUnitDTO() {
-    }
+    @JsonProperty
+    private double planned_time;
 
-    public ApartmentUnitDTO(long planId, int rooms, int bathrooms, double price) {
+    public ApartmentUnitDTO(long planId, int rooms, int bathrooms, double price, double planned_time) {
         this.planId = planId;
         this.rooms = rooms;
         this.bathrooms = bathrooms;
         this.price = price;
+        this.planned_time = planned_time;
     }
 
     public long getPlanId() {
@@ -58,6 +59,14 @@ public class ApartmentUnitDTO {
         this.price = price;
     }
 
+    public double getPlanned_time() {
+        return planned_time;
+    }
+
+    public void setPlanned_time(double planned_time) {
+        this.planned_time = planned_time;
+    }
+
     @Override
     public String toString() {
         return "ApartmentUnitDTO{" +
@@ -65,6 +74,7 @@ public class ApartmentUnitDTO {
                 ", rooms=" + rooms +
                 ", bathrooms=" + bathrooms +
                 ", price=" + price +
+                ", planned_time=" + planned_time +
                 '}';
     }
 }

@@ -2,7 +2,9 @@ package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.ApartmentUnitListDTO;
 import ca.tidygroup.dto.BookingDTOAdmin;
+import ca.tidygroup.dto.EmployeeDTO;
 import ca.tidygroup.dto.OptionListDTO;
+import ca.tidygroup.repository.EmployeeRepository;
 import ca.tidygroup.service.AdminService;
 import ca.tidygroup.service.BookingService;
 import ca.tidygroup.service.PricingService;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RequestMapping("/admin")
 @Controller
@@ -82,6 +85,12 @@ public class AdminController {
     public String saveChangesOfBooking(@PathVariable("id") long id, BookingDTOAdmin bookingDTOAdmin) {
         bookingService.updateBooking(id, bookingDTOAdmin);
         return "redirect:/admin/bookings";
+    }
+
+    @GetMapping("/employee")
+    public String employees(Model model) {
+        model.addAttribute("allEmployees", adminService.getAllEmployeeDTO());
+        return "admin/employee";
     }
 
 }

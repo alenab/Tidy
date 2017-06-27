@@ -1,16 +1,16 @@
 package ca.tidygroup.service;
 
 import ca.tidygroup.dto.BookingDTOAdmin;
+import ca.tidygroup.dto.EmployeeDTO;
 import ca.tidygroup.model.Booking;
+import ca.tidygroup.model.Employee;
 import ca.tidygroup.repository.BookingRepository;
+import ca.tidygroup.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +18,12 @@ import java.util.List;
 public class AdminService {
 
     private BookingRepository bookingRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
-    public AdminService(BookingRepository bookingRepository) {
+    public AdminService(BookingRepository bookingRepository, EmployeeRepository employeeRepository) {
         this.bookingRepository = bookingRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @Transactional
@@ -69,5 +71,21 @@ public class AdminService {
         return getBookingDTO(bookingRepository.getOne(id));
     }
 
+    @Transactional
+    public List<EmployeeDTO> getAllEmployeeDTO () {
+        List<Employee> employees = employeeRepository.findAll();
+        List<EmployeeDTO> resultList = new ArrayList<>();
+        for (Employee employee : employees) {
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            employeeDTO.setFirstName(employee.getFirstName());
+            employeeDTO.setLastName(employee.getLastName());
+            employeeDTO.setEmail(employee.getAccount().getEmail());
+            employeeDTO.setPhoneNumber(employee.getPhoneNumber());
+            employeeDTO.setRate(employee.getRate());
+
+            resultList.add(employeeDTO);
+        }
+        return resultList;
+    }
 
 }
