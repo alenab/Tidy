@@ -7,6 +7,7 @@ import ca.tidygroup.service.BookingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,9 @@ public class MainController {
 
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
+    @Value("${tidy.google.api.key}")
+    private String googleApiKey;
+
     private BookingService bookingService;
 
     @Autowired
@@ -37,6 +41,7 @@ public class MainController {
         model.addAttribute("allPlans", bookingService.getAllCleaningPlans());
         model.addAttribute("allBedrooms", bookingService.getListOfBedrooms());
         model.addAttribute("discount", new Discount());
+        model.addAttribute("googleApiKey", googleApiKey);
     }
 
     @GetMapping("/")

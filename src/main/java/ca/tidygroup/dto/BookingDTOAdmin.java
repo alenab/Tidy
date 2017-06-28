@@ -26,10 +26,6 @@ public class BookingDTOAdmin {
 
     private String cleaningTime;
 
-    private String postcode;
-
-    private String city;
-
     private String address;
 
     private String firstName;
@@ -110,22 +106,6 @@ public class BookingDTOAdmin {
 
     public void setCleaningTime(String cleaningTime) {
         this.cleaningTime = cleaningTime;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getAddress() {
@@ -211,8 +191,6 @@ public class BookingDTOAdmin {
                 ", specialRequest='" + specialRequest + '\'' +
                 ", cleaningDate='" + cleaningDate + '\'' +
                 ", cleaningTime='" + cleaningTime + '\'' +
-                ", postcode='" + postcode + '\'' +
-                ", city='" + city + '\'' +
                 ", address='" + address + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

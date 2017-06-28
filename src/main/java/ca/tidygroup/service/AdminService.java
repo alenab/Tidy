@@ -48,8 +48,6 @@ public class AdminService {
         bookingDTOAdmin.setSpecialRequest(booking.getSpecialRequest());
         bookingDTOAdmin.setCleaningDate(booking.getCleaningTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
         bookingDTOAdmin.setCleaningTime(booking.getCleaningTime().format(DateTimeFormatter.ISO_LOCAL_TIME));
-        bookingDTOAdmin.setCity(booking.getAddressForClean().getCity());
-        bookingDTOAdmin.setPostcode(booking.getAddressForClean().getPostcode());
         bookingDTOAdmin.setAddress(booking.getAddressForClean().getAddress());
         bookingDTOAdmin.setFirstName(booking.getCustomer().getFirstName());
         bookingDTOAdmin.setLastName(booking.getCustomer().getLastName());
