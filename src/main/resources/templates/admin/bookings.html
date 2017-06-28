@@ -23,7 +23,7 @@
             <tr th:each="booking: ${allBookings}">
                 <td th:text="|${booking.cleaningDate} / ${booking.cleaningTime}|"></td>
                 <td th:text="|${booking.firstName} ${booking.lastName}|"></td>
-                <td th:text="${booking.address}"></td>
+                <td th:text="|${booking.address}, apt ${booking.aptNumber}|"></td>
                 <td th:text="|${booking.finalPrice}|"></td>
                 <td>
                     <a data-th-href="@{bookings/{bId}(bId=${booking.id})}">

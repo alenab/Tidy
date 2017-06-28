@@ -83,6 +83,7 @@ public class BookingService {
             customer.setAccount(account);
 
             address.setAddress(bookingForm.getAddress());
+            address.setAptNumber(bookingForm.getAptNumber());
             addresses.add(address);
 
 
@@ -180,6 +181,7 @@ public class BookingService {
 
         Address address = bookingRepository.getOne(id).getAddressForClean();
         address.setAddress(bookingDTOAdmin.getAddress());
+        address.setAptNumber(bookingDTOAdmin.getAptNumber());
 
         address.setCustomer(customer);
         address = addressRepository.save(address);

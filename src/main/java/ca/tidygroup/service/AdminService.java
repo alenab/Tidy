@@ -54,6 +54,7 @@ public class AdminService {
         bookingDTOAdmin.setCleaningDate(booking.getCleaningTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
         bookingDTOAdmin.setCleaningTime(booking.getCleaningTime().format(DateTimeFormatter.ISO_LOCAL_TIME));
         bookingDTOAdmin.setAddress(booking.getAddressForClean().getAddress());
+        bookingDTOAdmin.setAptNumber(booking.getAddressForClean().getAptNumber());
         bookingDTOAdmin.setFirstName(booking.getCustomer().getFirstName());
         bookingDTOAdmin.setLastName(booking.getCustomer().getLastName());
         bookingDTOAdmin.setEmail(booking.getAccount().getEmail());
@@ -76,7 +77,7 @@ public class AdminService {
 
     @Transactional
     public List<EmployeeDTO> getAllEmployeeDTO () {
-        List<Employee> employees = employeeRepository.findAll();
+        List<Employee> employees = employeeRepository.findAllEmployeeByActive(true);
         List<EmployeeDTO> resultList = new ArrayList<>();
         for (Employee employee : employees) {
             EmployeeDTO employeeDTO = new EmployeeDTO();
@@ -107,16 +108,13 @@ public class AdminService {
             employee.setPhoneNumber(employeeDTO.getPhoneNumber());
             employee.setRate(employeeDTO.getRate());
             employee.setAccount(account);
+            employee.setActive(true);
             employeeRepository.save(employee);
-
         } else {
-            employeeRepository.findEmployeeByAccount(accountRepository.findAccountByEmail(employeeDTO.getEmail()));
+            Employee employee = employeeRepository.findEmployeeByAccount(accountRepository.findAccountByEmail(employeeDTO.getEmail()));
+            if (employee != null) {
             // propose to correct employee
+            }
         }
-
-
-
-
     }
-
 }

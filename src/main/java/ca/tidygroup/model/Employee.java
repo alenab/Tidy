@@ -27,6 +27,9 @@ public class Employee {
     @JoinColumn(name="account_id")
     private Account account;
 
+    @Column(name="active")
+    private boolean active;
+
     public long getId() {
         return id;
     }
@@ -75,4 +78,11 @@ public class Employee {
         this.account = account;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

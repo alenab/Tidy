@@ -15,6 +15,9 @@ public class Address {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "apt_number")
+    private String aptNumber;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -33,6 +36,14 @@ public class Address {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getAptNumber() {
+        return aptNumber;
+    }
+
+    public void setAptNumber(String aptNumber) {
+        this.aptNumber = aptNumber;
     }
 
     public Customer getCustomer() {
