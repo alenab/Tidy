@@ -82,8 +82,6 @@ public class BookingService {
             customer.setPhoneNumber(bookingForm.getPhone());
             customer.setAccount(account);
 
-            address.setPostcode(bookingForm.getPostCode());
-            address.setCity(bookingForm.getCity());
             address.setAddress(bookingForm.getAddress());
             addresses.add(address);
 
@@ -94,16 +92,13 @@ public class BookingService {
             addresses = customer.getUserAddress();
             boolean isExistingAddress = false;
             for(Address addr : addresses) {
-                if (addr.getPostcode().toLowerCase().equalsIgnoreCase(bookingForm.getPostCode().toLowerCase()) &
-                        addr.getAddress().toLowerCase().equalsIgnoreCase(bookingForm.getAddress().toLowerCase())) {
+                if (addr.getAddress().toLowerCase().equalsIgnoreCase(bookingForm.getAddress().toLowerCase())) {
                     address = addr;
                     isExistingAddress = true;
                     break;
                 }
             }
             if (!isExistingAddress) {
-                address.setPostcode(bookingForm.getPostCode());
-                address.setCity(bookingForm.getCity());
                 address.setAddress(bookingForm.getAddress());
                 addresses.add(address);
             }
@@ -184,7 +179,6 @@ public class BookingService {
         customer.setAccount(account);
 
         Address address = bookingRepository.getOne(id).getAddressForClean();
-        address.setPostcode(bookingDTOAdmin.getPostcode());
         address.setAddress(bookingDTOAdmin.getAddress());
 
         address.setCustomer(customer);

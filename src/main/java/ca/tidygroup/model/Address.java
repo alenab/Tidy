@@ -12,12 +12,6 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @Column(name = "postcode")
-    private String postcode;
-
-    @Column(name = "city")
-    private String city;
-
     @Column(name = "address")
     private String address;
 
@@ -31,22 +25,6 @@ public class Address {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getAddress() {

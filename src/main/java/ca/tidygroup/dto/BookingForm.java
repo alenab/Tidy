@@ -11,13 +11,6 @@ import java.util.List;
 public class BookingForm {
 
     @NotBlank
-    @Size(min = 2, max = 8)
-    private String postCode;
-
-    @NotBlank
-    private String city;
-
-    @NotBlank
     private String address;
 
     @NotBlank
@@ -56,26 +49,6 @@ public class BookingForm {
     private CleaningPlan cleaningPlan;
 
     private String price;
-
-    public BookingForm() {
-        setCity("Vancouver");
-    }
-
-    public String getPostCode() {
-        return postCode;
-    }
-
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 
     public String getAddress() {
         return address;
@@ -192,9 +165,7 @@ public class BookingForm {
     @Override
     public String toString() {
         return "BookingForm{" +
-                "postCode='" + postCode + '\'' +
-                ", city='" + city + '\'' +
-                ", address='" + address + '\'' +
+                "address='" + address + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
