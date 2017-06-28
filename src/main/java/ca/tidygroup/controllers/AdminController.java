@@ -4,21 +4,25 @@ import ca.tidygroup.dto.ApartmentUnitListDTO;
 import ca.tidygroup.dto.BookingDTOAdmin;
 import ca.tidygroup.dto.EmployeeDTO;
 import ca.tidygroup.dto.OptionListDTO;
-import ca.tidygroup.repository.EmployeeRepository;
 import ca.tidygroup.service.AdminService;
 import ca.tidygroup.service.BookingService;
 import ca.tidygroup.service.PricingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.List;
 
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
+
+    private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
     private AdminService adminService;
     private PricingService pricingService;
@@ -93,4 +97,20 @@ public class AdminController {
         return "admin/employee";
     }
 
+    @GetMapping("/employee/add")
+    public String addEmployee(Model model) {
+        model.addAttribute("employee", new EmployeeDTO());
+        return "admin/add_employee";
+    }
+
+    @PostMapping("/employee/save")
+    public String saveEmployee(@Valid @ModelAttribute("employee") EmployeeDTO employeeDTO, Model model, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.warn("There were binding errors at attempt to process employee: {}", bindingResult.getAllErrors());
+            return "book";
+        }
+        adminService.addEmployee(employeeDTO);
+        model.addAttribute("allEmployees", adminService.getAllEmployeeDTO());
+        return "admin/employee";
+    }
 }

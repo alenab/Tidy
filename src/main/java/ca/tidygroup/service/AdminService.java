@@ -2,8 +2,11 @@ package ca.tidygroup.service;
 
 import ca.tidygroup.dto.BookingDTOAdmin;
 import ca.tidygroup.dto.EmployeeDTO;
+import ca.tidygroup.model.Account;
 import ca.tidygroup.model.Booking;
 import ca.tidygroup.model.Employee;
+import ca.tidygroup.model.Role;
+import ca.tidygroup.repository.AccountRepository;
 import ca.tidygroup.repository.BookingRepository;
 import ca.tidygroup.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +22,13 @@ public class AdminService {
 
     private BookingRepository bookingRepository;
     private EmployeeRepository employeeRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    public AdminService(BookingRepository bookingRepository, EmployeeRepository employeeRepository) {
+    public AdminService(BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository) {
         this.bookingRepository = bookingRepository;
         this.employeeRepository = employeeRepository;
+        this.accountRepository = accountRepository;
     }
 
     @Transactional
@@ -84,6 +89,34 @@ public class AdminService {
             resultList.add(employeeDTO);
         }
         return resultList;
+    }
+
+    @Transactional
+    public void addEmployee(EmployeeDTO employeeDTO) {
+        if (accountRepository.findAccountByEmail(employeeDTO.getEmail()) == null) {
+
+            Account account = new Account();
+            account.setEmail(employeeDTO.getEmail());
+            account.setLogin(employeeDTO.getEmail());
+            account.setUserRole(Role.EMPLOYEE);
+            accountRepository.save(account);
+
+            Employee employee = new Employee();
+            employee.setFirstName(employeeDTO.getFirstName());
+            employee.setLastName(employeeDTO.getLastName());
+            employee.setPhoneNumber(employeeDTO.getPhoneNumber());
+            employee.setRate(employeeDTO.getRate());
+            employee.setAccount(account);
+            employeeRepository.save(employee);
+
+        } else {
+            employeeRepository.findEmployeeByAccount(accountRepository.findAccountByEmail(employeeDTO.getEmail()));
+            // propose to correct employee
+        }
+
+
+
+
     }
 
 }
