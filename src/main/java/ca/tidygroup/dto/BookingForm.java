@@ -13,6 +13,8 @@ public class BookingForm {
     @NotBlank
     private String address;
 
+    private String aptNumber;
+
     @NotBlank
     private String firstName;
 
@@ -56,6 +58,14 @@ public class BookingForm {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getAptNumber() {
+        return aptNumber;
+    }
+
+    public void setAptNumber(String aptNumber) {
+        this.aptNumber = aptNumber;
     }
 
     public String getFirstName() {

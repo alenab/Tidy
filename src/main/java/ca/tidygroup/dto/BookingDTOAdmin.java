@@ -28,6 +28,8 @@ public class BookingDTOAdmin {
 
     private String address;
 
+    private String aptNumber;
+
     private String firstName;
 
     private String lastName;
@@ -114,6 +116,14 @@ public class BookingDTOAdmin {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getAptNumber() {
+        return aptNumber;
+    }
+
+    public void setAptNumber(String aptNumber) {
+        this.aptNumber = aptNumber;
     }
 
     public String getFirstName() {
