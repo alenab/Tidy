@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head data-th-include="fragments/head :: head">
+    <title>employee</title>
+</head>
+<body>
+<div class="container">
+    <a href="/">
+        <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+    </a>
+
+    <!--/*@thymesVar id="employee" type="ca.tidygroup.dto.EmployeeDTO"*/-->
+    <form method="post" data-th-action="@{/admin/employee/save}" data-th-object="${employee}">
+        <label class="control-label">First name</label>
+        <input class="form-control" type="text" data-th-field="*{firstName}" required="required"/>
+        <span class="help-block" data-th-errors="*{firstName}">error</span>
+
+        <label class="control-label">Last name</label>
+        <input class="form-control" type="text" data-th-field="${employee.lastName}"
+               required="required"/>
+        <span class="help-block" data-th-errors="${employee.lastName}">error</span>
+
+        <label class="control-label">Email</label>
+        <input class="form-control" type="email" data-th-field="${employee.email}"
+               required="required"/>
+        <span class="help-block" data-th-errors="${employee.email}">error</span>
+
+        <label class="control-label">Phone</label>
+        <input class="form-control" type="number" data-th-field="${employee.phoneNumber}"
+               required="required"/>
+        <span class="help-block" data-th-errors="${employee.phoneNumber}">error</span>
+
+        <label class="control-label">Rate</label>
+        <input class="form-control" type="number" data-th-field="${employee.rate}"
+               required="required"/>
+        <span class="help-block" data-th-errors="${employee.rate}">error</span>
+
+        <input type="submit"/>
+    </form>
+
+</div>
+</body>
+</html>
