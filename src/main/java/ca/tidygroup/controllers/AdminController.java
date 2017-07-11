@@ -82,6 +82,7 @@ public class AdminController {
         model.addAttribute("allOptions", bookingService.getAllCleaningOptions());
         model.addAttribute("allPlans", bookingService.getAllCleaningPlans());
         model.addAttribute("allBedrooms", bookingService.getListOfBedrooms());
+        model.addAttribute("employees", adminService.getEmployees());
         return "admin/change_booking";
     }
 
@@ -107,10 +108,30 @@ public class AdminController {
     public String saveEmployee(@Valid @ModelAttribute("employee") EmployeeDTO employeeDTO, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.warn("There were binding errors at attempt to process employee: {}", bindingResult.getAllErrors());
-            return "book";
+            return "admin/employee";
         }
         adminService.addEmployee(employeeDTO);
         model.addAttribute("allEmployees", adminService.getAllEmployeeDTO());
-        return "admin/employee";
+        return "redirect:/admin/employee";
     }
+
+    @GetMapping("/employee/{id}")
+    public String changeEmployee(@PathVariable("id") long id, Model model) {
+        EmployeeDTO employeeDTO = adminService.getEmployeeById(id);
+        model.addAttribute("employee", employeeDTO);
+        return "admin/change_employee";
+    }
+
+    @PostMapping("/employee/{id}/save")
+    public String saveChangesOfEmployee(@PathVariable("id") long id, EmployeeDTO employeeDTO) {
+        adminService.updateEmployee(id, employeeDTO);
+        return "redirect:/admin/employee";
+    }
+
+    @PostMapping("/employee/{id}/delete")
+    public String deleteEmployee(@PathVariable("id") long id) {
+        adminService.deleteEmployee(id);
+        return "redirect:/admin/employee";
+    }
+
 }

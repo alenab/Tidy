@@ -9,4 +9,5 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     List<Employee> findAllEmployeeByActive(boolean isActive);
     Employee findEmployeeByAccount(Account account);
+    Employee getEmployeeById(long id);
 }

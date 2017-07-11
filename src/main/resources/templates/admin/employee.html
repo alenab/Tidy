@@ -24,10 +24,27 @@
             <td data-th-text="${employee.email}"></td>
             <td data-th-text="${employee.phoneNumber}"></td>
             <td data-th-text="${employee.rate}"></td>
+            <td>
+                <a data-th-href="@{employee/{eId}(eId=${employee.id})}">
+                    <button type="button" th:class="btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </a>
+            </td>
+            <td>
+                <form method="post" data-th-action="@{/admin/employee/{eid}/delete(eid=${employee.id})}"
+                      data-th-object="${employee}">
+                    <button type="submit" th:class="btn-default">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </form>
+            </td>
         </tr>
     </table>
 
-    <a data-th-href="@{employee/add}"><button th:class="btn-info">add employee</button> </a>
+    <a data-th-href="@{/admin/employee/add}">
+        <button th:class="btn-info">add employee</button>
+    </a>
 </div>
 </body>
 </html>

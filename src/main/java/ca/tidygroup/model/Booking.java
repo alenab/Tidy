@@ -22,9 +22,8 @@ public class Booking {
     @JoinColumn(name="customer_id")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @Column(name = "employee_id")
+    private Long employeeId;
 
     @Column(name = "rooms_number")
     private int numberOfRooms;
@@ -88,12 +87,12 @@ public class Booking {
         this.customer = customer;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public int getNumberOfRooms() {

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head data-th-include="fragments/head :: head">
+    <title>options_prices</title>
+</head>
+<body>
+<div class="container">
+    <a href="/">
+        <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+    </a>
+    <!--/*@thymesVar id="employee" type="ca.tidygroup.dto.EmployeeDTO"*/-->
+    <form method="post" data-th-action="@{/admin/employee/{eid}/save(eid=${employee.id})}"
+    data-th-object="${employee}">
+        <label class="control-label">First name</label>
+        <input class="form-control" type="text" data-th-field="${employee.firstName}" placeholder="First name"
+               required="required"/>
+        <span class="help-block" data-th-errors="${employee.firstName}">error</span>
+
+        <label class="control-label">Last name</label>
+        <input class="form-control" type="text" data-th-field="${employee.lastName}" placeholder="Last name"
+               required="required"/>
+        <span class="help-block" data-th-errors="${employee.lastName}">error</span>
+
+        <label class="control-label">email</label>
+        <input class="form-control" type="text" data-th-field="${employee.email}" placeholder="email"
+               required="required"/>
+        <span class="help-block" data-th-errors="${employee.email}">error</span>
+
+        <label class="control-label">Phone number</label>
+        <input class="form-control" type="number" data-th-field="${employee.phoneNumber}" placeholder="Phone number"
+               required="required"/>
+        <span class="help-block" data-th-errors="${employee.phoneNumber}">error</span>
+
+        <label class="control-label">Rate</label>
+        <input class="form-control" type="number" data-th-field="${employee.rate}" placeholder="Rate"
+               required="required"/>
+        <span class="help-block" data-th-errors="${employee.rate}">error</span>
+
+        <input type="submit"/>
+
+    </form>
+</div>
+</body>
+</html>

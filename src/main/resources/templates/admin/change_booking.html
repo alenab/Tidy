@@ -15,7 +15,8 @@
         <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
     </a>
     <!--/*@thymesVar id="adminBooking" type="ca.tidygroup.dto.BookingDTOAdmin"*/-->
-    <form method="post" data-th-action="@{/admin/bookings/{bid}/save(bid=${adminBooking.id})}" data-th-object="${adminBooking}">
+    <form method="post" data-th-action="@{/admin/bookings/{bid}/save(bid=${adminBooking.id})}"
+          data-th-object="${adminBooking}">
         <div th:class="row">
             <div th:class="col-md-4">
                 <select class="form-control" data-th-field="*{cleaningPlan}">
@@ -26,13 +27,13 @@
                     </th:block>
                 </select>
                 <br/>
-                    <select class="form-control" data-th-field="*{numberOfRooms}">
-                        <!--/*@thymesVar id="allBedrooms" type="java.util.List<java.lang.Integer>"*/-->
-                        <th:block th:each="numberOfBedroom : ${allBedrooms}">
-                            <option data-th-id="${{numberOfBedroom}}" data-th-value="${{numberOfBedroom}}"
-                                    data-th-text="${numberOfBedroom}"></option>
-                        </th:block>
-                    </select>
+                <select class="form-control" data-th-field="*{numberOfRooms}">
+                    <!--/*@thymesVar id="allBedrooms" type="java.util.List<java.lang.Integer>"*/-->
+                    <th:block th:each="numberOfBedroom : ${allBedrooms}">
+                        <option data-th-id="${{numberOfBedroom}}" data-th-value="${{numberOfBedroom}}"
+                                data-th-text="${numberOfBedroom}"></option>
+                    </th:block>
+                </select>
                 <span class="help-block" data-th-errors="${adminBooking.numberOfRooms}">error</span>
                 <br/>
 
@@ -75,8 +76,8 @@
                 <span class="help-block" data-th-errors="${adminBooking.address}">error</span>
 
                 <label class="control-label">Apt. Number</label>
-                <input class="form-control" type="text" data-th-field="${adminBooking.aptNumber}" placeholder="Apt. Number"
-                       required="required"/>
+                <input class="form-control" type="text" data-th-field="${adminBooking.aptNumber}"
+                       placeholder="Apt. Number"/>
                 <span class="help-block" data-th-errors="${adminBooking.aptNumber}">error</span>
 
                 <label class="control-label">First name</label>
@@ -108,6 +109,26 @@
                 <label class="control-label">Discount</label>
                 <input class="form-control" type="number" data-th-field="${adminBooking.discount}"/>
                 <span class="help-block" data-th-errors="${adminBooking.discount}">error</span>
+
+
+                <label class="control-label">Employee</label>
+                <select class="form-control" data-th-field="${adminBooking.employeeId}">
+                    <!--/*@thymesVar id="employees" type="java.util.List<ca.tidygroup.model.Employee>"*/-->
+                    <option value=""></option>
+                    <th:block th:each="empl : ${employees}">
+                        <option data-th-if="${empl.id == adminBooking.employeeId}"
+                                data-th-value="${empl.id}"
+                                data-th-text="|${empl.firstName} ${empl.lastName}|"
+                                selected="selected"></option>
+                        <option data-th-if="${empl.id != adminBooking.employeeId}"
+                                data-th-value="${empl.id}"
+                                data-th-text="|${empl.firstName} ${empl.lastName}|"></option>
+                    </th:block>
+                </select>
+
+                <label class="control-label">Duration</label>
+                <input class="form-control" type="number" data-th-field="${adminBooking.duration}"/>
+                <span class="help-block" data-th-errors="${adminBooking.duration}">error</span>
 
             </div>
 

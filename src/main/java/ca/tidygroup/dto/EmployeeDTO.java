@@ -3,6 +3,8 @@ package ca.tidygroup.dto;
 
 public class EmployeeDTO {
 
+    private long id;
+
     private String firstName;
 
     private String lastName;
@@ -12,6 +14,14 @@ public class EmployeeDTO {
     private String email;
 
     private double rate;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;

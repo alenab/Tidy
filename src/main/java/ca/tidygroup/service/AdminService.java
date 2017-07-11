@@ -2,13 +2,12 @@ package ca.tidygroup.service;
 
 import ca.tidygroup.dto.BookingDTOAdmin;
 import ca.tidygroup.dto.EmployeeDTO;
-import ca.tidygroup.model.Account;
-import ca.tidygroup.model.Booking;
-import ca.tidygroup.model.Employee;
-import ca.tidygroup.model.Role;
+import ca.tidygroup.model.*;
 import ca.tidygroup.repository.AccountRepository;
 import ca.tidygroup.repository.BookingRepository;
 import ca.tidygroup.repository.EmployeeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +19,7 @@ import java.util.List;
 @Service
 public class AdminService {
 
+    private static final Logger log = LoggerFactory.getLogger(AdminService.class);
     private BookingRepository bookingRepository;
     private EmployeeRepository employeeRepository;
     private AccountRepository accountRepository;
@@ -62,6 +62,8 @@ public class AdminService {
         bookingDTOAdmin.setDiscount(booking.getDiscountPercent());
         bookingDTOAdmin.setPrice(booking.getPrice());
         bookingDTOAdmin.setFinalPrice(getFinalPrice(booking));
+        bookingDTOAdmin.setEmployeeId(booking.getEmployeeId());
+        bookingDTOAdmin.setDuration(booking.getDuration());
         return bookingDTOAdmin;
     }
 
@@ -75,12 +77,18 @@ public class AdminService {
         return getBookingDTO(bookingRepository.getOne(id));
     }
 
-    @Transactional
-    public List<EmployeeDTO> getAllEmployeeDTO () {
-        List<Employee> employees = employeeRepository.findAllEmployeeByActive(true);
+    @Transactional(readOnly = true)
+    public List<Employee> getEmployees() {
+        return employeeRepository.findAllEmployeeByActive(true);
+    }
+
+    @Transactional(readOnly = true)
+    public List<EmployeeDTO> getAllEmployeeDTO() {
+        List<Employee> employees = getEmployees();
         List<EmployeeDTO> resultList = new ArrayList<>();
         for (Employee employee : employees) {
             EmployeeDTO employeeDTO = new EmployeeDTO();
+            employeeDTO.setId(employee.getId());
             employeeDTO.setFirstName(employee.getFirstName());
             employeeDTO.setLastName(employee.getLastName());
             employeeDTO.setEmail(employee.getAccount().getEmail());
@@ -113,8 +121,46 @@ public class AdminService {
         } else {
             Employee employee = employeeRepository.findEmployeeByAccount(accountRepository.findAccountByEmail(employeeDTO.getEmail()));
             if (employee != null) {
-            // propose to correct employee
+                // propose to correct employee
             }
         }
+    }
+
+    public EmployeeDTO getEmployeeById(long id) {
+         Employee employee = employeeRepository.getEmployeeById(id);
+         EmployeeDTO employeeDTO = new EmployeeDTO();
+         employeeDTO.setId(employee.getId());
+         employeeDTO.setFirstName(employee.getFirstName());
+         employeeDTO.setLastName(employee.getLastName());
+         employeeDTO.setEmail(employee.getAccount().getEmail());
+         employeeDTO.setPhoneNumber(employee.getPhoneNumber());
+         employeeDTO.setRate(employee.getRate());
+         return employeeDTO;
+    }
+
+    @Transactional
+    public void updateEmployee(long id, EmployeeDTO employeeDTO) {
+        log.info("Updating employee: {}", employeeDTO);
+
+        Employee employee = employeeRepository.getOne(id);
+
+        Account account = employee.getAccount();
+        account.setEmail(employeeDTO.getEmail());
+        account.setLogin(employeeDTO.getEmail());
+
+        employee.setAccount(account);
+        employee.setFirstName(employeeDTO.getFirstName());
+        employee.setLastName(employeeDTO.getLastName());
+        employee.setPhoneNumber(employeeDTO.getPhoneNumber());
+        employee.setRate(employeeDTO.getRate());
+        employeeRepository.save(employee);
+
+    }
+
+    @Transactional
+    public void deleteEmployee(long id) {
+        Employee employee = employeeRepository.getEmployeeById(id);
+        employee.setActive(false);
+        employeeRepository.save(employee);
     }
 }

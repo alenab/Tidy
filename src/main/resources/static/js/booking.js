@@ -36,12 +36,16 @@ function updateBathroomsOptions() {
 
     // clean up list of bathroom options in html
     var $bathrooms = $("#numberOfBathrooms");
+    var originallySelected = $bathrooms.find("option:selected").val();
     $bathrooms.find("option").remove();
 
     // forming new list of available options
     $.each(resAr, function (idx, item) {
         var text = item.bathrooms === 1 ? "bathroom" : "bathrooms";
         var $option = $("<option/>").val(item.bathrooms).text(item.bathrooms + " " + text);
+        if (Number(item.bathrooms) === Number(originallySelected)) {
+            $option.attr('selected', 'selected');
+        }
         $bathrooms.append($option);
     });
 }

@@ -133,7 +133,6 @@ public class BookingService {
         }
 
         booking.setPrice(serverPrice);
-        booking.setEmployee(employeeRepository.findAll().get(0));
         bookingRepository.save(booking);
 
         mailingService.sendEmail(bookingForm);
@@ -198,6 +197,9 @@ public class BookingService {
         booking.setCleaningPlan(bookingDTOAdmin.getCleaningPlan());
         booking.setAdditionalOptions(bookingDTOAdmin.getCleaningOptions());
         booking.setPrice(bookingDTOAdmin.getPrice());
+        booking.setEmployeeId(bookingDTOAdmin.getEmployeeId());
+        booking.setDuration(bookingDTOAdmin.getDuration());
         bookingRepository.save(booking);
     }
+
 }

@@ -3,9 +3,6 @@ package ca.tidygroup.dto;
 import ca.tidygroup.model.CleaningOption;
 import ca.tidygroup.model.CleaningPlan;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 public class BookingDTOAdmin {
@@ -43,6 +40,8 @@ public class BookingDTOAdmin {
     private double price;
 
     private double finalPrice;
+
+    private Long employeeId;
 
     private double duration;
 
@@ -182,6 +181,14 @@ public class BookingDTOAdmin {
         this.finalPrice = finalPrice;
     }
 
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
     public double getDuration() {
         return duration;
     }
@@ -202,6 +209,7 @@ public class BookingDTOAdmin {
                 ", cleaningDate='" + cleaningDate + '\'' +
                 ", cleaningTime='" + cleaningTime + '\'' +
                 ", address='" + address + '\'' +
+                ", aptNumber='" + aptNumber + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
@@ -209,6 +217,7 @@ public class BookingDTOAdmin {
                 ", discount=" + discount +
                 ", price=" + price +
                 ", finalPrice=" + finalPrice +
+                ", employee='" + employeeId + '\'' +
                 ", duration=" + duration +
                 '}';
     }
