@@ -53,4 +53,10 @@ public class Address {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    @Override
+    public String toString() {
+        return  address +
+                ", apt.number " + aptNumber;
+    }
 }

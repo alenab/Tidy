@@ -1,10 +1,12 @@
 package ca.tidygroup.service;
 
 import ca.tidygroup.dto.BookingDTOAdmin;
+import ca.tidygroup.dto.CustomerDTO;
 import ca.tidygroup.dto.EmployeeDTO;
 import ca.tidygroup.model.*;
 import ca.tidygroup.repository.AccountRepository;
 import ca.tidygroup.repository.BookingRepository;
+import ca.tidygroup.repository.CustomerRepository;
 import ca.tidygroup.repository.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +25,14 @@ public class AdminService {
     private BookingRepository bookingRepository;
     private EmployeeRepository employeeRepository;
     private AccountRepository accountRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
-    public AdminService(BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository) {
+    public AdminService(BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository) {
         this.bookingRepository = bookingRepository;
         this.employeeRepository = employeeRepository;
         this.accountRepository = accountRepository;
+        this.customerRepository = customerRepository;
     }
 
     @Transactional
@@ -105,8 +109,8 @@ public class AdminService {
         if (accountRepository.findAccountByEmail(employeeDTO.getEmail()) == null) {
 
             Account account = new Account();
-            account.setEmail(employeeDTO.getEmail());
-            account.setLogin(employeeDTO.getEmail());
+            account.setEmail(employeeDTO.getEmail().toLowerCase());
+            account.setLogin(employeeDTO.getEmail().toLowerCase());
             account.setUserRole(Role.EMPLOYEE);
             accountRepository.save(account);
 
@@ -145,8 +149,8 @@ public class AdminService {
         Employee employee = employeeRepository.getOne(id);
 
         Account account = employee.getAccount();
-        account.setEmail(employeeDTO.getEmail());
-        account.setLogin(employeeDTO.getEmail());
+        account.setEmail(employeeDTO.getEmail().toLowerCase());
+        account.setLogin(employeeDTO.getEmail().toLowerCase());
 
         employee.setAccount(account);
         employee.setFirstName(employeeDTO.getFirstName());
@@ -162,5 +166,21 @@ public class AdminService {
         Employee employee = employeeRepository.getEmployeeById(id);
         employee.setActive(false);
         employeeRepository.save(employee);
+    }
+
+    public List<CustomerDTO> getAllCustomersDTO() {
+        List<Customer> list = customerRepository.findAll();
+        List<CustomerDTO> resultList = new ArrayList<>();
+         for (Customer customer : list) {
+            CustomerDTO customerDTO = new CustomerDTO();
+            customerDTO.setId(customer.getId());
+            customerDTO.setFirstName(customer.getFirstName());
+            customerDTO.setLastName(customer.getLastName());
+            customerDTO.setEmail(customer.getAccount().getEmail());
+            customerDTO.setPhoneNumber(customer.getPhoneNumber());
+            customerDTO.setAddresses(customer.getUserAddress());
+            resultList.add(customerDTO);
+        }
+        return resultList;
     }
 }

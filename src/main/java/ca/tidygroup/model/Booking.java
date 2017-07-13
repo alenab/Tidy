@@ -63,6 +63,9 @@ public class Booking {
     @Column(name="duration")
     private double duration;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public long getId() {
         return id;
     }
@@ -181,5 +184,13 @@ public class Booking {
 
     public void setDuration(double duration) {
         this.duration = duration;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

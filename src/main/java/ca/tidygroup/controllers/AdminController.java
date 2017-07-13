@@ -46,7 +46,6 @@ public class AdminController {
         return "admin/bookings";
     }
 
-
     @GetMapping("/prices")
     public String prices(Model model) {
         ApartmentUnitListDTO dto = new ApartmentUnitListDTO();
@@ -132,6 +131,12 @@ public class AdminController {
     public String deleteEmployee(@PathVariable("id") long id) {
         adminService.deleteEmployee(id);
         return "redirect:/admin/employee";
+    }
+
+    @GetMapping("/customer")
+    public String customer(Model model) {
+        model.addAttribute("allCustomers", adminService.getAllCustomersDTO());
+        return "admin/customer";
     }
 
 }

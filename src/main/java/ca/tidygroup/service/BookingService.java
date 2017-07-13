@@ -45,8 +45,12 @@ public class BookingService {
 
     private EmployeeRepository employeeRepository;
 
+    private TimeLimitationsRepository timeLimitationsRepository;
+
+    private WorkingHoursRepository workingHoursRepository;
+
     @Autowired
-    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService, DiscountRepository discountRepository, ApartmentUnitRepository apartmentUnitRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository) {
+    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService, DiscountRepository discountRepository, ApartmentUnitRepository apartmentUnitRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository, TimeLimitationsRepository timeLimitationsRepository, WorkingHoursRepository workingHoursRepository) {
         this.pricingService = pricingService;
         this.bookingRepository = bookingRepository;
         this.addressRepository = addressRepository;
@@ -58,6 +62,8 @@ public class BookingService {
         this.apartmentUnitRepository = apartmentUnitRepository;
         this.customerRepository = customerRepository;
         this.employeeRepository = employeeRepository;
+        this.timeLimitationsRepository = timeLimitationsRepository;
+        this.workingHoursRepository = workingHoursRepository;
     }
 
     @Transactional
@@ -71,9 +77,9 @@ public class BookingService {
         List<Address> addresses = new ArrayList<>();
         Address address = new Address();
 
-        if (accountRepository.findAccountByEmail(bookingForm.getEmail()) == null) {
-            account.setLogin(bookingForm.getEmail());
-            account.setEmail(bookingForm.getEmail());
+        if (accountRepository.findAccountByEmail(bookingForm.getEmail().toLowerCase()) == null) {
+            account.setLogin(bookingForm.getEmail().toLowerCase());
+            account.setEmail(bookingForm.getEmail().toLowerCase());
             account.setUserRole(Role.USER);
             account = accountRepository.save(account);
 
@@ -88,22 +94,40 @@ public class BookingService {
 
 
         } else {
-            account = accountRepository.findAccountByEmail(bookingForm.getEmail());
+            account = accountRepository.findAccountByEmail(bookingForm.getEmail().toLowerCase());
             customer = customerRepository.findCustomerByAccount(account);
-            addresses = customer.getUserAddress();
-            boolean isExistingAddress = false;
-            for(Address addr : addresses) {
-                if (addr.getAddress().toLowerCase().equalsIgnoreCase(bookingForm.getAddress().toLowerCase())) {
-                    address = addr;
-                    isExistingAddress = true;
-                    break;
+            if (customer.getFirstName().equalsIgnoreCase(bookingForm.getFirstName()) &
+                    customer.getLastName().equalsIgnoreCase(bookingForm.getLastName()) &
+                    customer.getPhoneNumber().equals(bookingForm.getPhone())) {
+                addresses = customer.getUserAddress();
+                boolean isExistingAddress = false;
+                for (Address addr : addresses) {
+                    if (addr.getAddress().toLowerCase().equalsIgnoreCase(bookingForm.getAddress().toLowerCase())) {
+                        address = addr;
+                        isExistingAddress = true;
+                        break;
+                    }
                 }
-            }
-            if (!isExistingAddress) {
+                if (!isExistingAddress) {
+                    address.setAddress(bookingForm.getAddress());
+                    addresses.add(address);
+                }
+
+            } else {
+
+                customer = new Customer();
+
+                customer.setFirstName(bookingForm.getFirstName());
+                customer.setLastName(bookingForm.getLastName());
+                customer.setPhoneNumber(bookingForm.getPhone());
+                customer.setAccount(account);
+
                 address.setAddress(bookingForm.getAddress());
+                address.setAptNumber(bookingForm.getAptNumber());
                 addresses.add(address);
             }
         }
+
         customer.setUserAddress(addresses);
         customer = customerRepository.save(customer);
 
@@ -169,9 +193,9 @@ public class BookingService {
         Customer customer = bookingRepository.getOne(id).getCustomer();
 
         // using email as login
-        Account account =customer.getAccount();
-        account.setLogin(bookingDTOAdmin.getEmail());
-        account.setEmail(bookingDTOAdmin.getEmail());
+        Account account = customer.getAccount();
+        account.setLogin(bookingDTOAdmin.getEmail().toLowerCase());
+        account.setEmail(bookingDTOAdmin.getEmail().toLowerCase());
 
         customer.setFirstName(bookingDTOAdmin.getFirstName());
         customer.setLastName(bookingDTOAdmin.getLastName());
@@ -199,6 +223,7 @@ public class BookingService {
         booking.setPrice(bookingDTOAdmin.getPrice());
         booking.setEmployeeId(bookingDTOAdmin.getEmployeeId());
         booking.setDuration(bookingDTOAdmin.getDuration());
+        booking.setStatus(Status.NEW);
         bookingRepository.save(booking);
     }
 
