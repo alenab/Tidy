@@ -141,7 +141,9 @@
 
                     <div class="form-group col-md-6">
                         <label class="control-label">Time of cleaning</label>
-                        <input class="form-control" type="time" data-th-field="*{cleaningTime}" form="bookingForm"/>
+                        <select class="form-control" data-th-field="*{cleaningTime}" form="bookingForm" required="required">
+                            <!-- options populated by js -->
+                        </select>
                         <span class="help-block" data-th-errors="*{cleaningTime}">error</span>
                     </div>
                 </div>
