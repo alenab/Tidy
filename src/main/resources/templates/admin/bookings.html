@@ -32,6 +32,14 @@
                         </button>
                     </a>
                 </td>
+                <td>
+                    <form method="post" data-th-action="@{/admin/booking/{bid}/cancel(bid=${booking.id})}"
+                          data-th-object="${booking}">
+                        <button type="submit" th:class="btn-default">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </form>
+                </td>
             </tr>
         </table>
     </div>

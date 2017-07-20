@@ -3,17 +3,16 @@ package ca.tidygroup.service;
 import ca.tidygroup.dto.BookingDTOAdmin;
 import ca.tidygroup.dto.CustomerDTO;
 import ca.tidygroup.dto.EmployeeDTO;
+import ca.tidygroup.dto.WorkingHoursDTO;
 import ca.tidygroup.model.*;
-import ca.tidygroup.repository.AccountRepository;
-import ca.tidygroup.repository.BookingRepository;
-import ca.tidygroup.repository.CustomerRepository;
-import ca.tidygroup.repository.EmployeeRepository;
+import ca.tidygroup.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +25,21 @@ public class AdminService {
     private EmployeeRepository employeeRepository;
     private AccountRepository accountRepository;
     private CustomerRepository customerRepository;
+    private WorkingHoursRepository workingHoursRepository;
 
     @Autowired
-    public AdminService(BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository) {
+    public AdminService(BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository) {
         this.bookingRepository = bookingRepository;
         this.employeeRepository = employeeRepository;
         this.accountRepository = accountRepository;
         this.customerRepository = customerRepository;
+        this.workingHoursRepository = workingHoursRepository;
     }
 
     @Transactional
     public List<BookingDTOAdmin> getAllBookings() {
         List<BookingDTOAdmin> result = new ArrayList<>();
-        List<Booking> allBookings = bookingRepository.findAll();
+        List<Booking> allBookings = bookingRepository.findAllByStatusNotIn(Status.CANCELLED);
         for (Booking booking : allBookings) {
             BookingDTOAdmin bookingDTOAdmin = getBookingDTO(booking);
             result.add(bookingDTOAdmin);
@@ -182,5 +183,22 @@ public class AdminService {
             resultList.add(customerDTO);
         }
         return resultList;
+    }
+
+    public WorkingHoursDTO getWorkingHoursDTO() {
+        WorkingHoursDTO workingHoursDTO = new WorkingHoursDTO();
+        WorkingHours workingHours = workingHoursRepository.findAll().get(0);
+        workingHoursDTO.setStartTime(workingHours.getStartTime().toString());
+        workingHoursDTO.setEndTime(workingHours.getEndTime().toString());
+        workingHoursDTO.setStep(((Integer)workingHours.getStep()).toString());
+        return workingHoursDTO;
+    }
+
+    public void updateWorkingHours(WorkingHoursDTO workingHoursDTO) {
+        WorkingHours workingHours = workingHoursRepository.findAll().get(0);
+        workingHours.setStartTime(LocalTime.parse(workingHoursDTO.getStartTime()));
+        workingHours.setEndTime(LocalTime.parse(workingHoursDTO.getEndTime()));
+        workingHours.setStep((int) Integer.parseInt(workingHoursDTO.getStep()));
+        workingHoursRepository.save(workingHours);
     }
 }

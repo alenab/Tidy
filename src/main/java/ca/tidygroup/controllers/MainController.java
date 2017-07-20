@@ -1,9 +1,11 @@
 package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.BookingForm;
+import ca.tidygroup.dto.Message;
 import ca.tidygroup.model.Account;
 import ca.tidygroup.model.Discount;
 import ca.tidygroup.service.BookingService;
+import ca.tidygroup.service.MailingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +31,12 @@ public class MainController {
 
     private BookingService bookingService;
 
+    private MailingService mailingService;
+
     @Autowired
-    public MainController(BookingService bookingService) {
+    public MainController(BookingService bookingService, MailingService mailingService) {
         this.bookingService = bookingService;
+        this.mailingService = mailingService;
     }
 
     @ModelAttribute
@@ -42,10 +47,17 @@ public class MainController {
         model.addAttribute("allBedrooms", bookingService.getListOfBedrooms());
         model.addAttribute("discount", new Discount());
         model.addAttribute("googleApiKey", googleApiKey);
+        model.addAttribute("message", new Message());
     }
 
     @GetMapping("/")
     public String index() {
+        return "index";
+    }
+
+    @PostMapping("/send-message")
+    public String sendMessage(Message message) {
+        mailingService.sendEmailMessage(message);
         return "index";
     }
 
@@ -88,7 +100,6 @@ public class MainController {
         bookingService.add(booking);
         return "thankyou";
     }
-
 
     @PostMapping("/applyActivationCode")
     public String applyActivationCode(@ModelAttribute("discount") Discount discount,

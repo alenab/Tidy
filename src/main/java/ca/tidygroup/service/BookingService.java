@@ -11,10 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +40,12 @@ public class BookingService {
 
     private CustomerRepository customerRepository;
 
-    private EmployeeRepository employeeRepository;
-
     private TimeLimitationsRepository timeLimitationsRepository;
 
     private WorkingHoursRepository workingHoursRepository;
 
     @Autowired
-    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService, DiscountRepository discountRepository, ApartmentUnitRepository apartmentUnitRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository, TimeLimitationsRepository timeLimitationsRepository, WorkingHoursRepository workingHoursRepository) {
+    public BookingService(PricingService pricingService, BookingRepository bookingRepository, AddressRepository addressRepository, AccountRepository accountRepository, OptionRepository optionRepository, CleaningPlanRepository cleaningPlanRepository, MailingService mailingService, DiscountRepository discountRepository, ApartmentUnitRepository apartmentUnitRepository, CustomerRepository customerRepository, TimeLimitationsRepository timeLimitationsRepository, WorkingHoursRepository workingHoursRepository) {
         this.pricingService = pricingService;
         this.bookingRepository = bookingRepository;
         this.addressRepository = addressRepository;
@@ -61,7 +56,6 @@ public class BookingService {
         this.discountRepository = discountRepository;
         this.apartmentUnitRepository = apartmentUnitRepository;
         this.customerRepository = customerRepository;
-        this.employeeRepository = employeeRepository;
         this.timeLimitationsRepository = timeLimitationsRepository;
         this.workingHoursRepository = workingHoursRepository;
     }
@@ -157,6 +151,7 @@ public class BookingService {
         }
 
         booking.setPrice(serverPrice);
+        booking.setStatus(Status.NEW);
         bookingRepository.save(booking);
 
         mailingService.sendEmail(bookingForm);
@@ -225,6 +220,46 @@ public class BookingService {
         booking.setDuration(bookingDTOAdmin.getDuration());
         booking.setStatus(Status.NEW);
         bookingRepository.save(booking);
+    }
+
+    public void cancelledBooking (Long id) {
+        Booking booking = bookingRepository.findOne(id);
+        booking.setStatus(Status.CANCELLED);
+        bookingRepository.save(booking);
+
+    }
+
+    public List<LocalTime> getFreeTime(LocalDate date) {
+        List<LocalTime> resultList = new ArrayList<>();
+        WorkingHours workingHours = workingHoursRepository.findAll().get(0);
+        LocalTime startHour = workingHours.getStartTime();
+        LocalTime endHour = workingHours.getEndTime();
+        long hours = Duration.between(startHour, endHour).abs().toHours();
+        for (int i = 0; i < hours; i++) {
+            resultList.add(startHour.plusHours(i));
+        }
+
+        List<TimeLimitations> timeLimitations = timeLimitationsRepository.findAllByDate(date);
+        for (TimeLimitations limit : timeLimitations) {
+            LocalTime start = limit.getStartTime();
+            LocalTime end = limit.getEndTime();
+            long limitHours = Duration.between(start, end).abs().toHours();
+            for (int i = 0; i < limitHours; i++) {
+                resultList.remove(start.plusHours(i));
+            }
+        }
+
+        List<Booking> bookingsList = bookingRepository.findAllByCleaningTimeBetween(
+                date.atStartOfDay().atZone(ZoneId.systemDefault()), date.atTime(23, 59, 59).atZone(ZoneId.systemDefault()));
+        for(Booking booking : bookingsList) {
+            LocalTime bookingStart = booking.getCleaningTime().toLocalTime();
+            int step = workingHours.getStep();
+            for (int i = 0; i < step; i++) {
+                resultList.remove(bookingStart.plusHours(i));
+            }
+        }
+
+        return resultList;
     }
 
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head data-th-include="fragments/head :: head">
+    <title>working_hours</title>
+</head>
+<body>
+<div class="container">
+    <a href="/">
+        <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+    </a>
+    <!--/*@thymesVar id="workingHoursDTO" type="ca.tidygroup.dto.WorkingHoursDTO"*/-->
+    <form th:action="@{/admin/working_hours-save}" method="post" data-th-object="${workingHoursDTO}">
+
+        <div class="form-group col-md-6">
+            <label class="control-label">Start working day at</label>
+            <input class="form-control" type="time" data-th-field="*{startTime}"
+                   required="required"/>
+            <span class="help-block" data-th-errors="*{startTime}">error</span>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label class="control-label">Finish working day at</label>
+            <input class="form-control" type="time" data-th-field="*{endTime}"
+                   required="required"/>
+            <span class="help-block" data-th-errors="*{endTime}">error</span>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label class="control-label">Booking window</label>
+            <input class="form-control" type="number" data-th-field="*{step}"
+                   required="required"/>
+            <span class="help-block" data-th-errors="*{step}">error</span>
+        </div>
+
+        <input class="btn-info form-control" type="submit"/>
+
+    </form>
+</div>
+</body>
+</html>

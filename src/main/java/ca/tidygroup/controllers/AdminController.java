@@ -1,9 +1,6 @@
 package ca.tidygroup.controllers;
 
-import ca.tidygroup.dto.ApartmentUnitListDTO;
-import ca.tidygroup.dto.BookingDTOAdmin;
-import ca.tidygroup.dto.EmployeeDTO;
-import ca.tidygroup.dto.OptionListDTO;
+import ca.tidygroup.dto.*;
 import ca.tidygroup.service.AdminService;
 import ca.tidygroup.service.BookingService;
 import ca.tidygroup.service.PricingService;
@@ -91,6 +88,12 @@ public class AdminController {
         return "redirect:/admin/bookings";
     }
 
+    @PostMapping("/booking/{id}/cancel")
+    public String cancelBooking(@PathVariable("id") long id) {
+        bookingService.cancelledBooking(id);
+        return "redirect:/admin/bookings";
+    }
+
     @GetMapping("/employee")
     public String employees(Model model) {
         model.addAttribute("allEmployees", adminService.getAllEmployeeDTO());
@@ -137,6 +140,18 @@ public class AdminController {
     public String customer(Model model) {
         model.addAttribute("allCustomers", adminService.getAllCustomersDTO());
         return "admin/customer";
+    }
+
+    @GetMapping("/working_hours")
+    public String workingHours(Model model) {
+        model.addAttribute("workingHoursDTO", adminService.getWorkingHoursDTO());
+        return "admin/working_hours";
+    }
+
+    @PostMapping("/working_hours-save")
+    public String saveWorkingHours(@ModelAttribute("workingHoursDTO")WorkingHoursDTO workingHoursDTO) {
+        adminService.updateWorkingHours(workingHoursDTO);
+        return "redirect:/admin/working_hours";
     }
 
 }

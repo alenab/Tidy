@@ -18,6 +18,9 @@ public class WorkingHours {
     @Column(name = "end_time")
     private LocalTime endTime;
 
+    @Column(name = "step")
+    private int step;
+
     public long getId() {
         return id;
     }
@@ -40,5 +43,13 @@ public class WorkingHours {
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+
+    public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
     }
 }

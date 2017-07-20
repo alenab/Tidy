@@ -18,21 +18,29 @@
                 <span>We love hearing from you. Use the contact form to reach out and we’ll get back to you right
                     away.<br/><br/>We’re a social bunch! Join us:</span>
                 <div class="social_networks">
-                   <a href="https://www.facebook.com/tidygroup/?fref=hovercard"><img data-th-src="@{/images/f_icon.png}" src="../../static/images/f_icon.png"/></a>
-                    <a href="https://www.instagram.com/tidyvancouver/"><img data-th-src="@{/images/ins_icon.png}" src="../../static/images/ins_icon.png"/></a>
-                    <a href="https://twitter.com/TidyVancouver"><img data-th-src="@{/images/twitter_icon.png}" src="../../static/images/twitter_icon.png"/></a>
+                    <a href="https://www.facebook.com/tidygroup/?fref=hovercard"><img
+                            data-th-src="@{/images/f_icon.png}" src="../../static/images/f_icon.png"/></a>
+                    <a href="https://www.instagram.com/tidyvancouver/"><img data-th-src="@{/images/ins_icon.png}"
+                                                                            src="../../static/images/ins_icon.png"/></a>
+                    <a href="https://twitter.com/TidyVancouver"><img data-th-src="@{/images/twitter_icon.png}"
+                                                                     src="../../static/images/twitter_icon.png"/></a>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
+                <!--/*@thymesVar id="message" type="ca.tidygroup.dto.Message"*/-->
+                <form class="form-group" method="post" data-th-action="@{/send-message}"
+                      data-th-object="${message}">
                     <div class="form-group-sm">
-                        <input class="form-control" type="text" name="name" placeholder="Name"/>
-                        <input class="form-control" type="email" name="email" placeholder="Email"/>
-                        <input class="form-control" type="text" name="subject" placeholder="Subject"/>
-                        <textarea class="form-control" name="message" placeholder="Message" rows="7"></textarea>
+                        <input class="form-control" type="text" name="name" data-th-field="${message.name}" placeholder="Name"/>
+                        <input class="form-control" type="email" name="email" data-th-field="${message.email}"
+                               placeholder="Email"/>
+                        <input class="form-control" type="text" name="subject" data-th-field="${message.subject}"
+                               placeholder="Subject"/>
+                        <textarea class="form-control" name="message" placeholder="Message" rows="7"
+                                  data-th-field="${message.message}"></textarea>
                         <input class="btn btn-feedback" type="submit" value="Click to send"/>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
