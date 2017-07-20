@@ -1,7 +1,10 @@
 .idea
 *.iml
 target
-**/static/**
+**/static/css/**
+**/static/fonts/**
+**/static/images/**
+**/static/less/**
 
 application-dev.properties
 application-prod.properties
