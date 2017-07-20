@@ -7,12 +7,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("/api")
 @RestController
@@ -37,14 +40,10 @@ public class ApiController {
         return pricingService.getAllApartmentUnits();
     }
 
-    @GetMapping("/getFreeTime/{date}")
-    public List<String> getFreeTime(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    LocalDate date) {
-        List<LocalTime> timesList =  bookingService.getFreeTime(date);
-        List<String> result = new ArrayList<>();
-        for(LocalTime time : timesList) {
-            result.add(time.toString());
-        }
-        return result;
+    @GetMapping("/free-time/{date}")
+    public List<String> getFreeTime(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return bookingService.getFreeTime(date).stream()
+                .map(time -> time.format(DateTimeFormatter.ofPattern("HH:mm")))
+                .collect(Collectors.toList());
     }
 }

@@ -16,7 +16,20 @@ $(function () {
 
     $('input[type="checkbox"]').on('change', function () {
         updatePrice();
-    })
+    });
+
+    $('#cleaningDate').on('change', function () {
+        var $cleaningTime = $('#cleaningTime');
+        $cleaningTime.find('option').remove();
+
+        var cleaningDate = $('#cleaningDate').val();
+        $.get('/api/free-time/' + cleaningDate, function (data) {
+            $.each(data, function (idx, item) {
+                var $option = $("<option/>").val(item).text(item);
+                $cleaningTime.append($option);
+            });
+        });
+    });
 });
 
 function getPrice(planId, rooms, baths) {

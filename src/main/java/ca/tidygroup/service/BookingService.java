@@ -235,7 +235,7 @@ public class BookingService {
         LocalTime startHour = workingHours.getStartTime();
         LocalTime endHour = workingHours.getEndTime();
         long hours = Duration.between(startHour, endHour).abs().toHours();
-        for (int i = 0; i < hours; i++) {
+        for (int i = 0; i < hours; i+= workingHours.getStep()) {
             resultList.add(startHour.plusHours(i));
         }
 
@@ -249,8 +249,7 @@ public class BookingService {
             }
         }
 
-        List<Booking> bookingsList = bookingRepository.findAllByCleaningTimeBetween(
-                date.atStartOfDay().atZone(ZoneId.systemDefault()), date.atTime(23, 59, 59).atZone(ZoneId.systemDefault()));
+        List<Booking> bookingsList = getBookingsForDate(date);
         for(Booking booking : bookingsList) {
             LocalTime bookingStart = booking.getCleaningTime().toLocalTime();
             int step = workingHours.getStep();
@@ -262,4 +261,9 @@ public class BookingService {
         return resultList;
     }
 
+    private List<Booking> getBookingsForDate(LocalDate date) {
+        ZonedDateTime dayStart = date.atStartOfDay().atZone(ZoneId.systemDefault());
+        ZonedDateTime dayEnd = date.atTime(23, 59, 59).atZone(ZoneId.systemDefault());
+        return bookingRepository.findAllByCleaningTimeBetween(dayStart, dayEnd);
+    }
 }
