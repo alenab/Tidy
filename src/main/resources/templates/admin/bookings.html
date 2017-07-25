@@ -19,6 +19,8 @@
                 <th>Customer</th>
                 <th>Address</th>
                 <th>Final Price</th>
+                <th>Status</th>
+                <th>Options</th>
             </tr>
             <!--/*@thymesVar id="allBookings" type="java.util.List<ca.tidygroup.dto.BookingDTOAdmin>"*/-->
             <tr th:each="booking: ${allBookings}">
@@ -26,17 +28,25 @@
                 <td th:text="|${booking.firstName} ${booking.lastName}|"></td>
                 <td th:text="|${booking.address}, apt ${booking.aptNumber}|"></td>
                 <td th:text="|${booking.finalPrice}|"></td>
+                <td data-th-text="${booking.status}"></td>
                 <td>
+                    <form method="post" data-th-action="@{/admin/billing/bill}">
+                        <input type="hidden" name="billingCustomerId" data-th-value="${booking.billingCustomerId}"/>
+                        <input type="hidden" name="price" data-th-value="${booking.finalPrice}"/>
+                        <button type="submit" class="btn-default">
+                            <span class="glyphicon glyphicon-usd"></span>
+                        </button>
+                    </form>
+
                     <a data-th-href="@{bookings/{bId}(bId=${booking.id})}">
-                        <button type="button" th:class="btn-default">
+                        <button class="btn-default">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
                     </a>
-                </td>
-                <td>
+
                     <form method="post" data-th-action="@{/admin/booking/{bid}/cancel(bid=${booking.id})}"
                           data-th-object="${booking}">
-                        <button type="submit" th:class="btn-default">
+                        <button type="submit" class="btn-default">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
                     </form>

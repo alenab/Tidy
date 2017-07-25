@@ -28,6 +28,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Address> userAddress;
 
+    @Column(name = "billing_customer_id")
+    private String billingCustomerId;
+
     public long getId() {
         return id;
     }
@@ -74,5 +77,13 @@ public class Customer {
 
     public void setUserAddress(List<Address> userAddress) {
         this.userAddress = userAddress;
+    }
+
+    public String getBillingCustomerId() {
+        return billingCustomerId;
+    }
+
+    public void setBillingCustomerId(String billingCustomerId) {
+        this.billingCustomerId = billingCustomerId;
     }
 }

@@ -52,6 +52,8 @@ public class BookingForm {
 
     private String price;
 
+    private String nonce;
+
     public String getAddress() {
         return address;
     }
@@ -170,6 +172,14 @@ public class BookingForm {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getNonce() {
+        return nonce;
+    }
+
+    public void setNonce(String nonce) {
+        this.nonce = nonce;
     }
 
     @Override

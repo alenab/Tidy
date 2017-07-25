@@ -8,6 +8,7 @@ import com.squareup.connect.api.LocationsApi;
 import com.squareup.connect.api.TransactionsApi;
 import com.squareup.connect.auth.OAuth;
 import com.squareup.connect.models.*;
+import com.squareup.connect.models.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,11 +73,11 @@ public class BillingService {
     /*
      * returns customer id
      */
-    public String createCustomer(String email, long tidyCustomerId) {
+    public String createCustomer(String email, long tidyAccountId) {
         CreateCustomerRequest request = new CreateCustomerRequest();
         try {
             CreateCustomerResponse response = customersApi.createCustomer(request.emailAddress(email)
-                    .referenceId(String.valueOf(tidyCustomerId)));
+                    .referenceId(String.valueOf(tidyAccountId)));
             // todo handle errors
             return response.getCustomer().getId();
         } catch (ApiException e) {
@@ -109,6 +110,47 @@ public class BillingService {
             log.error("Error at attempt to list customers", e);
         }
         return Collections.emptyList();
+    }
+
+    public Customer getCustomer(String customerId) {
+        try {
+            RetrieveCustomerResponse response = customersApi.retrieveCustomer(customerId);
+            List<Error> errors = response.getErrors();
+            if (errors.size() > 0) {
+                log.warn("Errors in response at attempt to get customer: {}. Errors: {}", customerId, errors);
+            }
+            return response.getCustomer();
+        } catch (ApiException e) {
+            log.error("Error at attempt to get customer", e);
+        }
+        return null;
+    }
+
+    public String bill(double amount, String customerId) {
+        ChargeRequest body = new ChargeRequest();
+
+        Money money = new Money();
+        money.currency(Money.CurrencyEnum.CAD);
+        money.amount((long) (amount * 100)); // amount is set in cents
+        body.amountMoney(money);
+
+        // unique key associated with transaction, could be safely use to retry transaction and avoid double payment
+        String idempotencyKey = UUID.randomUUID().toString();
+        body.idempotencyKey(idempotencyKey);
+
+        body.customerId(customerId);
+        String customerCardId = getCustomerCardId(customerId);
+        body.customerCardId(customerCardId);
+        body.buyerEmailAddress(getCustomer(customerId).getEmailAddress());
+
+        log.debug("Going to charge customer: {} with card: {}. Amount: {}", customerId, customerCardId, amount);
+        try {
+            // todo handle errors
+            return transactionsApi.charge(getLocationId(), body).getTransaction().getId();
+        } catch (ApiException e) {
+            log.error("Error during charging", e);
+        }
+        return "null"; // fixme
     }
 
     public String charge(long amount, String email) {
@@ -210,5 +252,19 @@ public class BillingService {
             log.error("Error during listing transactions", e);
         }
         return Collections.emptyList();
+    }
+
+    public Transaction getTransaction(String transactionId) {
+        try {
+            RetrieveTransactionResponse response = transactionsApi.retrieveTransaction(getLocationId(), transactionId);
+            List<Error> errors = response.getErrors();
+            if (errors.size() > 0) {
+                log.warn("Errors in response: {}", errors);
+            }
+            return response.getTransaction();
+        } catch (ApiException e) {
+            log.error("Error during getting transaction", e);
+        }
+        return null;
     }
 }

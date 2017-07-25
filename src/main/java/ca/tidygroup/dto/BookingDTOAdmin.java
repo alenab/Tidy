@@ -2,6 +2,7 @@ package ca.tidygroup.dto;
 
 import ca.tidygroup.model.CleaningOption;
 import ca.tidygroup.model.CleaningPlan;
+import ca.tidygroup.model.Status;
 
 import java.util.List;
 
@@ -44,6 +45,18 @@ public class BookingDTOAdmin {
     private Long employeeId;
 
     private double duration;
+
+    private Status status;
+
+    private String billingCustomerId;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public long getId() {
         return id;
@@ -195,6 +208,14 @@ public class BookingDTOAdmin {
 
     public void setDuration(double duration) {
         this.duration = duration;
+    }
+
+    public String getBillingCustomerId() {
+        return billingCustomerId;
+    }
+
+    public void setBillingCustomerId(String billingCustomerId) {
+        this.billingCustomerId = billingCustomerId;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ca.tidygroup.controllers;
 
 import ca.tidygroup.service.BillingService;
+import com.squareup.connect.models.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,23 @@ public class BillingController {
         String response = billingService.charge(amount, email);
         log.debug("Purchase attempt: {}", response);
         return "redirect:/admin/billing";
+    }
+
+    @PostMapping("/bill")
+    public String bill(@ModelAttribute(name = "price") Double amount,
+                       @ModelAttribute(name = "billingCustomerId") String billingCustomerId,
+                       BindingResult result) {
+        if (result.hasErrors()) {
+            log.error("Binding errors: {}", result.getAllErrors());
+            return "redirect:/admin/bookings?binding-errors";
+        }
+        String transactionId = billingService.bill(amount, billingCustomerId);
+        Transaction transaction = billingService.getTransaction(transactionId);
+        String status = "error";
+        if (transaction != null) {
+            log.debug("Transaction: {}", transaction);
+            status = transaction.getTenders().get(0).getCardDetails().getStatus().toString();
+        }
+        return "redirect:/admin/bookings?" + status;
     }
 }

@@ -152,9 +152,32 @@
                         <span class="help-block" data-th-errors="*{cleaningTime}">error</span>
                     </div>
                 </div>
+
+                <br/>
+                <div class="row">
+                    <!-- Billing info -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Card Number</span>
+                        <div id="sq-card-number"></div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">CVV</span>
+                        <div id="sq-cvv"></div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Expiration Date</span>
+                        <div id="sq-expiration-date"></div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Postal Code</span>
+                        <div id="sq-postal-code"></div>
+                    </div>
+                    <input type="hidden" id="card-nonce" name="nonce"/>
+                </div>
+
                 <br/>
                 <input type="hidden" form="bookingForm" data-th-field="*{price}"/>
-                <input class="form-control" type="submit" form="bookingForm"/>
+                <input class="form-control" type="submit" onclick="requestCardNonce(event)" form="bookingForm"/>
             </div>
             <div class="col-md-3">
                 <h4>BOOKING SUMMARY</h4>

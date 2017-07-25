@@ -2,9 +2,11 @@ package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.BookingForm;
 import ca.tidygroup.dto.Message;
+import ca.tidygroup.manager.AccountManager;
 import ca.tidygroup.manager.BookingManager;
 import ca.tidygroup.model.Account;
 import ca.tidygroup.model.Discount;
+import ca.tidygroup.service.BillingService;
 import ca.tidygroup.service.BookingService;
 import ca.tidygroup.service.MailingService;
 import org.slf4j.Logger;
@@ -30,17 +32,23 @@ public class MainController {
     @Value("${tidy.google.api.key}")
     private String googleApiKey;
 
-    private BookingManager manager;
+    private BookingManager bookingManager;
+
+    private AccountManager accountManager;
 
     private BookingService bookingService;
 
     private MailingService mailingService;
 
+    private BillingService billingService;
+
     @Autowired
-    public MainController(BookingManager manager, BookingService bookingService, MailingService mailingService) {
-        this.manager = manager;
+    public MainController(BookingManager bookingManager, AccountManager accountManager, BookingService bookingService, MailingService mailingService, BillingService billingService) {
+        this.bookingManager = bookingManager;
+        this.accountManager = accountManager;
         this.bookingService = bookingService;
         this.mailingService = mailingService;
+        this.billingService = billingService;
     }
 
     @ModelAttribute
@@ -51,6 +59,7 @@ public class MainController {
         model.addAttribute("allBedrooms", bookingService.getListOfBedrooms());
         model.addAttribute("discount", new Discount());
         model.addAttribute("googleApiKey", googleApiKey);
+        model.addAttribute("applicationId", billingService.getApplicationId());
         model.addAttribute("message", new Message());
     }
 
@@ -101,7 +110,11 @@ public class MainController {
             log.warn("There were binding errors at attempt to process booking form: {}", bindingResult.getAllErrors());
             return "book";
         }
-        manager.handleNewBooking(booking);
+        bookingManager.handleNewBooking(booking);
+
+        String billingCustomerId = accountManager.getCustomer(booking).getBillingCustomerId();
+        String customerCard = billingService.createCustomerCard(billingCustomerId, booking.getNonce());
+        log.debug("Customer card is created: {}", customerCard);
         return "thankyou";
     }
 

@@ -69,6 +69,8 @@ public class AdminService {
         bookingDTOAdmin.setFinalPrice(getFinalPrice(booking));
         bookingDTOAdmin.setEmployeeId(booking.getEmployeeId());
         bookingDTOAdmin.setDuration(booking.getDuration());
+        bookingDTOAdmin.setStatus(booking.getStatus());
+        bookingDTOAdmin.setBillingCustomerId(booking.getCustomer().getBillingCustomerId());
         return bookingDTOAdmin;
     }
 

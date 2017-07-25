@@ -8,6 +8,7 @@ import ca.tidygroup.model.Role;
 import ca.tidygroup.repository.AccountRepository;
 import ca.tidygroup.repository.AddressRepository;
 import ca.tidygroup.repository.CustomerRepository;
+import ca.tidygroup.service.BillingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +25,14 @@ public class AccountManager {
 
     private CustomerRepository customerRepository;
 
+    private BillingService billingService;
+
     @Autowired
-    public AccountManager(AddressRepository addressRepository, AccountRepository accountRepository, CustomerRepository customerRepository) {
+    public AccountManager(AddressRepository addressRepository, AccountRepository accountRepository, CustomerRepository customerRepository, BillingService billingService) {
         this.addressRepository = addressRepository;
         this.accountRepository = accountRepository;
         this.customerRepository = customerRepository;
+        this.billingService = billingService;
     }
 
     @Transactional
@@ -71,6 +75,9 @@ public class AccountManager {
         Customer customer = customerRepository.findCustomerByAccount(existingAccount);
         if (customer == null) {
             customer = new Customer();
+
+            // create customer in billing system
+            customer.setBillingCustomerId(generateBillingId(existingAccount));
         }
         customer.setAccount(existingAccount);
         customer.setFirstName(fName);
@@ -86,5 +93,9 @@ public class AccountManager {
         account.setLogin(lowerEmail);
         account.setUserRole(role);
         return accountRepository.save(account);
+    }
+
+    private String generateBillingId(Account existingAccount) {
+        return billingService.createCustomer(existingAccount.getEmail(), existingAccount.getId());
     }
 }
