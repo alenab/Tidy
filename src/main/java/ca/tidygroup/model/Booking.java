@@ -15,10 +15,6 @@ public class Booking {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
-
-    @ManyToOne
     @JoinColumn(name="customer_id")
     private Customer customer;
 
@@ -72,14 +68,6 @@ public class Booking {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public Customer getCustomer() {

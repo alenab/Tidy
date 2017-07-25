@@ -62,7 +62,7 @@ public class AdminService {
         bookingDTOAdmin.setAptNumber(booking.getAddressForClean().getAptNumber());
         bookingDTOAdmin.setFirstName(booking.getCustomer().getFirstName());
         bookingDTOAdmin.setLastName(booking.getCustomer().getLastName());
-        bookingDTOAdmin.setEmail(booking.getAccount().getEmail());
+        bookingDTOAdmin.setEmail(booking.getCustomer().getAccount().getEmail());
         bookingDTOAdmin.setPhone(booking.getCustomer().getPhoneNumber());
         bookingDTOAdmin.setDiscount(booking.getDiscountPercent());
         bookingDTOAdmin.setPrice(booking.getPrice());

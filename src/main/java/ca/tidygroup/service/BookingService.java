@@ -129,7 +129,6 @@ public class BookingService {
         address = addressRepository.save(address);
 
         Booking booking = new Booking();
-        booking.setAccount(account);
         booking.setCustomer(customer);
         booking.setAddressForClean(address);
         booking.setNumberOfRooms(Integer.parseInt(bookingForm.getNumberOfRooms()));
