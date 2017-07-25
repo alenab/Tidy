@@ -2,31 +2,33 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head data-th-include="fragments/head :: head">
-    <title>customer</title>
+    <title>employee</title>
 </head>
 <body>
 <div class="container">
+
     <a href="/">
         <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
     </a>
     <a data-th-href="@{/admin/}"><h4>Main admin menu</h4></a>
-    <!--/*@thymesVar id="allCustomers" type="java.util.List<ca.tidygroup.dto.CustomerDTO>"*/-->
+    <!--/*@thymesVar id="archiveOfEmployees" type="java.util.List<ca.tidygroup.dto.EmployeeDTO>"*/-->
     <table class="table table-stripped">
         <tr>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
             <th>Phone</th>
-            <th>Addresses</th>
+            <th>Rate</th>
         </tr>
-        <tr th:each="customer : ${allCustomers}">
-            <td data-th-text="${customer.firstName}"></td>
-            <td data-th-text="${customer.lastName}"></td>
-            <td data-th-text="${customer.email}"></td>
-            <td data-th-text="${customer.phoneNumber}"></td>
-            <td data-th-text="${customer.addresses}"></td>
+        <tr th:each="employee : ${archiveOfEmployees}">
+            <td data-th-text="${employee.firstName}"></td>
+            <td data-th-text="${employee.lastName}"></td>
+            <td data-th-text="${employee.email}"></td>
+            <td data-th-text="${employee.phoneNumber}"></td>
+            <td data-th-text="${employee.rate}"></td>
         </tr>
     </table>
 </div>
+
 </body>
 </html>

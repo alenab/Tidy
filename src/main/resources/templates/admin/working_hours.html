@@ -9,6 +9,7 @@
     <a href="/">
         <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
     </a>
+    <a data-th-href="@{/admin/}"><h4>Main admin menu</h4></a>
     <!--/*@thymesVar id="workingHoursDTO" type="ca.tidygroup.dto.WorkingHoursDTO"*/-->
     <form th:action="@{/admin/working_hours-save}" method="post" data-th-object="${workingHoursDTO}">
 

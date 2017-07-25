@@ -9,6 +9,7 @@
     <a href="/">
         <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
     </a>
+    <a data-th-href="@{/admin/}"><h4>Main admin menu</h4></a>
     <!--/*@thymesVar id="allEmployees" type="java.util.List<ca.tidygroup.dto.EmployeeDTO>"*/-->
     <table class="table table-stripped">
         <tr>
@@ -44,6 +45,9 @@
 
     <a data-th-href="@{/admin/employee/add}">
         <button th:class="btn-info">add employee</button>
+    </a>
+    <a data-th-href="@{/admin/employee/archive}">
+        <button th:class="btn-info">Show archive of employees</button>
     </a>
 </div>
 </body>

@@ -136,6 +136,12 @@ public class AdminController {
         return "redirect:/admin/employee";
     }
 
+    @GetMapping("/employee/archive")
+    public String archiveOfEmployee(Model model) {
+        model.addAttribute("archiveOfEmployees", adminService.getNoActiveEmployeeDTO());
+        return "admin/archive_employees";
+    }
+
     @GetMapping("/customer")
     public String customer(Model model) {
         model.addAttribute("allCustomers", adminService.getAllCustomersDTO());

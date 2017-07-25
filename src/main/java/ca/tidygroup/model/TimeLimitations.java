@@ -22,6 +22,9 @@ public class TimeLimitations {
     @Column(name = "end_time")
     private LocalTime endTime;
 
+    @Column(name = "is_full_day")
+    private boolean isFullDay;
+
     public long getId() {
         return id;
     }
@@ -52,5 +55,13 @@ public class TimeLimitations {
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+
+    public boolean isFullDay() {
+        return isFullDay;
+    }
+
+    public void setFullDay(boolean fullDay) {
+        isFullDay = fullDay;
     }
 }

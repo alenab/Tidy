@@ -10,6 +10,7 @@
     <a href="/">
         <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
     </a>
+    <a data-th-href="@{/admin/}"><h4>Main admin menu</h4></a>
     <!--/*@thymesVar id="allUnits" type="ca.tidygroup.dto.ApartmentUnitListDTO"*/-->
     <form th:action="@{/admin/prices-save}" method="post" data-th-object="${allUnits}">
         <table class="table table-stripped">

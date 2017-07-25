@@ -82,14 +82,16 @@ public class AdminService {
         return getBookingDTO(bookingRepository.getOne(id));
     }
 
-    @Transactional(readOnly = true)
+
     public List<Employee> getEmployees() {
         return employeeRepository.findAllEmployeeByActive(true);
     }
 
-    @Transactional(readOnly = true)
-    public List<EmployeeDTO> getAllEmployeeDTO() {
-        List<Employee> employees = getEmployees();
+    public List<Employee> getNoActiveEmployees() {
+        return employeeRepository.findAllEmployeeByActive(false);
+    }
+
+    private List<EmployeeDTO> transformListEmployeeToDTO(List <Employee> employees) {
         List<EmployeeDTO> resultList = new ArrayList<>();
         for (Employee employee : employees) {
             EmployeeDTO employeeDTO = new EmployeeDTO();
@@ -103,7 +105,19 @@ public class AdminService {
             resultList.add(employeeDTO);
         }
         return resultList;
+
     }
+
+    public List<EmployeeDTO> getAllEmployeeDTO() {
+        List<Employee> employees = getEmployees();
+        return transformListEmployeeToDTO(employees);
+    }
+
+    public List<EmployeeDTO> getNoActiveEmployeeDTO() {
+        List<Employee> employees = getNoActiveEmployees();
+        return transformListEmployeeToDTO(employees);
+    }
+
 
     @Transactional
     public void addEmployee(EmployeeDTO employeeDTO) {
@@ -198,7 +212,8 @@ public class AdminService {
         WorkingHours workingHours = workingHoursRepository.findAll().get(0);
         workingHours.setStartTime(LocalTime.parse(workingHoursDTO.getStartTime()));
         workingHours.setEndTime(LocalTime.parse(workingHoursDTO.getEndTime()));
-        workingHours.setStep((int) Integer.parseInt(workingHoursDTO.getStep()));
+        workingHours.setStep(Integer.parseInt(workingHoursDTO.getStep()));
         workingHoursRepository.save(workingHours);
     }
+
 }
