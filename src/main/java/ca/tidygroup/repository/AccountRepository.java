@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Account findByLoginIgnoringCase(String login);
-    Account findAccountByEmail(String email);
+    Account findAccountByEmailIgnoreCase(String email);
 }

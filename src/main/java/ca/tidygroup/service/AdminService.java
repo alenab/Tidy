@@ -121,7 +121,7 @@ public class AdminService {
 
     @Transactional
     public void addEmployee(EmployeeDTO employeeDTO) {
-        if (accountRepository.findAccountByEmail(employeeDTO.getEmail()) == null) {
+        if (accountRepository.findAccountByEmailIgnoreCase(employeeDTO.getEmail()) == null) {
 
             Account account = new Account();
             account.setEmail(employeeDTO.getEmail().toLowerCase());
@@ -138,7 +138,7 @@ public class AdminService {
             employee.setActive(true);
             employeeRepository.save(employee);
         } else {
-            Employee employee = employeeRepository.findEmployeeByAccount(accountRepository.findAccountByEmail(employeeDTO.getEmail()));
+            Employee employee = employeeRepository.findEmployeeByAccount(accountRepository.findAccountByEmailIgnoreCase(employeeDTO.getEmail()));
             if (employee != null) {
                 // propose to correct employee
             }

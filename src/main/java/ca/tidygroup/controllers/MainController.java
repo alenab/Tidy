@@ -2,6 +2,7 @@ package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.BookingForm;
 import ca.tidygroup.dto.Message;
+import ca.tidygroup.manager.BookingManager;
 import ca.tidygroup.model.Account;
 import ca.tidygroup.model.Discount;
 import ca.tidygroup.service.BookingService;
@@ -29,12 +30,15 @@ public class MainController {
     @Value("${tidy.google.api.key}")
     private String googleApiKey;
 
+    private BookingManager manager;
+
     private BookingService bookingService;
 
     private MailingService mailingService;
 
     @Autowired
-    public MainController(BookingService bookingService, MailingService mailingService) {
+    public MainController(BookingManager manager, BookingService bookingService, MailingService mailingService) {
+        this.manager = manager;
         this.bookingService = bookingService;
         this.mailingService = mailingService;
     }
@@ -97,7 +101,7 @@ public class MainController {
             log.warn("There were binding errors at attempt to process booking form: {}", bindingResult.getAllErrors());
             return "book";
         }
-        bookingService.add(booking);
+        manager.handleNewBooking(booking);
         return "thankyou";
     }
 
