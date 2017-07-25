@@ -188,8 +188,10 @@
         $(function () {
             // showing calendar
             $('#cleaningDate').datepicker({
-                dateFormat: "yy-mm-dd"
+                dateFormat: "yy-mm-dd",
+                minDate: 0
             });
+
 
             $('#address').on('change', function() {
                 $('input#address').parent('div.form-group').removeClass('has-error');
