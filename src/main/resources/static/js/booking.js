@@ -18,19 +18,31 @@ $(function () {
         updatePrice();
     });
 
-    $('#cleaningDate').on('change', function () {
-        var $cleaningTime = $('#cleaningTime');
-        $cleaningTime.find('option').remove();
+    // showing calendar
+    $('#datepicker').datepicker({
+        onSelect: updateTime,
+        altField: "#cleaningDate",
+        dateFormat: "yy-mm-dd",
+        maxDate: "+1m +1w",
+        defaultDate: +1,
+        minDate: 0
+    });
 
-        var cleaningDate = $('#cleaningDate').val();
-        $.get('/api/free-time/' + cleaningDate, function (data) {
-            $.each(data, function (idx, item) {
-                var $option = $("<option/>").val(item).text(item);
-                $cleaningTime.append($option);
-            });
+    // initial request to show time values from the very beginning
+    updateTime($('#cleaningDate').val());
+});
+
+function updateTime(cleaningDate) {
+    var $cleaningTime = $('#cleaningTime');
+    $cleaningTime.find('option').remove();
+
+    $.get('/api/free-time/' + cleaningDate, function (data) {
+        $.each(data, function (idx, item) {
+            var $option = $("<option/>").val(item).text(item);
+            $cleaningTime.append($option);
         });
     });
-});
+}
 
 function getPrice(planId, rooms, baths) {
     var resAr = $.priceList.filter(function (item) {

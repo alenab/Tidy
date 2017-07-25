@@ -135,7 +135,8 @@
                 <div class="form-inline row">
                     <div class="form-group col-md-6">
                         <label class="control-label">Date of cleaning</label>
-                        <input class="form-control" type="text" data-th-field="*{cleaningDate}" form="bookingForm" readonly="readonly"/>
+                        <input type="hidden" data-th-field="*{cleaningDate}" form="bookingForm"/>
+                        <div id="datepicker"></div>
                         <span class="help-block" data-th-errors="*{cleaningDate}">error</span>
                     </div>
 
@@ -186,12 +187,6 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         $(function () {
-            // showing calendar
-            $('#cleaningDate').datepicker({
-                dateFormat: "yy-mm-dd",
-                minDate: 0
-            });
-
 
             $('#address').on('change', function() {
                 $('input#address').parent('div.form-group').removeClass('has-error');
