@@ -56,7 +56,7 @@
                 <hr/>
 
                 <div class="form-group">
-                    <label class="control-label">Extra services</label>
+                    <span class="input-group-addon">Extra services</span>
                     <table>
                         <!--/*@thymesVar id="allOptions" type="java.util.List<ca.tidygroup.model.CleaningOption>"*/-->
                         <th:block th:each="option: ${allOptions}">
@@ -73,106 +73,122 @@
                         </th:block>
                     </table>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Special request</label>
+                <div class="input-group">
+                    <span class="input-group-addon">Special requeste</span>
                     <input class="form-control" type="text" data-th-field="*{specialRequest}" form="bookingForm"/>
                     <span class="help-block" data-th-errors="*{specialRequest}">error</span>
                 </div>
+                <br/>
                 <div th:class="row">
-                    <div class="input-group">
-                        <span class="input-group-addon">Address</span>
-                        <input class="form-control" type="text" data-th-field="*{address}" form="bookingForm"
-                               required="required"/>
-                        <span class="help-block" data-th-errors="*{address}">error</span>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon">Address</span>
+                            <input class="form-control" type="text" data-th-field="*{address}" form="bookingForm"
+                                   required="required"/>
+                            <span class="help-block" data-th-errors="*{address}">error</span>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <input class="form-control" type="text" data-th-field="*{aptNumber}" placeholder="Apt. Number"
-                               form="bookingForm"/>
-                        <span class="input-group-addon">Apt. Number</span>
-                        <span class="help-block" data-th-errors="*{aptNumber}">error</span>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Apt. Number</span>
+                            <input class="form-control" type="text" data-th-field="*{aptNumber}"
+                                   placeholder="Apt. Number"
+                                   form="bookingForm"/>
+                            <span class="help-block" data-th-errors="*{aptNumber}">error</span>
+                        </div>
                     </div>
                 </div>
                 <br/>
+                <div class="row">
+                    <div th:if="${booking.discount == null}">
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">Discount</span>
+                                <input class="form-control" type="text" form="discountForm"
+                                       data-th-field="${discount.code}"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="submit" form="discountForm"/>
+                            <span class="help-block" data-th-errors="${discount.code}">error</span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
                 <div class="form-inline row">
-                    <div class="form-group col-md-6">
-                        <label class="control-label col-md-4">First name</label>
-                        <input class="form-control col-md-8" type="text" data-th-field="*{firstName}"
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Date of cleaning</span>
+                            <input type="hidden" data-th-field="*{cleaningDate}" form="bookingForm"/>
+                            <div id="datepicker"></div>
+                            <span class="help-block" data-th-errors="*{cleaningDate}">error</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Time of cleaning</span>
+                            <select class="form-control" data-th-field="*{cleaningTime}" form="bookingForm"
+                                    required="required">
+                                <!-- options populated by js -->
+                            </select>
+                            <span class="help-block" data-th-errors="*{cleaningTime}">error</span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-addon">First name</span>
+                        <input class="form-control" type="text" data-th-field="*{firstName}"
                                required="required" form="bookingForm" placeholder="First name"/>
                         <span class="help-block" data-th-errors="*{firstName}">error</span>
                     </div>
-
-                    <div class="form-group col-md-6">
-                        <label class="control-label col-md-4">Last name</label>
-                        <input class="form-control col-md-8" type="text" data-th-field="*{lastName}" required="required"
-                               placeholder="Last name" form="bookingForm"/>
+                    <div class="input-group">
+                        <span class="input-group-addon">Last name</span>
+                        <input class="form-control" type="text" data-th-field="*{lastName}"
+                               required="required" form="bookingForm" placeholder="Last name"/>
                         <span class="help-block" data-th-errors="*{lastName}">error</span>
                     </div>
-                </div>
-                <br/>
-                <div class="form-inline row">
-                    <div class="form-group col-md-6">
-                        <label class="control-label col-md-4">Email</label>
-                        <input class="form-control col-md-8" type="email" data-th-field="*{email}" required="required"
-                               placeholder="Email" form="bookingForm"/>
+                    <div class="input-group">
+                        <span class="input-group-addon">Email</span>
+                        <input class="form-control" type="text" data-th-field="*{email}"
+                               required="required" form="bookingForm" placeholder="Email"/>
                         <span class="help-block" data-th-errors="*{email}">error</span>
                     </div>
-
-                    <div class="form-group col-md-6">
-                        <label class="control-label col-md-4">Phone</label>
-                        <input class="form-control col-md-8" type="tel" data-th-field="*{phone}" required="required"
-                               placeholder="Phone" form="bookingForm"/>
+                    <div class="input-group">
+                        <span class="input-group-addon">Phone</span>
+                        <input class="form-control" type="text" data-th-field="*{phone}"
+                               required="required" form="bookingForm" placeholder="Phone"/>
                         <span class="help-block" data-th-errors="*{phone}">error</span>
                     </div>
                 </div>
                 <br/>
-
-                <div class="form-group row">
-                    <div class="col-md-6" th:if="${booking.discount == null}">
-                        <label class="control-label">Discount</label>
-                        <input class="form-control" type="text" form="discountForm" data-th-field="${discount.code}"/>
-                        <input class="form-control" type="submit" form="discountForm"/>
-                        <span class="help-block" data-th-errors="${discount.code}">error</span>
-                    </div>
-                </div>
-
-                <div class="form-inline row">
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Date of cleaning</label>
-                        <input type="hidden" data-th-field="*{cleaningDate}" form="bookingForm"/>
-                        <div id="datepicker"></div>
-                        <span class="help-block" data-th-errors="*{cleaningDate}">error</span>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Time of cleaning</label>
-                        <select class="form-control" data-th-field="*{cleaningTime}" form="bookingForm"
-                                required="required">
-                            <!-- options populated by js -->
-                        </select>
-                        <span class="help-block" data-th-errors="*{cleaningTime}">error</span>
-                    </div>
-                </div>
-
-                <br/>
                 <div class="row">
                     <!-- Billing info -->
-                    <div class="input-group">
+                    <div id="gr-sq-card-number" class="input-group">
                         <span class="input-group-addon">Card Number</span>
                         <div id="sq-card-number"></div>
                     </div>
-                    <div class="input-group">
+                    <div id="gr-sq-cvv" class="input-group">
                         <span class="input-group-addon">CVV</span>
                         <div id="sq-cvv"></div>
                     </div>
-                    <div class="input-group">
+                    <div id="gr-sq-expiration-date" class="input-group">
                         <span class="input-group-addon">Expiration Date</span>
                         <div id="sq-expiration-date"></div>
                     </div>
-                    <div class="input-group">
+                    <div id="gr-sq-postal-code" class="input-group">
                         <span class="input-group-addon">Postal Code</span>
                         <div id="sq-postal-code"></div>
                     </div>
                     <input type="hidden" id="card-nonce" name="nonce"/>
+                    <br/>
+                    <div id="sq-errors" class="alert alert-danger" role="alert" style="display: none;">
+                        <!-- handled by javascript -->
+                    </div>
                 </div>
 
                 <br/>

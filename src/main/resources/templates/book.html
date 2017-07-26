@@ -47,13 +47,16 @@
 
                         // This logs all errors encountered during nonce generation to the
                         // Javascript console.
+                        $('#sq-errors').find('div').remove();
                         errors.forEach(function(error) {
                             console.log('  ' + error.message);
+                            $('#sq-errors').append($('<div/>').text(error.message));
                         });
 
+                        $('#sq-errors').show();
                         // No errors occurred. Extract the card nonce.
                     } else {
-
+                        $('#sq-errors').hide();
                         // Delete this line and uncomment the lines below when you're ready
                         // to start submitting nonces to your server.
 //                        alert('Nonce received: ' + nonce);
@@ -89,9 +92,37 @@
                             // Handle as desired
                             break;
                         case 'errorClassAdded':
+                            switch (inputEvent.elementId) {
+                                case 'sq-card-number':
+                                    document.getElementById('gr-sq-card-number').classList.add('has-error');
+                                    break;
+                                case 'sq-cvv':
+                                    document.getElementById('gr-sq-cvv').classList.add('has-error');
+                                    break;
+                                case 'sq-expiration-date':
+                                    document.getElementById('gr-sq-expiration-date').classList.add('has-error');
+                                    break;
+                                case 'sq-postal-code':
+                                    document.getElementById('gr-sq-postal-code').classList.add('has-error');
+                                    break;
+                            }
                             // Handle as desired
                             break;
                         case 'errorClassRemoved':
+                            switch (inputEvent.elementId) {
+                                case 'sq-card-number':
+                                    document.getElementById('gr-sq-card-number').classList.remove('has-error');
+                                    break;
+                                case 'sq-cvv':
+                                    document.getElementById('gr-sq-cvv').classList.remove('has-error');
+                                    break;
+                                case 'sq-expiration-date':
+                                    document.getElementById('gr-sq-expiration-date').classList.remove('has-error');
+                                    break;
+                                case 'sq-postal-code':
+                                    document.getElementById('gr-sq-postal-code').classList.remove('has-error');
+                                    break;
+                            }
                             // Handle as desired
                             break;
                         case 'cardBrandChanged':
