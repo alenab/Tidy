@@ -30,14 +30,6 @@
                 <td th:text="|${booking.finalPrice}|"></td>
                 <td data-th-text="${booking.status}"></td>
                 <td>
-                    <form method="post" data-th-action="@{/admin/billing/bill}">
-                        <input type="hidden" name="billingCustomerId" data-th-value="${booking.billingCustomerId}"/>
-                        <input type="hidden" name="price" data-th-value="${booking.finalPrice}"/>
-                        <button type="submit" class="btn-default">
-                            <span class="glyphicon glyphicon-usd"></span>
-                        </button>
-                    </form>
-
                     <a data-th-href="@{bookings/{bId}(bId=${booking.id})}">
                         <button class="btn-default">
                             <span class="glyphicon glyphicon-pencil"></span>

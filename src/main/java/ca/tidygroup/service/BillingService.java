@@ -1,5 +1,6 @@
 package ca.tidygroup.service;
 
+import ca.tidygroup.event.ChargeEvent;
 import com.squareup.connect.ApiClient;
 import com.squareup.connect.ApiException;
 import com.squareup.connect.Configuration;
@@ -11,7 +12,9 @@ import com.squareup.connect.models.*;
 import com.squareup.connect.models.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +27,8 @@ public class BillingService {
 
     private static final Logger log = LoggerFactory.getLogger(BillingService.class);
 
+    private final ApplicationEventPublisher publisher;
+
     @Value("${squareup.application.id}")
     private String applicationId;
 
@@ -35,6 +40,11 @@ public class BillingService {
     private CustomersApi customersApi;
 
     private TransactionsApi transactionsApi;
+
+    @Autowired
+    public BillingService(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
+    }
 
     @PostConstruct
     public void init() {
@@ -126,7 +136,7 @@ public class BillingService {
         return null;
     }
 
-    public String bill(double amount, String customerId) {
+    public String bill(double amount, String customerId, long bookingId) {
         ChargeRequest body = new ChargeRequest();
 
         Money money = new Money();
@@ -146,7 +156,11 @@ public class BillingService {
         log.debug("Going to charge customer: {} with card: {}. Amount: {}", customerId, customerCardId, amount);
         try {
             // todo handle errors
-            return transactionsApi.charge(getLocationId(), body).getTransaction().getId();
+            Transaction transaction = transactionsApi.charge(getLocationId(), body).getTransaction();
+
+            // pushing event
+            publisher.publishEvent(new ChargeEvent(transaction, bookingId));
+            return transaction.getId();
         } catch (ApiException e) {
             log.error("Error during charging", e);
         }

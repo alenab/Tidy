@@ -4,7 +4,10 @@ public enum Status {
     NEW,
     PLANNED,
     CONFIRMED,
-    PAID,
+    BILLING_SUCCESS,
+    BILLING_CANCELED,
+    BILLING_FAILED,
+    BILLING_UNKNOWN,
     COMPLETED,
     CANCELLED,
 }

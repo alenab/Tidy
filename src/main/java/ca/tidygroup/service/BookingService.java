@@ -2,11 +2,14 @@ package ca.tidygroup.service;
 
 import ca.tidygroup.dto.BookingDTOAdmin;
 import ca.tidygroup.dto.BookingForm;
+import ca.tidygroup.event.ChargeEvent;
 import ca.tidygroup.model.*;
 import ca.tidygroup.repository.*;
+import com.squareup.connect.models.TenderCardDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +52,28 @@ public class BookingService {
         this.apartmentUnitRepository = apartmentUnitRepository;
         this.timeLimitationsRepository = timeLimitationsRepository;
         this.workingHoursRepository = workingHoursRepository;
+    }
+
+    @EventListener
+    public void handleChargeEvent(ChargeEvent event) {
+        TenderCardDetails.StatusEnum status = event.getTransaction().getTenders().get(0).getCardDetails().getStatus();
+
+        Booking booking = bookingRepository.findOne(event.getBookingId());
+
+        switch (status) {
+            case CAPTURED:
+                booking.setStatus(Status.BILLING_SUCCESS);
+                break;
+            case VOIDED:
+                booking.setStatus(Status.BILLING_CANCELED);
+                break;
+            case FAILED:
+                booking.setStatus(Status.BILLING_FAILED);
+                break;
+            default:
+                booking.setStatus(Status.BILLING_UNKNOWN);
+        }
+        bookingRepository.save(booking);
     }
 
     public void add(Customer customer, Address address, BookingForm bookingForm) {
@@ -139,7 +164,6 @@ public class BookingService {
         booking.setPrice(bookingDTOAdmin.getPrice());
         booking.setEmployeeId(bookingDTOAdmin.getEmployeeId());
         booking.setDuration(bookingDTOAdmin.getDuration());
-        booking.setStatus(Status.NEW);
         bookingRepository.save(booking);
     }
 

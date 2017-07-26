@@ -69,12 +69,13 @@ public class BillingController {
     @PostMapping("/bill")
     public String bill(@ModelAttribute(name = "price") Double amount,
                        @ModelAttribute(name = "billingCustomerId") String billingCustomerId,
+                       @ModelAttribute(name = "bookingId") Long bookingId,
                        BindingResult result) {
         if (result.hasErrors()) {
             log.error("Binding errors: {}", result.getAllErrors());
             return "redirect:/admin/bookings?binding-errors";
         }
-        String transactionId = billingService.bill(amount, billingCustomerId);
+        String transactionId = billingService.bill(amount, billingCustomerId, bookingId);
         Transaction transaction = billingService.getTransaction(transactionId);
         String status = "error";
         if (transaction != null) {

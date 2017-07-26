@@ -1,4 +1,4 @@
-package ca.tidygroup;
+package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.BookingForm;
 import ca.tidygroup.dto.Message;
