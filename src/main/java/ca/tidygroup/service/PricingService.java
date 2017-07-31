@@ -35,7 +35,7 @@ public class PricingService {
     public List<ApartmentUnitDTO> getAllApartmentUnits() {
         return apartmentUnitRepository.findAll().stream()
                 .map(item -> new ApartmentUnitDTO(item.getCleaningPlan().getId(), item.getNumberOfBedrooms(),
-                        item.getNumberOfBathrooms(), item.getPrice(), item.getPlannedTime())
+                        item.getNumberOfBathrooms(), item.getPrice())
                 ).collect(Collectors.toList());
     }
 
@@ -81,9 +81,5 @@ public class PricingService {
     public void updateOptionsPrices(OptionListDTO allOptions) {
         optionRepository.save(allOptions.getOptions());
 
-    }
-
-    public List<CleaningOption> getAllOptions() {
-        return optionRepository.findAll(new Sort(Sort.Direction.ASC, CleaningOption.ID_COL_NAME));
     }
 }

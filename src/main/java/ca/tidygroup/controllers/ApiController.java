@@ -1,6 +1,7 @@
 package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.ApartmentUnitDTO;
+import ca.tidygroup.model.CleaningOption;
 import ca.tidygroup.service.BookingService;
 import ca.tidygroup.service.PricingService;
 import org.slf4j.Logger;
@@ -45,5 +46,11 @@ public class ApiController {
         return bookingService.getFreeTime(date).stream()
                 .map(time -> time.format(DateTimeFormatter.ofPattern("HH:mm")))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/options/{planId}")
+    public List<CleaningOption> getOptionsByPlan(@PathVariable Long planId) {
+        return bookingService.getCleaningOptionsByPlanId(planId);
+
     }
 }

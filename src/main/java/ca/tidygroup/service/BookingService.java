@@ -107,6 +107,10 @@ public class BookingService {
         return optionRepository.findAll(new Sort(Sort.Direction.ASC, CleaningOption.ID_COL_NAME));
     }
 
+    public List<CleaningOption> getCleaningOptionsByPlanId(Long planId) {
+       return optionRepository.findAllByPlanListContains(cleaningPlanRepository.findOne(planId));
+    }
+
     public List<Integer> getListOfBedrooms() {
         return apartmentUnitRepository.getListOfBedrooms();
     }

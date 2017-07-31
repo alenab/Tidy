@@ -19,7 +19,6 @@
                 <th>Number Of Rooms</th>
                 <th>Number Of Bathrooms</th>
                 <th>Price</th>
-                <th>Planned Time</th>
             </tr>
             <tr th:each="unit, stat : ${allUnits.units}">
                 <td data-th-text="${unit.cleaningPlan.name}"></td>
@@ -32,10 +31,6 @@
                     <input type="hidden" data-th-field="*{units[__${stat.index}__].numberOfBedrooms}"/>
                     <input type="hidden" data-th-field="*{units[__${stat.index}__].numberOfBathrooms}"/>
                     <input type="hidden" data-th-field="*{units[__${stat.index}__].cleaningPlan}"/>
-                </td>
-                <td>
-                    <input type="number" th:class="form-control"
-                            data-th-field="*{units[__${stat.index}__].plannedTime}" />
                 </td>
             </tr>
         </table>

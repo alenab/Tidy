@@ -47,7 +47,6 @@ public class BookingController {
     @ModelAttribute
     public void bookingModelAttributes(Model model) {
         model.addAttribute("booking", new BookingForm());
-        model.addAttribute("allOptions", bookingService.getAllCleaningOptions());
         model.addAttribute("allPlans", bookingService.getAllCleaningPlans());
         model.addAttribute("allBedrooms", bookingService.getListOfBedrooms());
         model.addAttribute("discount", new Discount());

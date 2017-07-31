@@ -57,24 +57,11 @@
 
                 <div class="form-group">
                     <span class="input-group-addon">Extra services</span>
-                    <table>
-                        <!--/*@thymesVar id="allOptions" type="java.util.List<ca.tidygroup.model.CleaningOption>"*/-->
-                        <th:block th:each="option: ${allOptions}">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" data-th-id="${{option}}" data-th-value="${{option}}"
-                                           data-th-field="*{cleaningOptions}" th:attr="data-price=${option.price}"
-                                           form="bookingForm"/>
-                                    <br/>
-                                </td>
-                                <td th:text="${option.name}"><br/></td>
-                                <td th:text="${option.price}"><br/></td>
-                            </tr>
-                        </th:block>
-                    </table>
+                        <div class="extraOptions">
+                        </div>
                 </div>
                 <div class="input-group">
-                    <span class="input-group-addon">Special requeste</span>
+                    <span class="input-group-addon">Special request</span>
                     <input class="form-control" type="text" data-th-field="*{specialRequest}" form="bookingForm"/>
                     <span class="help-block" data-th-errors="*{specialRequest}">error</span>
                 </div>

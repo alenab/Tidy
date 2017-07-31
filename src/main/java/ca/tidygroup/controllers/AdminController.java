@@ -1,6 +1,7 @@
 package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.*;
+import ca.tidygroup.model.CleaningPlan;
 import ca.tidygroup.service.AdminService;
 import ca.tidygroup.service.BookingService;
 import ca.tidygroup.service.PricingService;
@@ -60,7 +61,7 @@ public class AdminController {
     @GetMapping("/options_prices")
     public String optionsPrices(Model model) {
         OptionListDTO dto = new OptionListDTO();
-        dto.setOptions(new ArrayList<>(pricingService.getAllOptions()));
+        dto.setOptions(new ArrayList<>(bookingService.getAllCleaningOptions()));
         model.addAttribute("allOptions", dto);
         return "admin/options_prices";
     }

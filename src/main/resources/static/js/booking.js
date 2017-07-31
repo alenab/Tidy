@@ -10,6 +10,10 @@ $(function () {
         updateBathroomsOptions();
     });
 
+    $('select#cleaningPlan').on('change', function() {
+        updateOptions(this.value);
+    });
+
     $('select').on('change', function () {
         updatePrice();
     });
@@ -30,6 +34,8 @@ $(function () {
 
     // initial request to show time values from the very beginning
     updateTime($('#cleaningDate').val());
+
+    updateOptions($('#cleaningPlan').val());
 });
 
 function updateTime(cleaningDate) {
@@ -40,6 +46,17 @@ function updateTime(cleaningDate) {
         $.each(data, function (idx, item) {
             var $option = $("<option/>").val(item).text(item);
             $cleaningTime.append($option);
+        });
+    });
+}
+
+function updateOptions(planId) {
+    $.get('/api/options/' + planId, function (data) {
+        var $div = $('div.extraOptions');
+        $div.find('span').remove();
+        $.each(data, function (idx, item) {
+            var element = $('<div/>').text(item.name + " + $" + item.price);
+            $div.append(element);
         });
     });
 }

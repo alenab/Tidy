@@ -1,6 +1,9 @@
 package ca.tidygroup.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "option")
@@ -18,6 +21,14 @@ public class CleaningOption {
 
     @Column(name = "price")
     private double price;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable (name = "option_plan",
+            joinColumns = @JoinColumn(name="option_id"),
+            inverseJoinColumns = @JoinColumn(name = "plan_id"))
+    private List<CleaningPlan> planList;
+
 
     public long getId() {
         return id;
@@ -41,6 +52,14 @@ public class CleaningOption {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public List<CleaningPlan> getPlanList() {
+        return planList;
+    }
+
+    public void setPlanList(List<CleaningPlan> planList) {
+        this.planList = planList;
     }
 
     @Override
