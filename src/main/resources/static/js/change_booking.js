@@ -12,6 +12,21 @@ $(function () {
     $('select, input[type="checkbox"], input#discount').on('change', function () {
         updatePrice();
     });
+
+    $('input.price').on('change', function() {
+        var $priceTax = $('span.booking-price-tax');
+        var $priceTotal = $('span.booking-price-total');
+
+        // clean up discount for visibility - it is not taken in account when setting price directly
+        $('input#discount').val(0);
+        $('span.booking-discount').text("N/A");
+
+        var price = $('input.price').val();
+        $('input#price').val(price);
+
+        $priceTax.text((price * 0.05).toFixed(2));
+        $priceTotal.text((price * 1.05).toFixed(2));
+    })
 });
 
 function getPrice(planId, rooms, baths) {
@@ -46,7 +61,7 @@ function updateBathroomsOptions() {
 }
 
 function updatePrice() {
-    var $price = $('span.booking-price');
+    var $price = $('input.booking-price');
     var $priceTax = $('span.booking-price-tax');
     var $priceTotal = $('span.booking-price-total');
 
@@ -66,7 +81,7 @@ function updatePrice() {
     $('span.booking-discount').text(discount + "%");
 
     var priceWithDiscount = ((100 - discount) / 100) * rawPrice;
-    $price.text(priceWithDiscount.toFixed(2));
+    $price.val(priceWithDiscount.toFixed(2));
     $priceTax.text((priceWithDiscount * 0.05).toFixed(2));
     $priceTotal.text((priceWithDiscount * 1.05).toFixed(2));
 }

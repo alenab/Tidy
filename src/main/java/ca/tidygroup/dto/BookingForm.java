@@ -54,6 +54,8 @@ public class BookingForm {
 
     private String nonce;
 
+    private String getInNotes;
+
     public String getAddress() {
         return address;
     }
@@ -182,6 +184,14 @@ public class BookingForm {
         this.nonce = nonce;
     }
 
+    public String getGetInNotes() {
+        return getInNotes;
+    }
+
+    public void setGetInNotes(String getInNotes) {
+        this.getInNotes = getInNotes;
+    }
+
     @Override
     public String toString() {
         return "BookingForm{" +
@@ -199,6 +209,7 @@ public class BookingForm {
                 ", cleaningOptions=" + cleaningOptions +
                 ", cleaningPlan=" + cleaningPlan +
                 ", price='" + price + '\'' +
+                ", getInNotes='" + getInNotes + '\'' +
                 '}';
     }
 }

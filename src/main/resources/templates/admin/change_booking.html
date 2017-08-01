@@ -153,6 +153,13 @@
                 </div>
                 <br/>
 
+                <div class="input-group">
+                    <span class="input-group-addon">How do we get  in?</span>
+                    <input class="form-control" type="text" data-th-field="*{getInNotes}"/>
+                    <span class="help-block" data-th-errors="*{getInNotes}">error</span>
+                </div>
+                <br/>
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="input-group">
@@ -184,9 +191,9 @@
                 <br/>
 
                 <div class="input-group">
-                    <span class="input-group-addon">Discount</span>
-                    <input class="form-control" type="number" data-th-field="${adminBooking.discount}"/>
-                    <span class="help-block" data-th-errors="${adminBooking.discount}">error</span>
+                    <span class="input-group-addon">Admin notes</span>
+                    <input class="form-control" type="text" data-th-field="${adminBooking.adminNotes}"/>
+                    <span class="help-block" data-th-errors="${adminBooking.adminNotes}">error</span>
                 </div>
                 <br/>
                 <br/>
@@ -202,16 +209,23 @@
                     <span class="col-md-6" data-th-text="${adminBooking.price}">100</span>
                     <input type="hidden" data-th-field="${adminBooking.price}"/>
                 </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Discount</span>
+                    <input class="form-control" type="number" data-th-field="${adminBooking.discount}"/>
+                    <span class="help-block" data-th-errors="${adminBooking.discount}">error</span>
+                </div>
+                <br/>
             </div>
         </form>
 
         <div class="col-md-3 col-md-offset-1">
             <hr/>
 
-            <div class="form-group row">
-                <label class="control-label col-md-6">SUB-TOTAL</label>
-                <span class="booking-price price col-md-6">100</span>
+            <div class="input-group">
+                <label class="input-group-addon">SUB-TOTAL</label>
+                <input type="number" class="form-control booking-price price"/>
             </div>
+            <br/>
             <div class="form-group row">
                 <label class="control-label col-md-6 ">SALES TAX</label>
                 <span class="booking-price-tax price col-md-6">10</span>

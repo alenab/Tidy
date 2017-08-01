@@ -22,6 +22,9 @@ public class CleaningOption {
     @Column(name = "price")
     private double price;
 
+    @Column(name = "img_name")
+    private String imgName;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable (name = "option_plan",
@@ -62,11 +65,21 @@ public class CleaningOption {
         this.planList = planList;
     }
 
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
+
     @Override
     public String toString() {
         return "CleaningOption{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", price=" + price +
+                ", imgName='" + imgName + '\'' +
                 '}';
     }
 }

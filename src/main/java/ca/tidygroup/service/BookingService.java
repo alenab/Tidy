@@ -89,6 +89,7 @@ public class BookingService {
                 LocalTime.parse(bookingForm.getCleaningTime()), ZoneId.systemDefault()));
         booking.setCleaningPlan(bookingForm.getCleaningPlan());
         booking.setAdditionalOptions(bookingForm.getCleaningOptions());
+        booking.setGetInNotes(bookingForm.getGetInNotes());
 
         // validate that price which was shown to the end user on web page is the same as calculated on the server side
         double serverPrice = pricingService.getPrice(bookingForm);
@@ -168,6 +169,8 @@ public class BookingService {
         booking.setPrice(bookingDTOAdmin.getPrice());
         booking.setEmployeeId(bookingDTOAdmin.getEmployeeId());
         booking.setDuration(bookingDTOAdmin.getDuration());
+        booking.setGetInNotes(bookingDTOAdmin.getGetInNotes());
+        booking.setAdminNotes(bookingDTOAdmin.getAdminNotes());
         bookingRepository.save(booking);
     }
 

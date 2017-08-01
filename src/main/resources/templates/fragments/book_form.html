@@ -57,7 +57,8 @@
 
                 <div class="form-group">
                     <span class="input-group-addon">Extra services</span>
-                        <div class="extraOptions">
+                        <div class="row extraOptions">
+                            <!-- list is populated by js -->
                         </div>
                 </div>
                 <div class="input-group">
@@ -86,21 +87,19 @@
                     </div>
                 </div>
                 <br/>
-                <div class="row">
-                    <div th:if="${booking.discount == null}">
-                        <div class="col-md-9">
-                            <div class="input-group">
-                                <span class="input-group-addon">Discount</span>
-                                <input class="form-control" type="text" form="discountForm"
-                                       data-th-field="${discount.code}"/>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <input class="form-control" type="submit" form="discountForm"/>
-                            <span class="help-block" data-th-errors="${discount.code}">error</span>
-                        </div>
-                    </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">How do we get in?</span>
+                    <select id="getInType" class="form-control">
+                        <option selected="selected" value="home">Someone is home</option>
+                        <option value="concierge">Concierge</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="help-block" data-th-errors="*{getInNotes}">error</span>
+                    <textarea id="getInOther" class="form-control" style="display: none;"></textarea>
+                    <input id="getInToSend" type="hidden" data-th-field="*{getInNotes}"/>
                 </div>
+
                 <br/>
 
                 <div class="form-inline row">
@@ -121,6 +120,23 @@
                                 <!-- options populated by js -->
                             </select>
                             <span class="help-block" data-th-errors="*{cleaningTime}">error</span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <div th:if="${booking.discount == null}">
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">Discount</span>
+                                <input class="form-control" type="text" form="discountForm"
+                                       data-th-field="${discount.code}"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="submit" form="discountForm"/>
+                            <span class="help-block" data-th-errors="${discount.code}">error</span>
                         </div>
                     </div>
                 </div>
@@ -238,6 +254,34 @@
             });
         });
         /*]]>*/
+    </script>
+
+    <!-- UI for "How we get in?" -->
+    <script>
+        function handleUpdateValues() {
+            var $option = $('select#getInType > option:selected');
+            var $textarea = $('#getInOther');
+            var $input = $('#getInToSend');
+            if ($option.val() === 'other') {
+                $textarea.show();
+                $input.val($textarea.val());
+            } else {
+                $textarea.hide();
+                $input.val($option.text());
+            }
+        }
+
+        $(function() {
+            handleUpdateValues();
+
+            $('select#getInType').on('change', handleUpdateValues);
+
+            $('#getInOther').on('change', function() {
+                var $textarea = $('#getInOther');
+                var $input = $('#getInToSend');
+                $input.val($textarea.val());
+            });
+        });
     </script>
 
     <script src="../../static/js/booking.js" data-th-src="@{/js/booking.js}" type="text/javascript"></script>

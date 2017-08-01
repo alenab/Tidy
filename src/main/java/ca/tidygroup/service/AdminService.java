@@ -70,6 +70,8 @@ public class AdminService {
         bookingDTOAdmin.setEmployeeId(booking.getEmployeeId());
         bookingDTOAdmin.setDuration(booking.getDuration());
         bookingDTOAdmin.setStatus(booking.getStatus());
+        bookingDTOAdmin.setGetInNotes(booking.getGetInNotes());
+        bookingDTOAdmin.setAdminNotes(booking.getAdminNotes());
         bookingDTOAdmin.setBillingCustomerId(booking.getCustomer().getBillingCustomerId());
         return bookingDTOAdmin;
     }

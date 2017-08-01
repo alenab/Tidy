@@ -36,12 +36,15 @@
                         </button>
                     </a>
 
-                    <form method="post" data-th-action="@{/admin/booking/{bid}/cancel(bid=${booking.id})}"
-                          data-th-object="${booking}">
-                        <button type="submit" class="btn-default">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                    </form>
+                    <!--/*@thymesVar id="Status" type="ca.tidygroup.model.Status"*/-->
+                        <a data-th-unless="${booking.status} != Status.BILLING_SUCCESS">
+                            <form method="post" data-th-action="@{/admin/booking/{bid}/cancel(bid=${booking.id})}"
+                                  data-th-object="${booking}">
+                                <button type="submit" class="btn-default">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </form>
+                        </a>
                 </td>
             </tr>
         </table>

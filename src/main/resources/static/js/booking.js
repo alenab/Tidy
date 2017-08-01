@@ -53,11 +53,39 @@ function updateTime(cleaningDate) {
 function updateOptions(planId) {
     $.get('/api/options/' + planId, function (data) {
         var $div = $('div.extraOptions');
-        $div.find('span').remove();
+        $div.find('div').remove();
+
+        // var $rowDiv = $('<div/>').addClass('row');
+        var $ol = $('<ol/>');
         $.each(data, function (idx, item) {
-            var element = $('<div/>').text(item.name + " + $" + item.price);
-            $div.append(element);
+            // var element = $('<div class="col-md-4"/>');
+            var element = $('<span/>');
+            element.addClass('option-item');
+            var $img = $('<img/>')
+                .attr("src", "/images/options/" + item.imgName + ".png")
+                .addClass('img-responsive');
+
+            $img.attr('width', '60px');
+            $img.attr('height', '60px');
+            // element.append($('<div class="col-md-4"/>').append($img));
+            element.append($('<span/>').append($img));
+
+            // var $subDiv = $('<div class="col-md-8"/>');
+            var $subDiv = $('<span>');
+            $subDiv.append($('<span/>').text(item.name));
+            $subDiv.append('<br/>');
+            $subDiv.append($('<span/>').text('$' + item.price));
+            element.append($subDiv);
+
+            // $rowDiv.append(element);
+            // if ((idx + 1) % 3 === 0) {
+            //     $div.append($rowDiv);
+            //     $rowDiv = $('<div/>').addClass('row');
+            // }
+            $ol.append($('<li/>').addClass('ui-state-default').append(element));
         });
+        $div.append($ol);
+        $ol.selectable({filter: "span.option-item"});
     });
 }
 

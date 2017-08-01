@@ -62,6 +62,13 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(name = "get_in_notes")
+    private String getInNotes;
+
+    @Column(name = "admin_notes")
+    private String adminNotes;
+
+
     public long getId() {
         return id;
     }
@@ -180,5 +187,21 @@ public class Booking {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getGetInNotes() {
+        return getInNotes;
+    }
+
+    public void setGetInNotes(String getInNotes) {
+        this.getInNotes = getInNotes;
+    }
+
+    public String getAdminNotes() {
+        return adminNotes;
+    }
+
+    public void setAdminNotes(String adminNotes) {
+        this.adminNotes = adminNotes;
     }
 }

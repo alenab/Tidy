@@ -48,6 +48,10 @@ public class BookingDTOAdmin {
 
     private Status status;
 
+    private String getInNotes;
+
+    private String adminNotes;
+
     private String billingCustomerId;
 
     public Status getStatus() {
@@ -206,6 +210,14 @@ public class BookingDTOAdmin {
         return duration;
     }
 
+    public String getGetInNotes() {
+        return getInNotes;
+    }
+
+    public void setGetInNotes(String getInNotes) {
+        this.getInNotes = getInNotes;
+    }
+
     public void setDuration(double duration) {
         this.duration = duration;
     }
@@ -239,7 +251,16 @@ public class BookingDTOAdmin {
                 ", price=" + price +
                 ", finalPrice=" + finalPrice +
                 ", employee='" + employeeId + '\'' +
-                ", duration=" + duration +
+                ", duration=" + duration + '\'' +
+                ", getInNotes=" + getInNotes + '\'' +
                 '}';
+    }
+
+    public String getAdminNotes() {
+        return adminNotes;
+    }
+
+    public void setAdminNotes(String adminNotes) {
+        this.adminNotes = adminNotes;
     }
 }
