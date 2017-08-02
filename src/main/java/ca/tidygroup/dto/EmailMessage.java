@@ -1,6 +1,6 @@
 package ca.tidygroup.dto;
 
-public class Message {
+public class EmailMessage {
 
     private String name;
 

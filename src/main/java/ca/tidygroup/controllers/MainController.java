@@ -1,6 +1,6 @@
 package ca.tidygroup.controllers;
 
-import ca.tidygroup.dto.Message;
+import ca.tidygroup.dto.EmailMessage;
 import ca.tidygroup.model.Account;
 import ca.tidygroup.service.MailingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class MainController {
 
     @ModelAttribute
     public void bookingModelAttributes(Model model) {
-        model.addAttribute("message", new Message());
+        model.addAttribute("message", new EmailMessage());
     }
 
     @GetMapping("/")
@@ -33,7 +33,7 @@ public class MainController {
     }
 
     @PostMapping("/send-message")
-    public String sendMessage(Message message) {
+    public String sendMessage(EmailMessage message) {
         mailingService.sendEmailMessage(message);
         return "index";
     }
