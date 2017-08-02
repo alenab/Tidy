@@ -18,14 +18,14 @@ public class BookingManager {
 
     private final ApplicationEventPublisher publisher;
 
-    private BookingService service;
+    private BookingService bookingService;
 
     private AccountManager accountManager;
 
     @Autowired
-    public BookingManager(ApplicationEventPublisher publisher, BookingService service, AccountManager accountManager) {
+    public BookingManager(ApplicationEventPublisher publisher, BookingService bookingService, AccountManager accountManager) {
         this.publisher = publisher;
-        this.service = service;
+        this.bookingService = bookingService;
         this.accountManager = accountManager;
     }
 
@@ -33,7 +33,7 @@ public class BookingManager {
         log.info("New booking request: {}", form);
         Customer customer = accountManager.getCustomer(form);
         Address address = accountManager.getAddress(form);
-        service.add(customer, address, form);
+        bookingService.add(customer, address, form);
 
         publisher.publishEvent(new NewBookingEvent(form));
     }

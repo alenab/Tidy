@@ -4,11 +4,13 @@ import ca.tidygroup.dto.BookingDTOAdmin;
 import ca.tidygroup.dto.CustomerDTO;
 import ca.tidygroup.dto.EmployeeDTO;
 import ca.tidygroup.dto.WorkingHoursDTO;
+import ca.tidygroup.event.ReducedBookingSlots;
 import ca.tidygroup.model.*;
 import ca.tidygroup.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ import java.util.List;
 public class AdminService {
 
     private static final Logger log = LoggerFactory.getLogger(AdminService.class);
+
+    private final ApplicationEventPublisher publisher;
     private BookingRepository bookingRepository;
     private EmployeeRepository employeeRepository;
     private AccountRepository accountRepository;
@@ -28,7 +32,8 @@ public class AdminService {
     private WorkingHoursRepository workingHoursRepository;
 
     @Autowired
-    public AdminService(BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository) {
+    public AdminService(ApplicationEventPublisher publisher, BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository) {
+        this.publisher = publisher;
         this.bookingRepository = bookingRepository;
         this.employeeRepository = employeeRepository;
         this.accountRepository = accountRepository;
@@ -208,7 +213,8 @@ public class AdminService {
         WorkingHours workingHours = workingHoursRepository.findAll().get(0);
         workingHoursDTO.setStartTime(workingHours.getStartTime().toString());
         workingHoursDTO.setEndTime(workingHours.getEndTime().toString());
-        workingHoursDTO.setStep(((Integer)workingHours.getStep()).toString());
+        workingHoursDTO.setStep(workingHours.getStep());
+        workingHoursDTO.setSlotAmount(workingHours.getNumberOfSlots());
         return workingHoursDTO;
     }
 
@@ -216,7 +222,15 @@ public class AdminService {
         WorkingHours workingHours = workingHoursRepository.findAll().get(0);
         workingHours.setStartTime(LocalTime.parse(workingHoursDTO.getStartTime()));
         workingHours.setEndTime(LocalTime.parse(workingHoursDTO.getEndTime()));
-        workingHours.setStep(Integer.parseInt(workingHoursDTO.getStep()));
+        workingHours.setStep(workingHoursDTO.getStep());
+
+        int newNumberOfSlots = workingHoursDTO.getSlotAmount();
+        if (newNumberOfSlots < workingHours.getNumberOfSlots()) {
+            workingHours.setNumberOfSlots(newNumberOfSlots);
+
+            publisher.publishEvent(new ReducedBookingSlots(newNumberOfSlots));
+        }
+
         workingHoursRepository.save(workingHours);
     }
 

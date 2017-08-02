@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByCleaningTimeBetween(ZonedDateTime start, ZonedDateTime end);
-    List<Booking> findAllByStatusIn(Status status);
-    List<Booking> findAllByStatusNotIn(Status status);
+    List<Booking> findAllByCleaningTimeAfterAndStatusNotIn(ZonedDateTime afterDate, Status... statuses);
+    List<Booking> findAllByStatusIn(Status... statuses);
+    List<Booking> findAllByStatusNotIn(Status... statuses);
 }

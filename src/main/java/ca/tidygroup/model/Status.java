@@ -10,4 +10,5 @@ public enum Status {
     BILLING_UNKNOWN,
     COMPLETED,
     CANCELLED,
+    TIME_CONFLICT
 }

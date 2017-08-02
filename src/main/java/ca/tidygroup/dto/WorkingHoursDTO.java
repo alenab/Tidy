@@ -1,6 +1,6 @@
 package ca.tidygroup.dto;
 
-import java.time.LocalTime;
+import javax.validation.constraints.Min;
 
 public class WorkingHoursDTO {
 
@@ -8,7 +8,11 @@ public class WorkingHoursDTO {
 
     private String endTime;
 
-    private String step;
+    @Min(1)
+    private int step;
+
+    @Min(1)
+    private int slotAmount;
 
     public String getStartTime() {
         return startTime;
@@ -26,11 +30,19 @@ public class WorkingHoursDTO {
         this.endTime = endTime;
     }
 
-    public String getStep() {
+    public int getStep() {
         return step;
     }
 
-    public void setStep(String step) {
+    public void setStep(int step) {
         this.step = step;
+    }
+
+    public int getSlotAmount() {
+        return slotAmount;
+    }
+
+    public void setSlotAmount(int slotAmount) {
+        this.slotAmount = slotAmount;
     }
 }

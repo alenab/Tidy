@@ -12,26 +12,28 @@
     <a data-th-href="@{/admin/}"><h4>Main admin menu</h4></a>
     <!--/*@thymesVar id="workingHoursDTO" type="ca.tidygroup.dto.WorkingHoursDTO"*/-->
     <form th:action="@{/admin/working_hours-save}" method="post" data-th-object="${workingHoursDTO}">
-
         <div class="form-group col-md-6">
             <label class="control-label">Start working day at</label>
-            <input class="form-control" type="time" data-th-field="*{startTime}"
-                   required="required"/>
+            <input class="form-control" type="time" data-th-field="*{startTime}" required="required"/>
             <span class="help-block" data-th-errors="*{startTime}">error</span>
         </div>
 
         <div class="form-group col-md-6">
             <label class="control-label">Finish working day at</label>
-            <input class="form-control" type="time" data-th-field="*{endTime}"
-                   required="required"/>
+            <input class="form-control" type="time" data-th-field="*{endTime}" required="required"/>
             <span class="help-block" data-th-errors="*{endTime}">error</span>
         </div>
 
         <div class="form-group col-md-6">
             <label class="control-label">Booking window</label>
-            <input class="form-control" type="number" data-th-field="*{step}"
-                   required="required"/>
+            <input class="form-control" type="number" data-th-field="*{step}" min="1" required="required"/>
             <span class="help-block" data-th-errors="*{step}">error</span>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label class="control-label">Number of simultaneous jobs</label>
+            <input class="form-control" type="number" data-th-field="*{slotAmount}" min="1" required="required"/>
+            <span class="help-block" data-th-errors="*{slotAmount}">error</span>
         </div>
 
         <input class="btn-info form-control" type="submit"/>

@@ -156,7 +156,7 @@ public class AdminController {
     }
 
     @PostMapping("/working_hours-save")
-    public String saveWorkingHours(@ModelAttribute("workingHoursDTO")WorkingHoursDTO workingHoursDTO) {
+    public String saveWorkingHours(@Valid @ModelAttribute("workingHoursDTO") WorkingHoursDTO workingHoursDTO) {
         adminService.updateWorkingHours(workingHoursDTO);
         return "redirect:/admin/working_hours";
     }

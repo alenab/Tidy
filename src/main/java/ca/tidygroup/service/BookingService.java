@@ -2,6 +2,7 @@ package ca.tidygroup.service;
 
 import ca.tidygroup.dto.BookingDTOAdmin;
 import ca.tidygroup.dto.BookingForm;
+import ca.tidygroup.event.ReducedBookingSlots;
 import ca.tidygroup.event.ChargeEvent;
 import ca.tidygroup.model.*;
 import ca.tidygroup.repository.*;
@@ -12,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -74,6 +77,28 @@ public class BookingService {
                 booking.setStatus(Status.BILLING_UNKNOWN);
         }
         bookingRepository.save(booking);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @EventListener
+    public void reviewUpcomingBookingsForSlotLack(ReducedBookingSlots event) {
+        ZonedDateTime yesterday = ZonedDateTime.now().truncatedTo(ChronoUnit.DAYS).minusDays(1);
+        List<Booking> bookings = bookingRepository.findAllByCleaningTimeAfterAndStatusNotIn(yesterday,
+                Status.CANCELLED, Status.COMPLETED);
+        Map<ZonedDateTime, List<Booking>> map = bookings.stream()
+                .collect(Collectors.groupingBy(Booking::getCleaningTime));
+
+        final int numberOfSlots = event.getNewNumberOfSlots();
+        for (ZonedDateTime dateTime : map.keySet()) {
+            List<Booking> duplicates = map.get(dateTime);
+            if (duplicates.size() > numberOfSlots) {
+                for (Booking conflictingBooking : duplicates) {
+                    conflictingBooking.setStatus(Status.TIME_CONFLICT);
+                    bookingRepository.save(conflictingBooking);
+                    // TODO send new notification to show the actual conflicts to the system
+                }
+            }
+        }
     }
 
     public void add(Customer customer, Address address, BookingForm bookingForm) {
@@ -188,7 +213,9 @@ public class BookingService {
         LocalTime endHour = workingHours.getEndTime();
         long hours = Duration.between(startHour, endHour).abs().toHours();
         for (int i = 0; i < hours; i+= workingHours.getStep()) {
-            resultList.add(startHour.plusHours(i));
+            for (int slot = 0; slot < workingHours.getNumberOfSlots(); slot++) {
+                resultList.add(startHour.plusHours(i));
+            }
         }
 
         List<TimeLimitations> timeLimitations = timeLimitationsRepository.findAllByDate(date);
@@ -197,7 +224,8 @@ public class BookingService {
             LocalTime end = limit.getEndTime();
             long limitHours = Duration.between(start, end).abs().toHours();
             for (int i = 0; i < limitHours; i++) {
-                resultList.remove(start.plusHours(i));
+                // removing all time slots since time limitation is global
+                resultList.removeAll(Collections.singletonList(start.plusHours(i)));
             }
         }
 
@@ -209,8 +237,8 @@ public class BookingService {
                 resultList.remove(bookingStart.plusHours(i));
             }
         }
-
-        return resultList;
+        // returning distinct results since user doesn't need to see the actual number of slots
+        return resultList.stream().distinct().collect(Collectors.toList());
     }
 
     private List<Booking> getBookingsForDate(LocalDate date) {

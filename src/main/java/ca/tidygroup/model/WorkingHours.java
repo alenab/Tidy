@@ -21,6 +21,9 @@ public class WorkingHours {
     @Column(name = "step")
     private int step;
 
+    @Column(name = "slots_amount")
+    private int numberOfSlots;
+
     public long getId() {
         return id;
     }
@@ -51,5 +54,13 @@ public class WorkingHours {
 
     public void setStep(int step) {
         this.step = step;
+    }
+
+    public int getNumberOfSlots() {
+        return numberOfSlots;
+    }
+
+    public void setNumberOfSlots(int numberOfSlots) {
+        this.numberOfSlots = numberOfSlots;
     }
 }
