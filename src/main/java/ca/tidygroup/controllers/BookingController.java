@@ -1,7 +1,7 @@
 package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.BookingForm;
-import ca.tidygroup.dto.Message;
+import ca.tidygroup.dto.EmailMessage;
 import ca.tidygroup.manager.AccountManager;
 import ca.tidygroup.manager.BookingManager;
 import ca.tidygroup.model.Discount;
@@ -52,7 +52,7 @@ public class BookingController {
         model.addAttribute("discount", new Discount());
         model.addAttribute("googleApiKey", googleApiKey);
         model.addAttribute("applicationId", billingService.getApplicationId());
-        model.addAttribute("message", new Message());
+        model.addAttribute("message", new EmailMessage());
     }
 
     @GetMapping("/book")
