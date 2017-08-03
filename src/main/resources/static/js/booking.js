@@ -18,10 +18,6 @@ $(function () {
         updatePrice();
     });
 
-    $('input[type="checkbox"]').on('change', function () {
-        updatePrice();
-    });
-
     // showing calendar
     $('#datepicker').datepicker({
         onSelect: updateTime,
@@ -55,25 +51,21 @@ function updateOptions(planId) {
         var $extraOptionsBlock = $('div.extraOptions');
         $extraOptionsBlock.find('div').remove();
 
-    // <div class="media col-md-3">
-    //     <div class="media-left">
-    //         <a href="#">
-    //             <img class="media-object" src="/images/options/ironing.png" />
-    //         </a>
-    //     </div>
-    //     <div class="media-body">
-    //         <h6 class="media-heading">Irnoning</h6>
-    //         $35
-    //     </div>
-    // </div>
-
         $.each(data, function (idx, item) {
             var element = $('<div class="media col-md-3"/>');
 
             var $imgBlock = $('<div class="media-left"/>');
-            var $btn = $('<button class="btn btn-option"/>');
+            var $btn = $('<button type="button" class="btn btn-option"/>').attr('data-option-id', item.id);
+            $btn.on('click', selectOption);
             var $img = $('<img class="media-object"/>').attr("src", "/images/options/" + item.imgName + ".png");
             $imgBlock.append($btn.append($img));
+
+            var checkBox = $('<input type="checkbox" form="bookingForm" name="cleaningOptions" style="display: none;"/>')
+                .attr('data-price', item.price)
+                .attr('id', item.id)
+                .val(item.id);
+            $imgBlock.append(checkBox);
+            $imgBlock.append($('<input type="hidden" name="_cleaningOptions" value="on"/>'));
 
             element.append($imgBlock);
 
@@ -85,6 +77,15 @@ function updateOptions(planId) {
             $extraOptionsBlock.append(element);
         });
     });
+}
+
+function selectOption(eventObject) {
+    var $btn = $(eventObject.currentTarget);
+    $btn.toggleClass('active');
+    var optionId = $btn.data('option-id');
+    var checkbox = $('input[type="checkbox"][value="' + optionId + '"]');
+    checkbox.prop('checked', $btn.hasClass('active'));
+    updatePrice();
 }
 
 function getPrice(planId, rooms, baths) {

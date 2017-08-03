@@ -52,9 +52,9 @@ public class PricingService {
 
     private double getPriceWithOptions(double basePrice, List<CleaningOption> additionalOptions) {
         double price = basePrice;
-//        for (CleaningOption option : additionalOptions) {
-//            price += option.getPrice();
-//        }
+        for (CleaningOption option : additionalOptions) {
+            price += option.getPrice();
+        }
         return price;
     }
 
