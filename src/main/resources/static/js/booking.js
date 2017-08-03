@@ -52,40 +52,38 @@ function updateTime(cleaningDate) {
 
 function updateOptions(planId) {
     $.get('/api/options/' + planId, function (data) {
-        var $div = $('div.extraOptions');
-        $div.find('div').remove();
+        var $extraOptionsBlock = $('div.extraOptions');
+        $extraOptionsBlock.find('div').remove();
 
-        // var $rowDiv = $('<div/>').addClass('row');
-        var $ol = $('<ol/>');
+    // <div class="media col-md-3">
+    //     <div class="media-left">
+    //         <a href="#">
+    //             <img class="media-object" src="/images/options/ironing.png" />
+    //         </a>
+    //     </div>
+    //     <div class="media-body">
+    //         <h6 class="media-heading">Irnoning</h6>
+    //         $35
+    //     </div>
+    // </div>
+
         $.each(data, function (idx, item) {
-            // var element = $('<div class="col-md-4"/>');
-            var element = $('<span/>');
-            element.addClass('option-item');
-            var $img = $('<img/>')
-                .attr("src", "/images/options/" + item.imgName + ".png")
-                .addClass('img-responsive');
+            var element = $('<div class="media col-md-3"/>');
 
-            $img.attr('width', '60px');
-            $img.attr('height', '60px');
-            // element.append($('<div class="col-md-4"/>').append($img));
-            element.append($('<span/>').append($img));
+            var $imgBlock = $('<div class="media-left"/>');
+            var $btn = $('<button class="btn btn-option"/>');
+            var $img = $('<img class="media-object"/>').attr("src", "/images/options/" + item.imgName + ".png");
+            $imgBlock.append($btn.append($img));
 
-            // var $subDiv = $('<div class="col-md-8"/>');
-            var $subDiv = $('<span>');
-            $subDiv.append($('<span/>').text(item.name));
-            $subDiv.append('<br/>');
-            $subDiv.append($('<span/>').text('$' + item.price));
-            element.append($subDiv);
+            element.append($imgBlock);
 
-            // $rowDiv.append(element);
-            // if ((idx + 1) % 3 === 0) {
-            //     $div.append($rowDiv);
-            //     $rowDiv = $('<div/>').addClass('row');
-            // }
-            $ol.append($('<li/>').addClass('ui-state-default').append(element));
+            var $bodyBlock = $('<div class="media-body"/>');
+            $bodyBlock.append($('<h6 class="media-heading"/>').text(item.name));
+            $bodyBlock.append($('<span/>').text("+$" + item.price));
+            element.append($bodyBlock);
+
+            $extraOptionsBlock.append(element);
         });
-        $div.append($ol);
-        $ol.selectable({filter: "span.option-item"});
     });
 }
 
