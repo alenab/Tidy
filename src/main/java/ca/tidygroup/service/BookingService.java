@@ -210,14 +210,19 @@ public class BookingService {
         List<LocalTime> resultList = new ArrayList<>();
         WorkingHours workingHours = workingHoursRepository.findAll().get(0);
         LocalTime startHour = workingHours.getStartTime();
-//        if (date == LocalDate.now()) {
-//            startHour = LocalTime.now().plusHours(4).withMinute(0);
-//        }
         LocalTime endHour = workingHours.getEndTime();
         long hours = Duration.between(startHour, endHour).abs().toHours();
         for (int i = 0; i < hours; i+= workingHours.getStep()) {
             for (int slot = 0; slot < workingHours.getNumberOfSlots(); slot++) {
                 resultList.add(startHour.plusHours(i));
+            }
+        }
+
+        if (date.equals(LocalDate.now())) {
+            LocalTime currentStart = LocalTime.now().withMinute(0);
+            long hoursToDelete = Duration.between(startHour,currentStart ).abs().toHours();
+            for (int i = 0; i < hoursToDelete; i+= workingHours.getStep()) {
+                resultList.remove(startHour.plusHours(i));
             }
         }
 

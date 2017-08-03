@@ -24,7 +24,7 @@
         <div class="col-md-4">
             <div class="input-group">
                 <!--<input type="hidden" data-th-field="${timeLimitations.date}"/>-->
-                <span class="input-group-addon">Date</span>
+                <span class="input-group-addon" id="data">Date</span>
                 <div id="datepicker"></div>
             </div>
         </div>
@@ -32,9 +32,9 @@
         <div class="col-md-4">
             <div class="input-group">
                 <span class="input-group-addon">Closed time</span>
-                <select class="form-control" th:name="timeLimits">
-                    <!-- options populated by js -->
-                </select>
+            </div>
+            <div class="row text-center" id="timeLimits">
+                <!-- list is populated by js -->
             </div>
         </div>
 

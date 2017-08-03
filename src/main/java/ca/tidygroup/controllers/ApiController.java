@@ -59,7 +59,9 @@ public class ApiController {
     }
 
     @GetMapping("/time-limitations/{date}")
-    public List<LocalTime> getTimeLimitations(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return adminService.getTimeLimitationForDate(date).getListTimeLimits();
+    public List<String > getTimeLimitations(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return adminService.getTimeLimitationForDate(date).getListTimeLimits().stream()
+                .map(time -> time.format(DateTimeFormatter.ofPattern("HH:mm")))
+                .collect(Collectors.toList());
     }
 }
