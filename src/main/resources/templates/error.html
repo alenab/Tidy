@@ -48,7 +48,9 @@
             </div>
             <div class="panel-body">
                 <span data-th-text="${exception.message}">message</span>
-                <span data-th-text="${exception.stackTrace}">stack trace</span>
+                <th:block data-th-each="ste : ${exception.stackTrace}">
+                    <span data-th-text="${ste}">stack trace</span>
+                </th:block>
             </div>
         </div>
     </div>

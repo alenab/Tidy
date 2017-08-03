@@ -2,6 +2,7 @@ package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.ApartmentUnitDTO;
 import ca.tidygroup.model.CleaningOption;
+import ca.tidygroup.service.AdminService;
 import ca.tidygroup.service.BookingService;
 import ca.tidygroup.service.PricingService;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,11 +28,13 @@ public class ApiController {
 
     private PricingService pricingService;
     private BookingService bookingService;
+    private AdminService adminService;
 
     @Autowired
-    public ApiController(PricingService pricingService, BookingService bookingService) {
+    public ApiController(PricingService pricingService, BookingService bookingService, AdminService adminService) {
         this.pricingService = pricingService;
         this.bookingService = bookingService;
+        this.adminService = adminService;
     }
 
     @GetMapping("/price-matrix")
@@ -52,5 +56,10 @@ public class ApiController {
     public List<CleaningOption> getOptionsByPlan(@PathVariable Long planId) {
         return bookingService.getCleaningOptionsByPlanId(planId);
 
+    }
+
+    @GetMapping("/time-limitations/{date}")
+    public List<LocalTime> getTimeLimitations(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return adminService.getTimeLimitationForDate(date).getListTimeLimits();
     }
 }

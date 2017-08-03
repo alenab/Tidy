@@ -54,6 +54,8 @@ public class BookingDTOAdmin {
 
     private String billingCustomerId;
 
+    private String plannedTime;
+
     public Status getStatus() {
         return status;
     }
@@ -224,6 +226,14 @@ public class BookingDTOAdmin {
 
     public String getBillingCustomerId() {
         return billingCustomerId;
+    }
+
+    public String getPlannedTime() {
+        return plannedTime;
+    }
+
+    public void setPlannedTime(String plannedTime) {
+        this.plannedTime = plannedTime;
     }
 
     public void setBillingCustomerId(String billingCustomerId) {

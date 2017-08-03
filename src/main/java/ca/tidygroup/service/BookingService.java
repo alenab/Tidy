@@ -210,6 +210,9 @@ public class BookingService {
         List<LocalTime> resultList = new ArrayList<>();
         WorkingHours workingHours = workingHoursRepository.findAll().get(0);
         LocalTime startHour = workingHours.getStartTime();
+//        if (date == LocalDate.now()) {
+//            startHour = LocalTime.now().plusHours(4).withMinute(0);
+//        }
         LocalTime endHour = workingHours.getEndTime();
         long hours = Duration.between(startHour, endHour).abs().toHours();
         for (int i = 0; i < hours; i+= workingHours.getStep()) {
@@ -223,7 +226,7 @@ public class BookingService {
             LocalTime start = limit.getStartTime();
             LocalTime end = limit.getEndTime();
             long limitHours = Duration.between(start, end).abs().toHours();
-            for (int i = 0; i < limitHours; i++) {
+            for (int i = 0; i <= limitHours; i++) {
                 // removing all time slots since time limitation is global
                 resultList.removeAll(Collections.singletonList(start.plusHours(i)));
             }
@@ -232,7 +235,8 @@ public class BookingService {
         List<Booking> bookingsList = getBookingsForDate(date);
         for(Booking booking : bookingsList) {
             LocalTime bookingStart = booking.getCleaningTime().toLocalTime();
-            int step = workingHours.getStep();
+            int step = apartmentUnitRepository.findApartmentUnitByCleaningPlanAndNumberOfBedroomsAndNumberOfBathrooms(
+                    booking.getCleaningPlan(), booking.getNumberOfRooms(), booking.getNumberOfBathrooms()).getPlannedTime();
             for (int i = 0; i < step; i++) {
                 resultList.remove(bookingStart.plusHours(i));
             }

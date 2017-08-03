@@ -5,6 +5,7 @@ import ca.tidygroup.dto.CustomerDTO;
 import ca.tidygroup.dto.EmployeeDTO;
 import ca.tidygroup.dto.WorkingHoursDTO;
 import ca.tidygroup.event.ReducedBookingSlots;
+import ca.tidygroup.dto.*;
 import ca.tidygroup.model.*;
 import ca.tidygroup.repository.*;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,15 +33,19 @@ public class AdminService {
     private AccountRepository accountRepository;
     private CustomerRepository customerRepository;
     private WorkingHoursRepository workingHoursRepository;
+    private TimeLimitationsRepository timeLimitationsRepository;
+    private ApartmentUnitRepository apartmentUnitRepository;
 
     @Autowired
-    public AdminService(ApplicationEventPublisher publisher, BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository) {
+    public AdminService(ApplicationEventPublisher publisher, BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository, TimeLimitationsRepository timeLimitationsRepository, ApartmentUnitRepository apartmentUnitRepository) {
         this.publisher = publisher;
         this.bookingRepository = bookingRepository;
         this.employeeRepository = employeeRepository;
         this.accountRepository = accountRepository;
         this.customerRepository = customerRepository;
         this.workingHoursRepository = workingHoursRepository;
+        this.timeLimitationsRepository = timeLimitationsRepository;
+        this.apartmentUnitRepository = apartmentUnitRepository;
     }
 
     @Transactional
@@ -78,6 +85,9 @@ public class AdminService {
         bookingDTOAdmin.setGetInNotes(booking.getGetInNotes());
         bookingDTOAdmin.setAdminNotes(booking.getAdminNotes());
         bookingDTOAdmin.setBillingCustomerId(booking.getCustomer().getBillingCustomerId());
+        int plannedTime = apartmentUnitRepository.findApartmentUnitByCleaningPlanAndNumberOfBedroomsAndNumberOfBathrooms(booking.getCleaningPlan(),
+                booking.getNumberOfRooms(), booking.getNumberOfBathrooms()).getPlannedTime();
+        bookingDTOAdmin.setPlannedTime(String.valueOf(plannedTime));
         return bookingDTOAdmin;
     }
 
@@ -232,6 +242,25 @@ public class AdminService {
         }
 
         workingHoursRepository.save(workingHours);
+    }
+
+    public TimeLimitationDTO getTimeLimitationForDate(LocalDate date) {
+        TimeLimitationDTO timeLimitationDTO = new TimeLimitationDTO();
+        timeLimitationDTO.setDate(date.toString());
+
+        List<LocalTime> timeLimitsList = new ArrayList<>();
+
+        List<TimeLimitations> list = timeLimitationsRepository.findAllByDate(date);
+        for (TimeLimitations limit : list) {
+            LocalTime start = limit.getStartTime();
+            long limitHours = Duration.between(start, limit.getEndTime()).abs().toHours();
+            for (int i = 0; i <= limitHours; i++) {
+                timeLimitsList.add(start.plusHours(i));
+            }
+        }
+        timeLimitationDTO.setListTimeLimits(timeLimitsList);
+
+        return timeLimitationDTO;
     }
 
 }

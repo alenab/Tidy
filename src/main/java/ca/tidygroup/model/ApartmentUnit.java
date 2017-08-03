@@ -26,6 +26,9 @@ public class ApartmentUnit {
     @Column(name = "price")
     private Double price;
 
+    @Column(name = "planned_time")
+    private int plannedTime;
+
     public CleaningPlan getCleaningPlan() {
         return cleaningPlan;
     }
@@ -66,13 +69,23 @@ public class ApartmentUnit {
         this.numberOfBathrooms = numberOfBathrooms;
     }
 
+    public int getPlannedTime() {
+        return plannedTime;
+    }
+
+    public void setPlannedTime(int plannedTime) {
+        this.plannedTime = plannedTime;
+    }
+
     @Override
     public String toString() {
         return "ApartmentUnit{" +
-                "numberOfBedrooms=" + numberOfBedrooms +
+                "id=" + id +
+                ", numberOfBedrooms=" + numberOfBedrooms +
                 ", numberOfBathrooms=" + numberOfBathrooms +
                 ", cleaningPlan=" + cleaningPlan +
                 ", price=" + price +
+                ", plannedTime=" + plannedTime +
                 '}';
     }
 }

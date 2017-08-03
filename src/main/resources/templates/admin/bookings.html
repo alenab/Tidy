@@ -31,16 +31,16 @@
                 <td data-th-text="${booking.status}"></td>
                 <td>
                     <a data-th-href="@{bookings/{bId}(bId=${booking.id})}">
-                        <button class="btn-default">
+                        <button class="btn-info form-control">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
                     </a>
 
                     <!--/*@thymesVar id="Status" type="ca.tidygroup.model.Status"*/-->
-                        <a data-th-unless="${booking.status} != Status.BILLING_SUCCESS">
+                        <a data-th-if="${booking.status != T(ca.tidygroup.model.Status).BILLING_SUCCESS}">
                             <form method="post" data-th-action="@{/admin/booking/{bid}/cancel(bid=${booking.id})}"
                                   data-th-object="${booking}">
-                                <button type="submit" class="btn-default">
+                                <button type="submit" class="btn-info form-control">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </button>
                             </form>

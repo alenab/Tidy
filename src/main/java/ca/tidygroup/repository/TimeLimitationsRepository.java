@@ -8,6 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface TimeLimitationsRepository extends JpaRepository <TimeLimitations, Long>{
-    List<TimeLimitations>  findAllByDate (LocalDate date);
+public interface TimeLimitationsRepository extends JpaRepository<TimeLimitations, Long> {
+    List<TimeLimitations> findAllByDate(LocalDate date);
 }

@@ -35,7 +35,7 @@ public class PricingService {
     public List<ApartmentUnitDTO> getAllApartmentUnits() {
         return apartmentUnitRepository.findAll().stream()
                 .map(item -> new ApartmentUnitDTO(item.getCleaningPlan().getId(), item.getNumberOfBedrooms(),
-                        item.getNumberOfBathrooms(), item.getPrice())
+                        item.getNumberOfBathrooms(), item.getPrice(), item.getPlannedTime())
                 ).collect(Collectors.toList());
     }
 

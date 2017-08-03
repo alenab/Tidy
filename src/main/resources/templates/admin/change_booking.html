@@ -161,24 +161,14 @@
                 <br/>
 
                 <div class="row">
+
                     <div class="col-md-6">
-                        <div class="input-group">
-                            <span class="input-group-addon">Employee</span>
-                            <select class="form-control" data-th-field="${adminBooking.employeeId}">
-                                <!--/*@thymesVar id="employees" type="java.util.List<ca.tidygroup.model.Employee>"*/-->
-                                <option value=""></option>
-                                <th:block th:each="empl : ${employees}">
-                                    <option data-th-if="${empl.id == adminBooking.employeeId}"
-                                            data-th-value="${empl.id}"
-                                            data-th-text="|${empl.firstName} ${empl.lastName}|"
-                                            selected="selected"></option>
-                                    <option data-th-if="${empl.id != adminBooking.employeeId}"
-                                            data-th-value="${empl.id}"
-                                            data-th-text="|${empl.firstName} ${empl.lastName}|"></option>
-                                </th:block>
-                            </select>
-                        </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Planned Time</span>
+                        <span class="form-control" data-th-text="${adminBooking.plannedTime}"></span>
+
                     </div>
+                </div>
 
                     <div class="col-md-6">
                         <div class="input-group">
@@ -187,6 +177,25 @@
                             <span class="help-block" data-th-errors="${adminBooking.duration}">error</span>
                         </div>
                     </div>
+                </div>
+                <br/>
+
+
+                <div class="input-group">
+                    <span class="input-group-addon">Employee</span>
+                    <select class="form-control" data-th-field="${adminBooking.employeeId}">
+                        <!--/*@thymesVar id="employees" type="java.util.List<ca.tidygroup.model.Employee>"*/-->
+                        <option value=""></option>
+                        <th:block th:each="empl : ${employees}">
+                            <option data-th-if="${empl.id == adminBooking.employeeId}"
+                                    data-th-value="${empl.id}"
+                                    data-th-text="|${empl.firstName} ${empl.lastName}|"
+                                    selected="selected"></option>
+                            <option data-th-if="${empl.id != adminBooking.employeeId}"
+                                    data-th-value="${empl.id}"
+                                    data-th-text="|${empl.firstName} ${empl.lastName}|"></option>
+                        </th:block>
+                    </select>
                 </div>
                 <br/>
 
@@ -241,7 +250,7 @@
                 <span class="booking-price-total price col-md-6">110</span>
             </div>
 
-            <input type="submit" form="changeBooking"/>
+            <input class="btn-info form-control" type="submit" form="changeBooking"/>
             <br/>
             <br/>
         </div>
@@ -250,9 +259,18 @@
                 <input type="hidden" name="billingCustomerId" data-th-value="${adminBooking.billingCustomerId}"/>
                 <input type="hidden" name="price" data-th-value="${adminBooking.finalPrice}"/>
                 <input type="hidden" name="bookingId" data-th-value="${adminBooking.id}"/>
-                <button type="submit" class="btn-default">
-                    Make a payment <span class="glyphicon glyphicon-usd"></span>
-                </button>
+
+                <div class="input-group">
+                    <label class="input-group-addon">Status</label>
+                    <span class="form-control" data-th-text="${adminBooking.status}"></span>
+                </div>
+                <br/>
+                <a data-th-if="${adminBooking.status != T(ca.tidygroup.model.Status).BILLING_SUCCESS}">
+                    <button type="submit" class="btn-info form-control">
+                        Make a payment <span class="glyphicon glyphicon-usd"></span>
+                    </button>
+                </a>
+
             </form>
         </div>
     </div>
