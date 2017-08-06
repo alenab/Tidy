@@ -12,9 +12,11 @@ import ca.tidygroup.repository.OptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,13 +81,11 @@ public class PricingService {
 
     @Transactional
     public void updateOptionsPrices(OptionListDTO allOptions) {
-        List<CleaningOption> list = optionRepository.findAll();
+        Map<Long, CleaningOption> map = optionRepository.findAll().stream()
+                .collect(Collectors.toMap(CleaningOption::getId, Function.identity()));
+
         for(CleaningOption option : allOptions.getOptions()) {
-            for (CleaningOption opt : list) {
-                if (opt.getId() == option.getId()) {
-                    opt.setPrice(option.getPrice());
-                }
-            }
+            map.get(option.getId()).setPrice(option.getPrice());
         }
     }
 }
