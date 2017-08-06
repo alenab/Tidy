@@ -134,7 +134,8 @@ public class BookingService {
     }
 
     public List<CleaningOption> getCleaningOptionsByPlanId(Long planId) {
-       return optionRepository.findAllByPlanListContains(cleaningPlanRepository.findOne(planId));
+        CleaningPlan plan = cleaningPlanRepository.findOne(planId);
+        return plan != null ? optionRepository.findAllByPlanListContainsOrderById(plan) : new ArrayList<>();
     }
 
     public List<Integer> getListOfBedrooms() {

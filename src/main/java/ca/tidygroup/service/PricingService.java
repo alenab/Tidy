@@ -79,7 +79,13 @@ public class PricingService {
 
     @Transactional
     public void updateOptionsPrices(OptionListDTO allOptions) {
-        optionRepository.save(allOptions.getOptions());
-
+        List<CleaningOption> list = optionRepository.findAll();
+        for(CleaningOption option : allOptions.getOptions()) {
+            for (CleaningOption opt : list) {
+                if (opt.getId() == option.getId()) {
+                    opt.setPrice(option.getPrice());
+                }
+            }
+        }
     }
 }

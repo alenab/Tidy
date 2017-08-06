@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface OptionRepository extends JpaRepository<CleaningOption, Long> {
 
-    List<CleaningOption> findAllByPlanListContains(CleaningPlan cleaningPlan);
+    List<CleaningOption> findAllByPlanListContainsOrderById(CleaningPlan cleaningPlan);
 
 }
