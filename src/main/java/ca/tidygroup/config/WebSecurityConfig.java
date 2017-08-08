@@ -39,13 +39,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .and()
+                .headers()
+                .frameOptions().sameOrigin()
                 // Prevent the HTTP response header of "Pragma: no-cache".
-                .headers().cacheControl().disable();
+                .cacheControl().disable();
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/images/**", "/fonts/**");
+        web.ignoring().antMatchers("/css/**", "/images/**", "/fonts/**");
     }
 
     @Autowired
