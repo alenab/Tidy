@@ -148,7 +148,7 @@ public class BookingService {
 
     public boolean applyActivationCode(BookingForm form, String code) {
         Discount discount = discountRepository.findByCodeEqualsIgnoringCase(code);
-        if (discount != null) {
+        if (discount != null && discount.isActive()) {
             log.info("Discount code {} applied successfully. Discount is: {}%", code, discount.getPercent());
             form.setDiscount(String.valueOf(discount.getPercent()));
             return true;
