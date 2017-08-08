@@ -18,6 +18,9 @@ public class Discount {
     @Column(name = "percent")
     private int percent;
 
+    @Column (name = "isActive")
+    private boolean isActive;
+
     public Long getId() {
         return id;
     }
@@ -40,5 +43,13 @@ public class Discount {
 
     public void setPercent(int percent) {
         this.percent = percent;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

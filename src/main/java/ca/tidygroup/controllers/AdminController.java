@@ -1,7 +1,6 @@
 package ca.tidygroup.controllers;
 
 import ca.tidygroup.dto.*;
-import ca.tidygroup.model.CleaningPlan;
 import ca.tidygroup.service.AdminService;
 import ca.tidygroup.service.BookingService;
 import ca.tidygroup.service.PricingService;
@@ -164,5 +163,41 @@ public class AdminController {
     @GetMapping("/time_limitations")
     public String timeLimitations() {
         return "admin/time_limitations";
+    }
+
+    @GetMapping("/discount")
+    public String discount(Model model) {
+        model.addAttribute("allCodes", adminService.getAllDiscounts());
+        return "admin/discount";
+    }
+
+    @GetMapping("/discount/add")
+    public String addDiscount(Model model) {
+        model.addAttribute("discount", new DiscountDTO());
+        return "admin/add_discount";
+    }
+
+    @PostMapping("/discount/save")
+    public String saveDiscount(@Valid @ModelAttribute("discount") DiscountDTO discountDTO, Model model, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.warn("There were binding errors at attempt to process discount: {}", bindingResult.getAllErrors());
+            return "admin/employee";
+        }
+        adminService.addDiscount(discountDTO);
+        model.addAttribute("allCodes", adminService.getAllDiscounts());
+        return "redirect:/admin/discount";
+    }
+
+    @GetMapping("/discount/{id}")
+    public String changeDiscountStatus(@PathVariable("id") long id, Model model) {
+        DiscountDTO discountDTO = adminService.getDiscountById(id);
+        model.addAttribute("discount", discountDTO);
+        return "admin/change_discount";
+    }
+
+    @PostMapping("/discount/{id}/save")
+    public String saveChangesOfDiscount(@PathVariable("id") long id, DiscountDTO discountDTO) {
+        adminService.updateDiscountStatus(id, discountDTO);
+        return "redirect:/admin/discount";
     }
 }

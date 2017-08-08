@@ -35,9 +35,10 @@ public class AdminService {
     private WorkingHoursRepository workingHoursRepository;
     private TimeLimitationsRepository timeLimitationsRepository;
     private ApartmentUnitRepository apartmentUnitRepository;
+    private DiscountRepository discountRepository;
 
     @Autowired
-    public AdminService(ApplicationEventPublisher publisher, BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository, TimeLimitationsRepository timeLimitationsRepository, ApartmentUnitRepository apartmentUnitRepository) {
+    public AdminService(ApplicationEventPublisher publisher, BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository, TimeLimitationsRepository timeLimitationsRepository, ApartmentUnitRepository apartmentUnitRepository, DiscountRepository discountRepository) {
         this.publisher = publisher;
         this.bookingRepository = bookingRepository;
         this.employeeRepository = employeeRepository;
@@ -46,6 +47,7 @@ public class AdminService {
         this.workingHoursRepository = workingHoursRepository;
         this.timeLimitationsRepository = timeLimitationsRepository;
         this.apartmentUnitRepository = apartmentUnitRepository;
+        this.discountRepository = discountRepository;
     }
 
     @Transactional
@@ -163,18 +165,18 @@ public class AdminService {
             }
         }
     }
-
     public EmployeeDTO getEmployeeById(long id) {
-         Employee employee = employeeRepository.getEmployeeById(id);
-         EmployeeDTO employeeDTO = new EmployeeDTO();
-         employeeDTO.setId(employee.getId());
-         employeeDTO.setFirstName(employee.getFirstName());
-         employeeDTO.setLastName(employee.getLastName());
-         employeeDTO.setEmail(employee.getAccount().getEmail());
-         employeeDTO.setPhoneNumber(employee.getPhoneNumber());
-         employeeDTO.setRate(employee.getRate());
-         return employeeDTO;
+        Employee employee = employeeRepository.getEmployeeById(id);
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setId(employee.getId());
+        employeeDTO.setFirstName(employee.getFirstName());
+        employeeDTO.setLastName(employee.getLastName());
+        employeeDTO.setEmail(employee.getAccount().getEmail());
+        employeeDTO.setPhoneNumber(employee.getPhoneNumber());
+        employeeDTO.setRate(employee.getRate());
+        return employeeDTO;
     }
+
 
     @Transactional
     public void updateEmployee(long id, EmployeeDTO employeeDTO) {
@@ -263,4 +265,61 @@ public class AdminService {
         return timeLimitationDTO;
     }
 
+    public List<DiscountDTO> getAllDiscounts() {
+        List<Discount> list = discountRepository.findAll();
+        List<DiscountDTO> resultList = new ArrayList<>();
+        for(Discount discount : list) {
+            DiscountDTO discountDTO = new DiscountDTO();
+            discountDTO.setId(discount.getId());
+            discountDTO.setCode(discount.getCode());
+            discountDTO.setPercent(discount.getPercent());
+            if (discount.isActive()) {
+                discountDTO.setStatus("active");
+            } else {
+                discountDTO.setStatus("inactive");
+            }
+            resultList.add(discountDTO);
+        }
+        return resultList;
+    }
+
+    public void addDiscount(DiscountDTO discountDTO) {
+
+        Discount discount = new Discount();
+        discount.setCode(discountDTO.getCode());
+        discount.setPercent(discountDTO.getPercent());
+
+        boolean isActive = false;
+        if (discountDTO.getStatus().equalsIgnoreCase("active")) {
+            isActive = true;
+        }
+
+        discount.setActive(isActive);
+        discountRepository.save(discount);
+    }
+
+    public DiscountDTO getDiscountById(long id) {
+        Discount discount = discountRepository.getOne(id);
+        DiscountDTO discountDTO = new DiscountDTO();
+        discountDTO.setId(discount.getId());
+        discountDTO.setCode(discount.getCode());
+        discountDTO.setPercent(discount.getPercent());
+        if (discount.isActive()) {
+            discountDTO.setStatus("active");
+        } else {
+            discountDTO.setStatus("inactive");
+        }
+
+        return discountDTO;
+    }
+
+    public void updateDiscountStatus(long id, DiscountDTO discountDTO) {
+        Discount discount = discountRepository.getOne(id);
+        boolean isActive = false;
+        if (discountDTO.getStatus().equalsIgnoreCase("active")) {
+            isActive = true;
+        }
+        discount.setActive(isActive);
+        discountRepository.save(discount);
+    }
 }

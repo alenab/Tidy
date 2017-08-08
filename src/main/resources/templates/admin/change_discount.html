@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head data-th-include="fragments/head :: head">
+    <title>change_discount</title>
+</head>
+<body>
+<div class="container">
+    <a href="/">
+        <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+    </a>
+    <a data-th-href="@{/admin/}"><h4>Main admin menu</h4></a>
+    <!--/*@thymesVar id="discount" type="ca.tidygroup.dto.DiscountDTO"*/-->
+    <form method="post" data-th-action="@{/admin/discount/{did}/save(did=${discount.id})}"
+          data-th-object="${discount}">
+        <table class="table table-stripped">
+            <tr>
+                <th>Code</th>
+                <th>Discount</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td data-th-text="*{code}"></td>
+                <td data-th-text="*{percent}"></td>
+                <td>
+                    <select type="text" class="form-control"
+                           data-th-field="*{status}">
+                        <option th:value="active">active</option>
+                        <option th:value="inactive">inactive</option>
+                    </select>
+                    <input type="hidden" data-th-field="*{id}"/>
+                    <input type="hidden" data-th-field="*{code}"/>
+                    <input type="hidden" data-th-field="*{percent}"/>
+                </td>
+            </tr>
+        </table>
+        <input class="btn-info form-control" type="submit"/>
+    </form>
+</div>
+</body>
+</html>

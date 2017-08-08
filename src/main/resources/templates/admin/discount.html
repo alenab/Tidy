@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head data-th-include="fragments/head :: head">
+    <title>discount</title>
+</head>
+<body>
+<div class="container">
+    <a href="/">
+        <img alt="Brand" src="../../static/images/logo.png" data-th-src="@{/images/logo.png}"/>
+    </a>
+    <a data-th-href="@{/admin/}"><h4>Main admin menu</h4></a>
+    <!--/*@thymesVar id="allCodes" type="java.util.List<ca.tidygroup.dto.DiscountDTO>"*/-->
+    <table class="table table-stripped">
+        <tr>
+            <th>Code</th>
+            <th>Discount</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="code : ${allCodes}">
+            <td data-th-text="${code.code}"></td>
+            <td data-th-text="${code.percent}"></td>
+            <td data-th-text="${code.status}"></td>
+            <td>
+                <a data-th-href="@{discount/{dId}(dId=${code.id})}">
+                    <button type="button" th:class="btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <div class="col-md-3">
+        <a data-th-href="@{/admin/discount/add}">
+            <button class="btn-info form-control">add discount code</button>
+        </a>
+    </div>
+
+</div>
+</body>
+</html>
