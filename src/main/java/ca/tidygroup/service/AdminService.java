@@ -237,9 +237,8 @@ public class AdminService {
         workingHours.setStep(workingHoursDTO.getStep());
 
         int newNumberOfSlots = workingHoursDTO.getSlotAmount();
+        workingHours.setNumberOfSlots(newNumberOfSlots);
         if (newNumberOfSlots < workingHours.getNumberOfSlots()) {
-            workingHours.setNumberOfSlots(newNumberOfSlots);
-
             publisher.publishEvent(new ReducedBookingSlots(newNumberOfSlots));
         }
 
