@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>links</title>
@@ -14,15 +14,15 @@
     <div class="container text-center">
         <hr class="line"/>
         <div class="row">
-            <a href="#">Tidy Advantage</a>
+            <a href="/">Tidy Advantage</a>
             <span>|</span>
-            <a href="../services">Services</a>
+            <a href="../services" data-th-href="@{/services}">Services</a>
             <span>|</span>
-            <a href="../faq">FAQ</a>
+            <a href="../faq" data-th-href="@{/faq}">FAQ</a>
             <span>|</span>
-            <a href="../careers">Careers</a>
+            <a href="../careers" data-th-href="@{/careers}">Careers</a>
             <span>|</span>
-            <a href="../terms">Privacy Terms</a>
+            <a href="../terms" data-th-href="@{/terms}">Privacy Terms</a>
         </div>
         <hr class="line"/>
         <div class="row">
@@ -30,7 +30,7 @@
             <span class="slash">|</span>
             (+1) 778-232-8254
             <span>|</span>
-            <a href="#">Contact Us</a>
+            <a href="mailto:inquiries@tidygroup.ca">Contact Us</a>
         </div>
     </div>
 </div>

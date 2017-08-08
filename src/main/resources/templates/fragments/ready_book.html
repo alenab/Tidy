@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>ready_book</title>
@@ -15,8 +15,8 @@
     <div class="row text-center">
         <div class="ready_book_text col-md-4 col-md-offset-7">
             <h3>ready to get tidy?</h3>
-            <a class="btn btn-primary" href="../book">Book now</a>
-            <h6>Questions? Head over to the <a data-th-href="@{/faq.html}">FAQ</a> or use the contact form below!</h6>
+            <a class="btn btn-primary" href="#" data-th-href="@{/book}">Book now</a>
+            <h6>Questions? Head over to the <a data-th-href="@{/faq}">FAQ</a> or use the contact form below!</h6>
         </div>
     </div>
 </div>
