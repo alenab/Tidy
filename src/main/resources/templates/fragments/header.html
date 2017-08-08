@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8"/>
     <title>links</title>
@@ -29,7 +30,16 @@
                     <li><a href="../services">SERVICES</a></li>
                     <li><a href="../faq">FAQ</a></li>
                     <li><a href="../careers">CAREERS</a></li>
-                    <li><a href="/admin/">LOG IN</a></li>
+                    <li th:if="${#httpServletRequest.remoteUser}">
+                        <a th:href="@{/admin/}" th:text="${#httpServletRequest.remoteUser.toUpperCase()}">text</a>
+                    </li>
+                    <li th:if="${#httpServletRequest.remoteUser}">
+                        <a href="#" onclick="document.getElementById('logoutForm').submit();">LOG OUT</a>
+                        <form id="logoutForm" method="POST" th:action="@{/logout}">
+                            <!-- csrf will be injected here -->
+                        </form>
+                    </li>
+                    <li><a th:unless="${#httpServletRequest.remoteUser}"  th:href="@{/admin/}">LOG IN</a></li>
                     <a href="../book">
                         <button type="button" class="btn btn-header navbar-btn">BOOK NOW</button>
                     </a>
