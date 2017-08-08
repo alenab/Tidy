@@ -76,6 +76,7 @@ function updateOptions(planId) {
 
             $extraOptionsBlock.append(element);
         });
+        updatePrice();
     });
 }
 
