@@ -1,38 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-    <title>Exception</title>
-
-    <!-- Bootstrap -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+<head data-th-include="fragments/head :: head">
+    <title>User's space</title>
 </head>
 <body>
+<div data-th-include="fragments/header :: header" class="container block-header"></div>
 <div class="container">
-    <h1 th:text="|Hello ${#httpServletRequest.remoteUser}|">text</h1>
-    Your bookings: <!--/*@thymesVar id="bookings" type="java.util.List<ca.tidygroup.model.Booking>"*/-->
-    <span th:text="${bookings}">bookings</span>
+    <h4 th:text="|Hello ${#httpServletRequest.remoteUser}|">text</h4>
+    <h5>Your bookings:</h5>
+    <!--/*@thymesVar id="bookings" type="java.util.List<ca.tidygroup.model.Booking>"*/-->
+    <th:block th:each="booking : ${bookings}">
+        Rooms: <span th:text="${booking.numberOfRooms}"></span><br/>
+        Bathrooms: <span th:text="${booking.numberOfBathrooms}"></span><br/>
+        Status: <span th:text="${booking.status}"></span><br/>
+        Scheduled Time: <span th:text="${booking.cleaningTime}"></span><br/>
+        Price: <span th:text="${booking.price}"></span><br/>
+        <hr/>
+    </th:block>
 </div>
 <div class="container">
-    <h1>Your cards info</h1>
+    <h5>Your cards info</h5>
     <!--/*@thymesVar id="cards" type="java.util.List<com.squareup.connect.models.Card>"*/-->
     <th:block th:each="card : ${cards}">
         Brand: <span th:text="${card.cardBrand}"></span><br/>
