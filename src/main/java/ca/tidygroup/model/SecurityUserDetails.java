@@ -17,6 +17,10 @@ public class SecurityUserDetails implements UserDetails, Serializable {
         this.account = account;
     }
 
+    public long getId() {
+        return account.getId();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList(account.getUserRole().toString());

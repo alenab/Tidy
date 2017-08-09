@@ -256,4 +256,8 @@ public class BookingService {
         ZonedDateTime dayEnd = date.atTime(23, 59, 59).atZone(ZoneId.systemDefault());
         return bookingRepository.findAllByCleaningTimeBetween(dayStart, dayEnd);
     }
+
+    public List<Booking> getAllFor(Customer customer) {
+        return bookingRepository.findAllByCustomer(customer);
+    }
 }

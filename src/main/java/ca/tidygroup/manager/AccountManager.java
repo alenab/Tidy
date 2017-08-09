@@ -10,6 +10,7 @@ import ca.tidygroup.repository.AddressRepository;
 import ca.tidygroup.repository.CustomerRepository;
 import ca.tidygroup.service.BillingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +28,20 @@ public class AccountManager {
 
     private BillingService billingService;
 
+    private PasswordEncoder encoder;
+
     @Autowired
-    public AccountManager(AddressRepository addressRepository, AccountRepository accountRepository, CustomerRepository customerRepository, BillingService billingService) {
+    public AccountManager(AddressRepository addressRepository, AccountRepository accountRepository, CustomerRepository customerRepository, BillingService billingService, PasswordEncoder encoder) {
         this.addressRepository = addressRepository;
         this.accountRepository = accountRepository;
         this.customerRepository = customerRepository;
         this.billingService = billingService;
+        this.encoder = encoder;
+    }
+
+    public Customer getCustomer(long accountId) {
+        Account account = accountRepository.findOne(accountId);
+        return account != null ? customerRepository.findCustomerByAccount(account) : null;
     }
 
     @Transactional
@@ -91,6 +100,7 @@ public class AccountManager {
         Account account = new Account();
         account.setEmail(lowerEmail);
         account.setLogin(lowerEmail);
+        account.setPassword(encoder.encode("password")); // FIXME
         account.setUserRole(role);
         return accountRepository.save(account);
     }

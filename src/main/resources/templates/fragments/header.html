@@ -30,17 +30,20 @@
                     <li><a href="../services">SERVICES</a></li>
                     <li><a href="../faq">FAQ</a></li>
                     <li><a href="../careers">CAREERS</a></li>
-                    <li th:if="${#httpServletRequest.remoteUser}">
-                        <a th:href="@{/admin/}" th:text="${#httpServletRequest.remoteUser.toUpperCase()}">text</a>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/admin/}" th:text="${#httpServletRequest.remoteUser.toUpperCase()}"
+                           sec:authorize="hasAnyAuthority('ADMIN')">text</a>
+                        <a th:href="@{/user/}" th:text="${#httpServletRequest.remoteUser.toUpperCase()}"
+                           sec:authorize="hasAnyAuthority('USER')">text</a>
                     </li>
-                    <li th:if="${#httpServletRequest.remoteUser}">
+                    <li sec:authorize="isAuthenticated()">
                         <a href="#" onclick="document.getElementById('logoutForm').submit();">LOG OUT</a>
                         <form id="logoutForm" method="POST" th:action="@{/logout}">
                             <!-- csrf will be injected here -->
                         </form>
                     </li>
-                    <li><a th:unless="${#httpServletRequest.remoteUser}"  th:href="@{/admin/}">LOG IN</a></li>
-                    <a href="../book">
+                    <li><a sec:authorize="!isAuthenticated()" th:href="@{/login}">LOG IN</a></li>
+                    <a th:href="@{/book}">
                         <button type="button" class="btn btn-header navbar-btn">BOOK NOW</button>
                     </a>
                 </ul>

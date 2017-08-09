@@ -204,4 +204,21 @@ public class Booking {
     public void setAdminNotes(String adminNotes) {
         this.adminNotes = adminNotes;
     }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "numberOfRooms=" + numberOfRooms +
+                ", numberOfBathrooms=" + numberOfBathrooms +
+                ", addressForClean=" + addressForClean +
+                ", cleaningTime=" + cleaningTime +
+                ", createBooking=" + createBooking +
+                ", cleaningPlan=" + cleaningPlan +
+                ", additionalOptions=" + additionalOptions +
+                ", specialRequest='" + specialRequest + '\'' +
+                ", discountPercent=" + discountPercent +
+                ", price=" + price +
+                ", getInNotes='" + getInNotes + '\'' +
+                '}';
+    }
 }

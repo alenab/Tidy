@@ -1,6 +1,7 @@
 package ca.tidygroup.repository;
 
 import ca.tidygroup.model.Booking;
+import ca.tidygroup.model.Customer;
 import ca.tidygroup.model.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByCleaningTimeAfterAndStatusNotIn(ZonedDateTime afterDate, Status... statuses);
     List<Booking> findAllByStatusIn(Status... statuses);
     List<Booking> findAllByStatusNotIn(Status... statuses);
+    List<Booking> findAllByCustomer(Customer customer);
 }
