@@ -31,6 +31,17 @@
     Your bookings: <!--/*@thymesVar id="bookings" type="java.util.List<ca.tidygroup.model.Booking>"*/-->
     <span th:text="${bookings}">bookings</span>
 </div>
+<div class="container">
+    <h1>Your cards info</h1>
+    <!--/*@thymesVar id="cards" type="java.util.List<com.squareup.connect.models.Card>"*/-->
+    <th:block th:each="card : ${cards}">
+        Brand: <span th:text="${card.cardBrand}"></span><br/>
+        Last 4 digits: <span th:text="${card.last4}"></span><br/>
+        Expiration month: <span th:text="${card.expMonth}"></span><br/>
+        Expiration year: <span th:text="${card.expYear}"></span><br/>
+        <hr/>
+    </th:block>
+</div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

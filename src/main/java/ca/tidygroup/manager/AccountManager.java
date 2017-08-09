@@ -9,6 +9,7 @@ import ca.tidygroup.repository.AccountRepository;
 import ca.tidygroup.repository.AddressRepository;
 import ca.tidygroup.repository.CustomerRepository;
 import ca.tidygroup.service.BillingService;
+import com.squareup.connect.models.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -42,6 +43,10 @@ public class AccountManager {
     public Customer getCustomer(long accountId) {
         Account account = accountRepository.findOne(accountId);
         return account != null ? customerRepository.findCustomerByAccount(account) : null;
+    }
+
+    public List<Card> getCreditCards(long accountId) {
+        return billingService.getCustomer(getCustomer(accountId).getBillingCustomerId()).getCards();
     }
 
     @Transactional
