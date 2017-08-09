@@ -1,5 +1,6 @@
 package ca.tidygroup.controllers;
 
+import ca.tidygroup.manager.AccountManager;
 import ca.tidygroup.manager.BookingManager;
 import ca.tidygroup.model.Booking;
 import ca.tidygroup.model.SecurityUserDetails;
@@ -22,9 +23,13 @@ public class UserController {
 
     private BookingManager bookingManager;
 
+    private AccountManager accountManager;
+
+
     @Autowired
-    public UserController(BookingManager bookingManager) {
+    public UserController(BookingManager bookingManager, AccountManager accountManager) {
         this.bookingManager = bookingManager;
+        this.accountManager = accountManager;
     }
 
     private SecurityUserDetails getCurrentUser() {
@@ -35,8 +40,10 @@ public class UserController {
 
     @GetMapping("/")
     public ModelAndView goToUsersSpace() {
+        final long accountId = getCurrentUser().getId();
         ModelAndView mv = new ModelAndView("user/user-test");
-        List<Booking> bookings = bookingManager.getBookingsFor(getCurrentUser().getId());
+        List<Booking> bookings = bookingManager.getBookingsFor(accountId);
+        mv.addObject("cards", accountManager.getCreditCards(accountId));
         mv.addObject("bookings", bookings);
         return mv;
     }
