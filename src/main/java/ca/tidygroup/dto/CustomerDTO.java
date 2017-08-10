@@ -19,6 +19,8 @@ public class CustomerDTO {
 
     private List<Address> addresses;
 
+    private List<CardDTO> cards;
+
     public long getId() {
         return id;
     }
@@ -65,5 +67,13 @@ public class CustomerDTO {
 
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public List<CardDTO> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<CardDTO> cards) {
+        this.cards = cards;
     }
 }

@@ -8,6 +8,7 @@ import ca.tidygroup.event.ReducedBookingSlots;
 import ca.tidygroup.dto.*;
 import ca.tidygroup.model.*;
 import ca.tidygroup.repository.*;
+import com.squareup.connect.models.Card;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,10 @@ public class AdminService {
     private TimeLimitationsRepository timeLimitationsRepository;
     private ApartmentUnitRepository apartmentUnitRepository;
     private DiscountRepository discountRepository;
+    private BillingService billingService;
 
     @Autowired
-    public AdminService(ApplicationEventPublisher publisher, BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository, TimeLimitationsRepository timeLimitationsRepository, ApartmentUnitRepository apartmentUnitRepository, DiscountRepository discountRepository) {
+    public AdminService(ApplicationEventPublisher publisher, BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository, TimeLimitationsRepository timeLimitationsRepository, ApartmentUnitRepository apartmentUnitRepository, DiscountRepository discountRepository, BillingService billingService) {
         this.publisher = publisher;
         this.bookingRepository = bookingRepository;
         this.employeeRepository = employeeRepository;
@@ -48,6 +50,7 @@ public class AdminService {
         this.timeLimitationsRepository = timeLimitationsRepository;
         this.apartmentUnitRepository = apartmentUnitRepository;
         this.discountRepository = discountRepository;
+        this.billingService = billingService;
     }
 
     @Transactional
@@ -215,6 +218,16 @@ public class AdminService {
             customerDTO.setEmail(customer.getAccount().getEmail());
             customerDTO.setPhoneNumber(customer.getPhoneNumber());
             customerDTO.setAddresses(customer.getUserAddress());
+            List<Card> cardList = billingService.getCustomer(customer.getBillingCustomerId()).getCards();
+            List<CardDTO>  cardDTOList = new ArrayList<>();
+            for (Card card : cardList) {
+                CardDTO cardDTO = new CardDTO();
+                cardDTO.setCardbrand(card.getCardBrand().toString());
+                cardDTO.setLast4(card.getLast4());
+                cardDTO.setExpDate(card.getExpMonth().toString() + "/" + card.getExpYear().toString());
+                cardDTOList.add(cardDTO);
+            }
+            customerDTO.setCards(cardDTOList);
             resultList.add(customerDTO);
         }
         return resultList;

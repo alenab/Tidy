@@ -18,13 +18,24 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Addresses</th>
+            <th>Cards</th>
         </tr>
         <tr th:each="customer : ${allCustomers}">
             <td data-th-text="${customer.firstName}"></td>
             <td data-th-text="${customer.lastName}"></td>
             <td data-th-text="${customer.email}"></td>
             <td data-th-text="${customer.phoneNumber}"></td>
-            <td data-th-text="${customer.addresses}"></td>
+            <td>
+                <th:block th:each="adress: ${customer.addresses}">
+                    <span th:text="|${adress.address}, apt ${adress.aptNumber}|"></span><br/>
+                </th:block>
+            </td>
+            <td>
+                <th:block th:each="card : ${customer.cards}">
+                    <span th:text="|${card.cardbrand}, xxxx ${card.last4}, ${card.expDate}|"></span><br/>
+                </th:block>
+            </td>
+
         </tr>
     </table>
 </div>
