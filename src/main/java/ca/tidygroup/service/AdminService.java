@@ -115,7 +115,7 @@ public class AdminService {
         return employeeRepository.findAllEmployeeByActive(false);
     }
 
-    private List<EmployeeDTO> transformListEmployeeToDTO(List <Employee> employees) {
+    private List<EmployeeDTO> transformListEmployeeToDTO(List<Employee> employees) {
         List<EmployeeDTO> resultList = new ArrayList<>();
         for (Employee employee : employees) {
             EmployeeDTO employeeDTO = new EmployeeDTO();
@@ -168,6 +168,7 @@ public class AdminService {
             }
         }
     }
+
     public EmployeeDTO getEmployeeById(long id) {
         Employee employee = employeeRepository.getEmployeeById(id);
         EmployeeDTO employeeDTO = new EmployeeDTO();
@@ -210,27 +211,32 @@ public class AdminService {
     public List<CustomerDTO> getAllCustomersDTO() {
         List<Customer> list = customerRepository.findAll();
         List<CustomerDTO> resultList = new ArrayList<>();
-         for (Customer customer : list) {
-            CustomerDTO customerDTO = new CustomerDTO();
-            customerDTO.setId(customer.getId());
-            customerDTO.setFirstName(customer.getFirstName());
-            customerDTO.setLastName(customer.getLastName());
-            customerDTO.setEmail(customer.getAccount().getEmail());
-            customerDTO.setPhoneNumber(customer.getPhoneNumber());
-            customerDTO.setAddresses(customer.getUserAddress());
-            List<Card> cardList = billingService.getCustomer(customer.getBillingCustomerId()).getCards();
-            List<CardDTO>  cardDTOList = new ArrayList<>();
-            for (Card card : cardList) {
-                CardDTO cardDTO = new CardDTO();
-                cardDTO.setCardbrand(card.getCardBrand().toString());
-                cardDTO.setLast4(card.getLast4());
-                cardDTO.setExpDate(card.getExpMonth().toString() + "/" + card.getExpYear().toString());
-                cardDTOList.add(cardDTO);
-            }
-            customerDTO.setCards(cardDTOList);
-            resultList.add(customerDTO);
+        for (Customer customer : list) {
+            resultList.add(getCustomersDTO(customer));
         }
         return resultList;
+    }
+
+    public CustomerDTO getCustomersDTO(Customer customer) {
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setId(customer.getId());
+        customerDTO.setFirstName(customer.getFirstName());
+        customerDTO.setLastName(customer.getLastName());
+        customerDTO.setEmail(customer.getAccount().getEmail());
+        customerDTO.setPhoneNumber(customer.getPhoneNumber());
+        customerDTO.setAddresses(customer.getUserAddress());
+        List<Card> cardList = billingService.getCustomer(customer.getBillingCustomerId()).getCards();
+        List<CardDTO> cardDTOList = new ArrayList<>();
+        for (Card card : cardList) {
+            CardDTO cardDTO = new CardDTO();
+            cardDTO.setCardbrand(card.getCardBrand().toString());
+            cardDTO.setLast4(card.getLast4());
+            cardDTO.setExpDate(card.getExpMonth().toString() + "/" + card.getExpYear().toString());
+            cardDTOList.add(cardDTO);
+        }
+        customerDTO.setCards(cardDTOList);
+        return customerDTO;
+
     }
 
     public WorkingHoursDTO getWorkingHoursDTO() {
@@ -280,7 +286,7 @@ public class AdminService {
     public List<DiscountDTO> getAllDiscounts() {
         List<Discount> list = discountRepository.findAll();
         List<DiscountDTO> resultList = new ArrayList<>();
-        for(Discount discount : list) {
+        for (Discount discount : list) {
             DiscountDTO discountDTO = new DiscountDTO();
             discountDTO.setId(discount.getId());
             discountDTO.setCode(discount.getCode());
@@ -333,5 +339,32 @@ public class AdminService {
         }
         discount.setActive(isActive);
         discountRepository.save(discount);
+    }
+
+    public List<BookingDTOCustomer> getCustomerBookings(Customer customer) {
+        List<BookingDTOCustomer> result = new ArrayList<>();
+        List<Booking> bookingList = bookingRepository.findAllByCustomer(customer);
+        for (Booking booking : bookingList) {
+            BookingDTOCustomer bookingDTOCustomer = new BookingDTOCustomer();
+            bookingDTOCustomer.setId(booking.getId());
+            bookingDTOCustomer.setCleaningPlan(booking.getCleaningPlan());
+            bookingDTOCustomer.setNumberOfBathrooms(booking.getNumberOfBathrooms());
+            bookingDTOCustomer.setCleaningOptions(booking.getAdditionalOptions());
+            bookingDTOCustomer.setSpecialRequest(booking.getSpecialRequest());
+            bookingDTOCustomer.setCleaningDate(booking.getCleaningTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
+            bookingDTOCustomer.setCleaningTime(booking.getCleaningTime().format(DateTimeFormatter.ISO_LOCAL_TIME));
+            bookingDTOCustomer.setAddress(booking.getAddressForClean().getAddress());
+            bookingDTOCustomer.setAptNumber(booking.getAddressForClean().getAptNumber());
+            bookingDTOCustomer.setFinalPrice(getFinalPrice(booking));
+            bookingDTOCustomer.setStatus(booking.getStatus());
+            result.add(bookingDTOCustomer);
+        }
+
+        return result;
+
+    }
+
+    public Customer getCustomerByAccountId (long accountId) {
+        return customerRepository.findByAccount_Id(accountId);
     }
 }

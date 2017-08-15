@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head data-th-include="fragments/head :: head">
+    <title>User's space</title>
+</head>
+<body>
+<div data-th-include="fragments/header :: header" class="container block-header"></div>
+<div class="container">
+    <h4 th:text="|Hello ${#httpServletRequest.remoteUser}|">text</h4>
+    <h5>Your bookings:</h5>
+    <table class="table table-stripped">
+        <tr>
+            <th>Date</th>
+            <th>Address</th>
+            <th>Service</th>
+            <th>Price and Status</th>
+        </tr>
+        <!--/*@thymesVar id="allCustomerBookings" type="java.util.List<ca.tidygroup.dto.BookingDTOCustomer>"*/-->
+        <tr th:each="booking : ${allCustomerBookings}">
+            <td th:text="|${booking.cleaningDate} / ${booking.cleaningTime}|"></td>
+            <td th:text="|${booking.address}, apt ${booking.aptNumber}|"></td>
+            <td th:text="|${booking.cleaningPlan.name}, ${booking.numberOfRooms} bedrooms, ${booking.numberOfBathrooms} bathrooms,
+                 ${booking.cleaningOptions}|"></td>
+            <td th:text="|${booking.finalPrice}, ${booking.status}|"></td>
+        </tr>
+    </table>
+</div>
+
+<div class="container">
+<h5>Your cards info</h5>
+<!--/*@thymesVar id="allCards" type="java.util.List<ca.tidygroup.dto.CardDTO>"*/-->
+<th:block th:each="card : ${allCards}">
+Brand: <span th:text="${card.cardbrand}"></span><br/>
+Last 4 digits: <span th:text="|xxxx ${card.last4}|"></span><br/>
+Expiration date: <span th:text="${card.expDate}"></span><br/>
+<hr/>
+</th:block>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</body>
+</html>

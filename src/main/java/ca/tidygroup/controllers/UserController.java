@@ -1,35 +1,30 @@
 package ca.tidygroup.controllers;
 
-import ca.tidygroup.manager.AccountManager;
-import ca.tidygroup.manager.BookingManager;
-import ca.tidygroup.model.Booking;
+import ca.tidygroup.model.Customer;
 import ca.tidygroup.model.SecurityUserDetails;
+import ca.tidygroup.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Secured("USER")
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-    private BookingManager bookingManager;
-
-    private AccountManager accountManager;
+    private AdminService adminService;
 
 
-    @Autowired
-    public UserController(BookingManager bookingManager, AccountManager accountManager) {
-        this.bookingManager = bookingManager;
-        this.accountManager = accountManager;
+
+   @Autowired
+    public UserController(AdminService adminService) {
+        this.adminService = adminService;
     }
 
     private SecurityUserDetails getCurrentUser() {
@@ -39,12 +34,10 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public ModelAndView goToUsersSpace() {
-        final long accountId = getCurrentUser().getId();
-        ModelAndView mv = new ModelAndView("user/user-test");
-        List<Booking> bookings = bookingManager.getBookingsFor(accountId);
-        mv.addObject("cards", accountManager.getCreditCards(accountId));
-        mv.addObject("bookings", bookings);
-        return mv;
+    public String goToUsersSpace(Model model) {
+        Customer customer = adminService.getCustomerByAccountId(getCurrentUser().getId());
+        model.addAttribute("allCustomerBookings", adminService.getCustomerBookings(customer));
+        model.addAttribute("allCards", adminService.getCustomersDTO(customer).getCards());
+        return "user/user";
     }
 }
