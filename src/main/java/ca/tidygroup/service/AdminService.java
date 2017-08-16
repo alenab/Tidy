@@ -1,11 +1,7 @@
 package ca.tidygroup.service;
 
-import ca.tidygroup.dto.BookingDTOAdmin;
-import ca.tidygroup.dto.CustomerDTO;
-import ca.tidygroup.dto.EmployeeDTO;
-import ca.tidygroup.dto.WorkingHoursDTO;
-import ca.tidygroup.event.ReducedBookingSlots;
 import ca.tidygroup.dto.*;
+import ca.tidygroup.event.ReducedBookingSlots;
 import ca.tidygroup.model.*;
 import ca.tidygroup.repository.*;
 import com.squareup.connect.models.Card;
@@ -359,12 +355,6 @@ public class AdminService {
             bookingDTOCustomer.setStatus(booking.getStatus());
             result.add(bookingDTOCustomer);
         }
-
         return result;
-
-    }
-
-    public Customer getCustomerByAccountId (long accountId) {
-        return customerRepository.findByAccount_Id(accountId);
     }
 }

@@ -40,6 +40,7 @@ public class AccountManager {
         this.encoder = encoder;
     }
 
+    @Transactional(readOnly = true)
     public Customer getCustomer(long accountId) {
         Account account = accountRepository.findOne(accountId);
         return account != null ? customerRepository.findCustomerByAccount(account) : null;

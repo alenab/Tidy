@@ -1,5 +1,6 @@
 package ca.tidygroup.controllers;
 
+import ca.tidygroup.manager.AccountManager;
 import ca.tidygroup.model.Customer;
 import ca.tidygroup.model.SecurityUserDetails;
 import ca.tidygroup.service.AdminService;
@@ -20,12 +21,13 @@ public class UserController {
 
     private AdminService adminService;
 
-
+    private AccountManager accountManager;
 
    @Autowired
-    public UserController(AdminService adminService) {
+    public UserController(AdminService adminService, AccountManager accountManager) {
         this.adminService = adminService;
-    }
+       this.accountManager = accountManager;
+   }
 
     private SecurityUserDetails getCurrentUser() {
         SecurityContext context = SecurityContextHolder.getContext();
@@ -35,7 +37,7 @@ public class UserController {
 
     @GetMapping("/")
     public String goToUsersSpace(Model model) {
-        Customer customer = adminService.getCustomerByAccountId(getCurrentUser().getId());
+        Customer customer = accountManager.getCustomer(getCurrentUser().getId());
         model.addAttribute("allCustomerBookings", adminService.getCustomerBookings(customer));
         model.addAttribute("allCards", adminService.getCustomersDTO(customer).getCards());
         return "user/user";
