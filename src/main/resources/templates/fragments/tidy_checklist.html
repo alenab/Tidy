@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>makes_tidy</title>
+    <title>tidy_checklist</title>
 
     <link rel="stylesheet/less" type="text/css" href="../../static/less/style.less" data-th-href="@{/less/style.less}"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js" data-th-src="@{/js/less.min.js}"
@@ -10,14 +10,14 @@
 
 </head>
 <body>
-<div data-th-fragment="standart_checklist" class="block-standart_checklist container-fluid text-center">
+<div data-th-fragment="tidy_checklist" class="block-tidy_checklist container-fluid text-center">
     <div class="container-fluid">
-        <div data-th-include="fragments/ribbon :: ribbon ('STANDARD CLEANING CHECKLIST')"
+        <div data-th-include="fragments/ribbon :: ribbon ('TIDY LITE CHECKLIST')"
              class="visible-lg visible-md container-fluid ribbon-fragment text-center">
         </div>
 
         <div class="row checklist_head visible-xs-block visible-sm-block">
-            <h3>STANDARD CLEANING CHECKLIST</h3>
+            <h3>TIDY LITE CHECKLIST</h3>
         </div>
         <div class="container checklist">
             <div class="col-md-4 checklist_block">
@@ -32,17 +32,17 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Vacuum ! mop all floors</span>
+                        <span class="item">Vacuum &amp; mop all floors</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                        src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
                         <span class="item">Empty all garbage bins</span>
@@ -50,29 +50,29 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Wipe cupboard doors ! window sills</span>
+                        <span class="item">Clean &amp; polish all mirrors</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
-                    </div>
-                    <div class="col-xs-10">
-                        <span class="item">Clean ! polish all mirrors</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
                         <span class="item">Dust all accessible surfaces</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <img class="icon" data-th-src="@{/images/close.png}"
+                             src="../../static/images/close.png"/>
+                    </div>
+                    <div class="col-xs-10">
+                        <span class="item">Wipe cupboard doors &amp; window sills</span>
                     </div>
                 </div>
                 <div class="row">
@@ -169,44 +169,26 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Wipe counter ! backsplash tiles</span>
+                        <span class="item">Wipe counter &amp; backsplash tiles</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Wipe kitchen cabinets (outside)</span>
+                        <span class="item">Disinfect &amp; polish all sinks &amp; taps</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
-                    </div>
-                    <div class="col-xs-10">
-                        <span class="item">Wipe oven front ! stove top</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
-                    </div>
-                    <div class="col-xs-10">
-                        <span class="item">Disinfect ! polish all sinks ! taps</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
                         <span class="item">Wipe exterior of all appliances</span>
@@ -214,11 +196,29 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
                         <span class="item">Load the dishwasher</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <img class="icon" data-th-src="@{/images/close.png}"
+                             src="../../static/images/close.png"/>
+                    </div>
+                    <div class="col-xs-10">
+                        <span class="item">Wipe kitchen cabinets (outside)</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <img class="icon" data-th-src="@{/images/close.png}"
+                             src="../../static/images/close.png"/>
+                    </div>
+                    <div class="col-xs-10">
+                        <span class="item">Wipe oven front &amp; stove top</span>
                     </div>
                 </div>
                 <div class="row">
@@ -236,7 +236,7 @@
                              src="../../static/images/close.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Clean inside oven</span>
+                        <span class="item">Clean inside oven &amp; fridge</span>
                     </div>
                 </div>
                 <div class="row">
@@ -245,8 +245,10 @@
                              src="../../static/images/close.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Clean inside fridge</span>
+                        <span class="item">Clean the range hood</span>
                     </div>
+                </div>
+                <div class="visible-lg kitchen-block_space">
                 </div>
             </div>
             <div class="col-md-4 checklist_block">
@@ -261,35 +263,35 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                        src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Wipe the vanity ! all sinks ! taps</span>
+                        <span class="item">Wipe the vanity &amp; all sinks &amp; taps</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Disinfect ! clean the toilets, in and out</span>
+                        <span class="item">Disinfect &amp; clean the toilets, in and out</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Wipe the bathtub ! shower stalls</span>
+                        <span class="item">Wipe the bathtub &amp; shower stalls</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/close.png}"
+                             src="../../static/images/close.png"/>
                     </div>
                     <div class="col-xs-10">
                         <span class="item">Clean all chrome fixtures</span>
@@ -301,7 +303,7 @@
                              src="../../static/images/close.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Clean showers and/or bathtubs</span>
+                        <span class="item">Scrub the bathtub &amp; shower stalls</span>
                     </div>
                 </div>
                 <div class="row">
@@ -311,6 +313,15 @@
                     </div>
                     <div class="col-xs-10">
                         <span class="item">Clean inside bathroom cabinets</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <img class="icon" data-th-src="@{/images/close.png}"
+                             src="../../static/images/close.png"/>
+                    </div>
+                    <div class="col-xs-10">
+                        <span class="item">Clean the tiles</span>
                     </div>
                 </div>
                 <div class="visible-lg bathroom-block_space">
@@ -328,8 +339,8 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
                         <span class="item">Dust furniture</span>
@@ -337,8 +348,8 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
                         <span class="item">Dust all electronics</span>
@@ -346,20 +357,20 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Wipe fireplace</span>
+                        <span class="item">General organizing</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/close.png}"
+                             src="../../static/images/close.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">General organizing</span>
+                        <span class="item">Wipe fireplace</span>
                     </div>
                 </div>
             </div>
@@ -375,8 +386,8 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
                         <span class="item">Make beds (change linens on request)</span>
@@ -384,8 +395,8 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/tidy_lite_checkbox.png}"
+                             src="../../static/images/tidy_lite_checkbox.png"/>
                     </div>
                     <div class="col-xs-10">
                         <span class="item">Dust all furniture</span>
@@ -393,17 +404,17 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/close.png}"
+                             src="../../static/images/close.png"/>
                     </div>
                     <div class="col-xs-10">
-                        <span class="item">Dust lampshades ! picture frames</span>
+                        <span class="item">Dust lampshades &amp; picture frames</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-1">
-                        <img class="icon" data-th-src="@{/images/standart_check_box.png}"
-                             src="../../static/images/standart_check_box.png"/>
+                        <img class="icon" data-th-src="@{/images/close.png}"
+                             src="../../static/images/close.png"/>
                     </div>
                     <div class="col-xs-10">
                         <span class="item">General organizing</span>
