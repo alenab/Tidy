@@ -4,6 +4,7 @@ import ca.tidygroup.manager.AccountManager;
 import ca.tidygroup.model.Customer;
 import ca.tidygroup.model.SecurityUserDetails;
 import ca.tidygroup.service.AdminService;
+import ca.tidygroup.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -23,10 +24,13 @@ public class UserController {
 
     private AccountManager accountManager;
 
+    private UserService userService;
+
    @Autowired
-    public UserController(AdminService adminService, AccountManager accountManager) {
+    public UserController(AdminService adminService, AccountManager accountManager, UserService userService) {
         this.adminService = adminService;
        this.accountManager = accountManager;
+       this.userService = userService;
    }
 
     private SecurityUserDetails getCurrentUser() {
@@ -38,7 +42,7 @@ public class UserController {
     @GetMapping("/")
     public String goToUsersSpace(Model model) {
         Customer customer = accountManager.getCustomer(getCurrentUser().getId());
-        model.addAttribute("allCustomerBookings", adminService.getCustomerBookings(customer));
+        model.addAttribute("allCustomerBookings", userService.getCustomerBookings(customer));
         model.addAttribute("allCards", adminService.getCustomersDTO(customer).getCards());
         return "user/user";
     }

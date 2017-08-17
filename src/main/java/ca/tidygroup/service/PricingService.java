@@ -5,6 +5,7 @@ import ca.tidygroup.dto.ApartmentUnitListDTO;
 import ca.tidygroup.dto.BookingForm;
 import ca.tidygroup.dto.OptionListDTO;
 import ca.tidygroup.model.ApartmentUnit;
+import ca.tidygroup.model.Booking;
 import ca.tidygroup.model.CleaningOption;
 import ca.tidygroup.model.CleaningPlan;
 import ca.tidygroup.repository.ApartmentUnitRepository;
@@ -69,6 +70,13 @@ public class PricingService {
         double price = getPriceWithDiscount(basePrice, discountPercent, additionalOptions);
         return price + price * TAX / 100;
     }
+
+    public double getFinalPrice(Booking booking) {
+        double price = booking.getPrice();
+        double priceWithDiscount = price - price * booking.getDiscountPercent() / 100;
+        return priceWithDiscount + priceWithDiscount * PricingService.TAX / 100;
+    }
+
 
     private ApartmentUnit getApartmentUnit(CleaningPlan plan, int numberOfRooms, int numberOfBathroom) {
         return apartmentUnitRepository.findApartmentUnitByCleaningPlanAndNumberOfBedroomsAndNumberOfBathrooms(plan, numberOfRooms, numberOfBathroom);

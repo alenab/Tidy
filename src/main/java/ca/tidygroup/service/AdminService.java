@@ -34,9 +34,10 @@ public class AdminService {
     private ApartmentUnitRepository apartmentUnitRepository;
     private DiscountRepository discountRepository;
     private BillingService billingService;
+    private PricingService pricingService;
 
     @Autowired
-    public AdminService(ApplicationEventPublisher publisher, BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository, TimeLimitationsRepository timeLimitationsRepository, ApartmentUnitRepository apartmentUnitRepository, DiscountRepository discountRepository, BillingService billingService) {
+    public AdminService(ApplicationEventPublisher publisher, BookingRepository bookingRepository, EmployeeRepository employeeRepository, AccountRepository accountRepository, CustomerRepository customerRepository, WorkingHoursRepository workingHoursRepository, TimeLimitationsRepository timeLimitationsRepository, ApartmentUnitRepository apartmentUnitRepository, DiscountRepository discountRepository, BillingService billingService, PricingService pricingService) {
         this.publisher = publisher;
         this.bookingRepository = bookingRepository;
         this.employeeRepository = employeeRepository;
@@ -47,6 +48,7 @@ public class AdminService {
         this.apartmentUnitRepository = apartmentUnitRepository;
         this.discountRepository = discountRepository;
         this.billingService = billingService;
+        this.pricingService = pricingService;
     }
 
     @Transactional
@@ -79,7 +81,7 @@ public class AdminService {
         bookingDTOAdmin.setPhone(booking.getCustomer().getPhoneNumber());
         bookingDTOAdmin.setDiscount(booking.getDiscountPercent());
         bookingDTOAdmin.setPrice(booking.getPrice());
-        bookingDTOAdmin.setFinalPrice(getFinalPrice(booking));
+        bookingDTOAdmin.setFinalPrice(pricingService.getFinalPrice(booking));
         bookingDTOAdmin.setEmployeeId(booking.getEmployeeId());
         bookingDTOAdmin.setDuration(booking.getDuration());
         bookingDTOAdmin.setStatus(booking.getStatus());
@@ -90,12 +92,6 @@ public class AdminService {
                 booking.getNumberOfRooms(), booking.getNumberOfBathrooms()).getPlannedTime();
         bookingDTOAdmin.setPlannedTime(String.valueOf(plannedTime));
         return bookingDTOAdmin;
-    }
-
-    private double getFinalPrice(Booking booking) {
-        double price = booking.getPrice();
-        double priceWithDiscount = price - price * booking.getDiscountPercent() / 100;
-        return priceWithDiscount + priceWithDiscount * PricingService.TAX / 100;
     }
 
     public BookingDTOAdmin getBookingById(long id) {
@@ -337,24 +333,4 @@ public class AdminService {
         discountRepository.save(discount);
     }
 
-    public List<BookingDTOCustomer> getCustomerBookings(Customer customer) {
-        List<BookingDTOCustomer> result = new ArrayList<>();
-        List<Booking> bookingList = bookingRepository.findAllByCustomer(customer);
-        for (Booking booking : bookingList) {
-            BookingDTOCustomer bookingDTOCustomer = new BookingDTOCustomer();
-            bookingDTOCustomer.setId(booking.getId());
-            bookingDTOCustomer.setCleaningPlan(booking.getCleaningPlan());
-            bookingDTOCustomer.setNumberOfBathrooms(booking.getNumberOfBathrooms());
-            bookingDTOCustomer.setCleaningOptions(booking.getAdditionalOptions());
-            bookingDTOCustomer.setSpecialRequest(booking.getSpecialRequest());
-            bookingDTOCustomer.setCleaningDate(booking.getCleaningTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
-            bookingDTOCustomer.setCleaningTime(booking.getCleaningTime().format(DateTimeFormatter.ISO_LOCAL_TIME));
-            bookingDTOCustomer.setAddress(booking.getAddressForClean().getAddress());
-            bookingDTOCustomer.setAptNumber(booking.getAddressForClean().getAptNumber());
-            bookingDTOCustomer.setFinalPrice(getFinalPrice(booking));
-            bookingDTOCustomer.setStatus(booking.getStatus());
-            result.add(bookingDTOCustomer);
-        }
-        return result;
-    }
 }
