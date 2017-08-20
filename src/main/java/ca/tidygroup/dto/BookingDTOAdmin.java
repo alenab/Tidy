@@ -2,6 +2,7 @@ package ca.tidygroup.dto;
 
 import ca.tidygroup.model.CleaningOption;
 import ca.tidygroup.model.CleaningPlan;
+import ca.tidygroup.model.PaymentMethod;
 import ca.tidygroup.model.Status;
 
 import java.util.List;
@@ -55,6 +56,8 @@ public class BookingDTOAdmin {
     private String billingCustomerId;
 
     private String plannedTime;
+
+    private PaymentMethod paymentMethod;
 
     public Status getStatus() {
         return status;
@@ -238,6 +241,14 @@ public class BookingDTOAdmin {
 
     public void setBillingCustomerId(String billingCustomerId) {
         this.billingCustomerId = billingCustomerId;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     @Override

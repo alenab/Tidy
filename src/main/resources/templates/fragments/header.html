@@ -30,6 +30,9 @@
                     <li><a href="../services">SERVICES</a></li>
                     <li><a href="../faq">FAQ</a></li>
                     <li><a href="../careers">CAREERS</a></li>
+                    <li th:class="commercial"><a href="../commercial">COMMERCIAL</a></li>
+                    <li><a href="../blog">BLOG</a></li>
+
                     <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/admin/}" th:text="${#httpServletRequest.remoteUser.toUpperCase()}"
                            sec:authorize="hasAnyAuthority('ADMIN')">text</a>

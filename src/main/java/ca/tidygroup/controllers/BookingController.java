@@ -53,6 +53,7 @@ public class BookingController {
         model.addAttribute("googleApiKey", googleApiKey);
         model.addAttribute("applicationId", billingService.getApplicationId());
         model.addAttribute("message", new EmailMessage());
+        model.addAttribute("paymentMethods", bookingService.getAllPaymentMethods());
     }
 
     @GetMapping("/book")

@@ -68,6 +68,9 @@ public class Booking {
     @Column(name = "admin_notes")
     private String adminNotes;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
 
     public long getId() {
         return id;
@@ -203,6 +206,14 @@ public class Booking {
 
     public void setAdminNotes(String adminNotes) {
         this.adminNotes = adminNotes;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     @Override

@@ -224,6 +224,16 @@
                     <span class="help-block" data-th-errors="${adminBooking.discount}">error</span>
                 </div>
                 <br/>
+                <div class="input-group">
+                    <span class="input-group-addon">Payment</span>
+                    <select class="form-control" data-th-field="*{paymentMethod}">
+                        <!--/*@thymesVar id="paymentMethods" type="java.util.List<java.lang.String>"*/-->
+                        <th:block th:each="metod : ${paymentMethods}">
+                            <option data-th-id="${{metod}}" data-th-value="${{metod}}"
+                                    data-th-text="${metod}"></option>
+                        </th:block>
+                    </select>
+                </div>
             </div>
         </form>
 
@@ -265,7 +275,8 @@
                     <span class="form-control" data-th-text="${adminBooking.status}"></span>
                 </div>
                 <br/>
-                <a data-th-if="${adminBooking.status != T(ca.tidygroup.model.Status).BILLING_SUCCESS}">
+                <a data-th-if="${(adminBooking.status != T(ca.tidygroup.model.Status).BILLING_SUCCESS) and
+                                    adminBooking.paymentMethod == T(ca.tidygroup.model.PaymentMethod).CREDIT_CARD}">
                     <button type="submit" class="btn-info form-control">
                         Make a payment <span class="glyphicon glyphicon-usd"></span>
                     </button>

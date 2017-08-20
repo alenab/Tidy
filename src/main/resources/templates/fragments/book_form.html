@@ -171,6 +171,17 @@
                                required="required" form="bookingForm" placeholder="Phone"/>
                         <span class="help-block" data-th-errors="*{phone}">error</span>
                     </div>
+                     <br/>
+                    <div class="input-group">
+                        <span class="input-group-addon">How do you want to pay?</span>
+                        <select class="form-control" data-th-field="*{paymentMethod}" form="bookingForm">
+                            <!--/*@thymesVar id="paymentMethods" type="java.util.List<java.lang.String>"*/-->
+                            <th:block th:each="metod : ${paymentMethods}">
+                                <option data-th-id="${{metod}}" data-th-value="${{metod}}"
+                                        data-th-text="${metod}"></option>
+                            </th:block>
+                        </select>
+                    </div>
                 </div>
                 <br/>
                 <div class="row">

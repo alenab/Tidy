@@ -2,6 +2,7 @@ package ca.tidygroup.dto;
 
 import ca.tidygroup.model.CleaningOption;
 import ca.tidygroup.model.CleaningPlan;
+import ca.tidygroup.model.PaymentMethod;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -55,6 +56,8 @@ public class BookingForm {
     private String nonce;
 
     private String getInNotes;
+
+    private PaymentMethod paymentMethod;
 
     public String getAddress() {
         return address;
@@ -190,6 +193,14 @@ public class BookingForm {
 
     public void setGetInNotes(String getInNotes) {
         this.getInNotes = getInNotes;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     @Override

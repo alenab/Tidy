@@ -126,6 +126,7 @@ public class BookingService {
 
         booking.setPrice(serverPrice);
         booking.setStatus(Status.NEW);
+        booking.setPaymentMethod(bookingForm.getPaymentMethod());
         bookingRepository.save(booking);
     }
 
@@ -197,6 +198,7 @@ public class BookingService {
         booking.setDuration(bookingDTOAdmin.getDuration());
         booking.setGetInNotes(bookingDTOAdmin.getGetInNotes());
         booking.setAdminNotes(bookingDTOAdmin.getAdminNotes());
+        booking.setPaymentMethod(bookingDTOAdmin.getPaymentMethod());
         bookingRepository.save(booking);
     }
 
@@ -259,5 +261,13 @@ public class BookingService {
 
     public List<Booking> getAllFor(Customer customer) {
         return bookingRepository.findAllByCustomer(customer);
+    }
+
+    public List<String> getAllPaymentMethods () {
+        List<String> list = new ArrayList<>();
+        list.add(PaymentMethod.CREDIT_CARD.toString());
+        list.add(PaymentMethod.CASH.toString());
+        list.add(PaymentMethod.CHECK.toString());
+        return list;
     }
 }

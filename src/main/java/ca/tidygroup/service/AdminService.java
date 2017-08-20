@@ -91,6 +91,7 @@ public class AdminService {
         int plannedTime = apartmentUnitRepository.findApartmentUnitByCleaningPlanAndNumberOfBedroomsAndNumberOfBathrooms(booking.getCleaningPlan(),
                 booking.getNumberOfRooms(), booking.getNumberOfBathrooms()).getPlannedTime();
         bookingDTOAdmin.setPlannedTime(String.valueOf(plannedTime));
+        bookingDTOAdmin.setPaymentMethod(booking.getPaymentMethod());
         return bookingDTOAdmin;
     }
 

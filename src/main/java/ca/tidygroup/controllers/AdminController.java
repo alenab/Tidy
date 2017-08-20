@@ -81,6 +81,7 @@ public class AdminController {
         model.addAttribute("allPlans", bookingService.getAllCleaningPlans());
         model.addAttribute("allBedrooms", bookingService.getListOfBedrooms());
         model.addAttribute("employees", adminService.getEmployees());
+        model.addAttribute("paymentMethods", bookingService.getAllPaymentMethods());
         return "admin/change_booking";
     }
 

@@ -19,6 +19,7 @@
                 <th>Customer</th>
                 <th>Address</th>
                 <th>Final Price</th>
+                <th>Payment</th>
                 <th>Status</th>
                 <th>Options</th>
             </tr>
@@ -28,6 +29,7 @@
                 <td th:text="|${booking.firstName} ${booking.lastName}|"></td>
                 <td th:text="|${booking.address}, apt ${booking.aptNumber}|"></td>
                 <td th:text="|${booking.finalPrice}|"></td>
+                <td th:text="|${booking.paymentMethod}|"></td>
                 <td data-th-text="${booking.status}"></td>
                 <td>
                     <a data-th-href="@{bookings/{bId}(bId=${booking.id})}">

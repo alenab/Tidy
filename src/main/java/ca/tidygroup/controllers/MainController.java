@@ -73,5 +73,15 @@ public class MainController {
     public String logout() {
         return "redirect:/";
     }
+
+    @GetMapping("/commercial")
+    public String commercial() {
+        return "commercial";
+    }
+
+    @GetMapping("/blog")
+    public String blog() {
+        return "blog";
+    }
 }
 
