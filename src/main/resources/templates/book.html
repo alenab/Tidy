@@ -2,6 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta name="google-signin-scope" content="profile email"/>
+    <!--/*@thymesVar id="googleOAuthClient" type="java.lang.String"*/-->
+    <meta name="google-signin-client_id" th:attr="content=${googleOAuthClient}"/>
+
     <title>book</title>
     <th:block th:include="fragments/head :: head">
 
@@ -165,6 +169,8 @@
 <div data-th-include="fragments/feedback :: feedback" class="container-fluid block-feedback text-center"></div>
 
 <div data-th-include="fragments/links :: links" class="container-fluid block-links"></div>
+
+<script src="https://apis.google.com/js/platform.js" async="async" defer="defer"></script>
 
 </body>
 </html>

@@ -28,6 +28,9 @@ public class BookingController {
     @Value("${tidy.google.api.key}")
     private String googleApiKey;
 
+    @Value("${tidy.google.oauth.client.id}")
+    private String googleOAuthClient;
+
     private BookingManager bookingManager;
 
     private AccountManager accountManager;
@@ -51,6 +54,7 @@ public class BookingController {
         model.addAttribute("allBedrooms", bookingService.getListOfBedrooms());
         model.addAttribute("discount", new Discount());
         model.addAttribute("googleApiKey", googleApiKey);
+        model.addAttribute("googleOAuthClient", googleOAuthClient);
         model.addAttribute("applicationId", billingService.getApplicationId());
         model.addAttribute("message", new EmailMessage());
         model.addAttribute("paymentMethods", bookingService.getAllPaymentMethods());
