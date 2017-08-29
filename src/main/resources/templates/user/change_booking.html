@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head data-th-include="fragments/head :: head">
+    <title>Change Booking</title>
+</head>
+<body>
+<div data-th-include="fragments/header :: header" class="container block-header"></div>
+<div class="container">
+    <!--/*@thymesVar id="userBooking" type="ca.tidygroup.dto.BookingDTOCustomer"*/-->
+    <form method="post" data-th-action="@{/user/{bid}/save(bid=${userBooking.id})}" data-th-object="${userBooking}">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Cleaning plan</span>
+                            <select class="form-control" data-th-field="*{cleaningPlan}">
+                                <!--/*@thymesVar id="allPlans" type="java.util.List<ca.tidygroup.model.CleaningPlan>"*/-->
+                                <th:block th:each="plan : ${allPlans}">
+                                    <option data-th-id="${{plan}}" data-th-value="${{plan}}"
+                                            data-th-text="${plan.name}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <br/>
+                        <div class="input-group">
+                            <span class="input-group-addon">Number of bedrooms</span>
+                            <select class="form-control" data-th-field="*{numberOfRooms}">
+                                <!--/*@thymesVar id="allBedrooms" type="java.util.List<java.lang.Integer>"*/-->
+                                <th:block th:each="numberOfBedroom : ${allBedrooms}">
+                                    <option data-th-id="${{numberOfBedroom}}" data-th-value="${{numberOfBedroom}}"
+                                            data-th-text="${numberOfBedroom}"></option>
+                                </th:block>
+                            </select>
+                            <span class="help-block" data-th-errors="*{numberOfRooms}">error</span>
+                        </div>
+                        <br/>
+                        <div class="input-group">
+                            <span class="input-group-addon">Number of bathrooms</span>
+                            <select class="form-control" data-th-field="*{numberOfBathrooms}">
+                                <option value="1">1 bathroom</option>
+                            </select>
+                            <span class="help-block" data-th-errors="*{numberOfBathrooms}">error</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row">
+                    <h4>Extra services</h4>
+                    <div class="row extraOptions">
+                        <!-- list is populated by js -->
+                    </div>
+                </div>
+
+                <br/>
+                <hr/>
+
+                <div class="input-group">
+                    <span class="input-group-addon">Special request</span>
+                    <input class="form-control" type="text" data-th-field="*{specialRequest}"/>
+                    <span class="help-block" data-th-errors="*{specialRequest}">error</span>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon">Address</span>
+                            <input class="form-control" type="text" data-th-field="*{address}"
+                                   required="required"/>
+                            <span class="help-block" data-th-errors="*{address}">error</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Apt. Number</span>
+                            <input class="form-control" type="text" data-th-field="*{aptNumber}"
+                                   placeholder="Apt. Number"/>
+                            <span class="help-block" data-th-errors="*{aptNumber}">error</span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="input-group">
+                    <span class="input-group-addon">How do we get in?</span>
+                    <select id="getInType" class="form-control">
+                        <option selected="selected" value="home">Someone is home</option>
+                        <option value="concierge">Concierge</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="help-block" data-th-errors="*{getInNotes}">error</span>
+                    <textarea id="getInOther" class="form-control" style="display: none;"></textarea>
+                    <input id="getInToSend" type="hidden" data-th-field="*{getInNotes}"/>
+                </div>
+
+                <br/>
+
+                <div class="form-inline row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Date of cleaning</span>
+                            <input type="hidden" data-th-field="*{cleaningDate}"/>
+                            <div id="datepicker"></div>
+                            <span class="help-block" data-th-errors="*{cleaningDate}">error</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Time of cleaning</span>
+                            <select class="form-control" data-th-field="*{cleaningTime}"
+                                    required="required">
+                                <!-- options populated by js -->
+                            </select>
+                            <span class="help-block" data-th-errors="*{cleaningTime}">error</span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row" data-th-if="${userBooking.discount == null}">
+                    <div class="input-group">
+                        <span class="input-group-addon">Discount</span>
+                        <input class="form-control" type="number" data-th-field="*{discount}"
+                               placeholder="Discount" disabled="disabled"/>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <br/>
+                    <div class="input-group">
+                        <span class="input-group-addon">How do you want to pay?</span>
+                        <select class="form-control" data-th-field="*{paymentMethod}">
+                            <!--/*@thymesVar id="paymentMethods" type="java.util.List<java.lang.String>"*/-->
+                            <th:block th:each="metod : ${paymentMethods}">
+                                <option data-th-id="${{metod}}" data-th-value="${{metod}}"
+                                        data-th-text="${metod}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+                <br/>
+
+                <input type="hidden" data-th-field="*{price}"/>
+            </div>
+            <div class="col-md-3">
+                <h4>BOOKING SUMMARY</h4>
+                <div class="form-group row">
+                    <label class="control-label col-md-6">SUB-TOTAL</label>
+                    <span class="booking-price price col-md-6"></span>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-6 ">SALES TAX</label>
+                    <span class="booking-price-tax price col-md-6"></span>
+                </div>
+                <div class="form-group row" th:if="${userBooking.discount != null}">
+                    <label class="control-label col-md-6">DISCOUNT</label>
+                    <span class="booking-discount price col-md-6" data-th-text="${userBooking.discount} + '%'"
+                          th:attr="data-discount=${userBooking.discount}">0</span>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-6">TOTAL</label>
+                    <span class="booking-price-total price col-md-6"></span>
+                </div>
+                <input class="btn-info form-control" type="submit"/>
+            </div>
+        </div>
+    </form>
+
+    <!-- jQuery UI for calendar -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="../../static/js/booking.js" data-th-src="@{/js/booking.js}" type="text/javascript"></script>
+
+
+    <!--/*@thymesVar id="googleApiKey" type="java.lang.String"*/-->
+    <script type="text/javascript"
+            data-th-src="@{https://maps.googleapis.com/maps/api/js(key=${googleApiKey},libraries='places')}" async="async"></script>
+
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function handleUpdateValues() {
+            var $option = $('select#getInType > option:selected');
+            var $textarea = $('#getInOther');
+            var $input = $('#getInToSend');
+            if ($option.val() === 'other') {
+                $textarea.show();
+                $input.val($textarea.val());
+            } else {
+                $textarea.hide();
+                $input.val($option.text());
+            }
+        }
+
+        $(function () {
+
+            $('#address').on('change', function () {
+                $('input#address').parent('div.form-group').removeClass('has-error');
+            });
+
+            var autocomplete = new google.maps.places.Autocomplete((document.getElementById('address')),
+                {types: ['address'], componentRestrictions: {country: 'ca'}});
+
+            autocomplete.addListener('place_changed', function () {
+                var place = autocomplete.getPlace();
+                console.log(place.formatted_address);
+
+                $.each(place.address_components, function (idx, item) {
+                    if (item.types[0] === 'locality' && item.long_name !== 'Vancouver') {
+                        $('input#address').parent('div.form-group').addClass('has-error');
+                        alert("Sorry, we are not there yet!");
+                    }
+                });
+            });
+
+            // UI for "How we get in?"
+            handleUpdateValues();
+
+            $('select#getInType').on('change', handleUpdateValues);
+
+            $('#getInOther').on('change', function () {
+                var $textarea = $('#getInOther');
+                var $input = $('#getInToSend');
+                $input.val($textarea.val());
+            });
+
+            $.get('/api/booking/' + [[${userBooking.id}]] + '/options', function(data) {
+                $.each(data, function(idx, item) {
+                    $('button[data-option-id="' + Number(item) + '"]').click();
+                });
+            });
+        });
+        /*]]>*/
+    </script>
+</div>
+</body>
+</html>

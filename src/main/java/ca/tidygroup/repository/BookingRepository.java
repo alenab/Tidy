@@ -15,5 +15,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByCleaningTimeAfterAndStatusNotIn(ZonedDateTime afterDate, Status... statuses);
     List<Booking> findAllByStatusIn(Status... statuses);
     List<Booking> findAllByStatusNotIn(Status... statuses);
-    List<Booking> findAllByCustomer(Customer customer);
+    List<Booking> findAllByCustomerOrderByCleaningTime(Customer customer);
 }

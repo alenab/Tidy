@@ -2,8 +2,12 @@ package ca.tidygroup.dto;
 
 import ca.tidygroup.model.CleaningOption;
 import ca.tidygroup.model.CleaningPlan;
+import ca.tidygroup.model.PaymentMethod;
 import ca.tidygroup.model.Status;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 public class BookingDTOCustomer {
@@ -12,25 +16,42 @@ public class BookingDTOCustomer {
 
     private CleaningPlan cleaningPlan;
 
+    @Min(0)
+    @Max(5)
     private int numberOfRooms;
 
+    @Min(1)
+    @Max(4)
     private int numberOfBathrooms;
 
     private List<CleaningOption> cleaningOptions;
 
     private String specialRequest;
 
+    @NotBlank
     private String cleaningDate;
 
+    @NotBlank
     private String cleaningTime;
 
+    @NotBlank
     private String address;
 
     private String aptNumber;
 
+    private double price;
+
     private double finalPrice;
 
     private Status status;
+
+    private  int discount;
+
+    private String nonce;
+
+    private String getInNotes;
+
+    private PaymentMethod paymentMethod;
 
     public long getId() {
         return id;
@@ -112,6 +133,14 @@ public class BookingDTOCustomer {
         this.aptNumber = aptNumber;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public double getFinalPrice() {
         return finalPrice;
     }
@@ -128,4 +157,35 @@ public class BookingDTOCustomer {
         this.status = status;
     }
 
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public String getNonce() {
+        return nonce;
+    }
+
+    public void setNonce(String nonce) {
+        this.nonce = nonce;
+    }
+
+    public String getGetInNotes() {
+        return getInNotes;
+    }
+
+    public void setGetInNotes(String getInNotes) {
+        this.getInNotes = getInNotes;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 }

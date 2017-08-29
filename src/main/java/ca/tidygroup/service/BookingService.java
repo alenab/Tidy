@@ -260,7 +260,7 @@ public class BookingService {
     }
 
     public List<Booking> getAllFor(Customer customer) {
-        return bookingRepository.findAllByCustomer(customer);
+        return bookingRepository.findAllByCustomerOrderByCleaningTime(customer);
     }
 
     public List<String> getAllPaymentMethods () {
@@ -269,5 +269,10 @@ public class BookingService {
         list.add(PaymentMethod.CASH.toString());
         list.add(PaymentMethod.CHECK.toString());
         return list;
+    }
+
+    public List<CleaningOption> getCleaningOptionsByBookingId(Long bookingId) {
+        Booking booking = bookingRepository.getOne(bookingId);
+        return booking.getAdditionalOptions();
     }
 }

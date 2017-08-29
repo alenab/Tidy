@@ -63,4 +63,12 @@ public class ApiController {
                 .map(time -> time.format(DateTimeFormatter.ofPattern("HH:mm")))
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("booking/{bookingId}/options")
+    public List<Long> getOptionsByBooking(@PathVariable Long bookingId) {
+        return bookingService.getCleaningOptionsByBookingId(bookingId).stream()
+                .map(CleaningOption::getId)
+                .collect(Collectors.toList());
+
+    }
 }

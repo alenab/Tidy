@@ -8,6 +8,17 @@
 <div data-th-include="fragments/header :: header" class="container block-header"></div>
 <div class="container">
     <h4 th:text="|Hello ${#httpServletRequest.remoteUser}|">text</h4>
+    <h5>Personal details</h5>
+    <!--/*@thymesVar id="customer" type="ca.tidygroup.dto.CustomerDTO"*/-->
+    <h5 th:text="|${customer.firstName} ${customer.lastName}|"></h5>
+    Email: <span th:text="${customer.email}"></span><br/>
+    Phone: <span th:text="${customer.phoneNumber}"></span><br/>
+    Addresses:<br/>
+    <th:block th:each="add : ${customer.addresses}">
+        <span th:text="|${add.address}, apt ${add.aptNumber}|"></span><br/>
+    </th:block>
+<br/>
+
     <h5>Your bookings:</h5>
     <table class="table table-stripped">
         <tr>
@@ -23,14 +34,21 @@
             <td th:text="|${booking.cleaningPlan.name}, ${booking.numberOfRooms} bedrooms, ${booking.numberOfBathrooms} bathrooms,
                  ${booking.cleaningOptions}|"></td>
             <td th:text="|${booking.finalPrice}, ${booking.status}|"></td>
+            <td>
+                <a data-th-href="@{{bId}(bId=${booking.id})}">
+                <button class="btn-info form-control">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+                </a>
+            </td>
         </tr>
     </table>
 </div>
 
 <div class="container">
 <h5>Your cards info</h5>
-<!--/*@thymesVar id="allCards" type="java.util.List<ca.tidygroup.dto.CardDTO>"*/-->
-<th:block th:each="card : ${allCards}">
+    <!--/*@thymesVar id="customer" type="ca.tidygroup.dto.CustomerDTO"*/-->
+<th:block th:each="card : ${customer.cards}">
 Brand: <span th:text="${card.cardbrand}"></span><br/>
 Last 4 digits: <span th:text="|xxxx ${card.last4}|"></span><br/>
 Expiration date: <span th:text="${card.expDate}"></span><br/>
