@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head data-th-include="fragments/head :: head">
+    <title>business</title>
+</head>
+
+<body>
+<div class="block-business_header container-fluid">
+    <div data-th-include="fragments/header :: header" class="container block-header"></div>
+    <div class="container">
+        <div class="row text-center">
+            <h2>Commercial cleaning</h2>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+<div class=" block-business_form">
+    <h2>PLEASE FILL IN FORM</h2>
+    <!--/*@thymesVar id="request" type="ca.tidygroup.dto.CommercialRequestMassage"*/-->
+    <form class="form-group" method="post" data-th-action="@{/commercial/send-request}"
+          data-th-object="${request}">
+        <div class="input-group">
+            <span class="input-group-addon">Your company name</span>
+            <input class="form-control" type="text" data-th-field="*{companyName}"
+                   required="required"/>
+            <span class="help-block" data-th-errors="*{companyName}">error</span>
+        </div>
+        <br/>
+        <div class="input-group">
+            <span class="input-group-addon">Contact email</span>
+            <input class="form-control" type="email" data-th-field="*{email}"
+                   required="required"/>
+            <span class="help-block" data-th-errors="*{email}">error</span>
+        </div>
+        <br/>
+        <div class="input-group">
+            <span class="input-group-addon">Contact person name</span>
+            <input class="form-control" type="text" data-th-field="*{contactPerson}"
+                   required="required"/>
+            <span class="help-block" data-th-errors="*{contactPerson}">error</span>
+        </div>
+        <br/>
+        <div class="input-group">
+            <span class="input-group-addon">Contact phone</span>
+            <input class="form-control" type="text" data-th-field="*{phone}"
+                   required="required"/>
+            <span class="help-block" data-th-errors="*{phone}">error</span>
+        </div>
+        <br/>
+        <div class="input-group">
+            <span class="input-group-addon">Flore space</span>
+            <input class="form-control" type="text" data-th-field="*{floorSpace}"
+                   required="required"/>
+            <span class="help-block" data-th-errors="*{floorSpace}">error</span>
+        </div>
+        <br/>
+        <div class="input-group">
+            <span class="input-group-addon">Frequency of cleaning</span>
+            <input class="form-control" type="text" data-th-field="*{frequency}"
+                   required="required"/>
+            <span class="help-block" data-th-errors="*{frequency}">error</span>
+        </div>
+        <br/>
+        <div class="input-group">
+            <span class="input-group-addon">Additional information</span>
+            <input class="form-control" type="text" data-th-field="*{notes}"
+                   required="required"/>
+            <span class="help-block" data-th-errors="*{notes}">error</span>
+        </div>
+        <br/>
+        <input class="btn btn-choice" type="submit" value="Click to send"/>
+        <br/>
+    </form>
+</div>
+</div>
+</body>
+</html>

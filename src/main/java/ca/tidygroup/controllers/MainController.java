@@ -1,5 +1,6 @@
 package ca.tidygroup.controllers;
 
+import ca.tidygroup.dto.CommercialRequestMassage;
 import ca.tidygroup.dto.EmailMessage;
 import ca.tidygroup.model.Account;
 import ca.tidygroup.service.MailingService;
@@ -74,9 +75,17 @@ public class MainController {
         return "redirect:/";
     }
 
-    @GetMapping("/commercial")
-    public String commercial() {
-        return "commercial";
+    @GetMapping("/business")
+    public String commercial(Model model) {
+        model.addAttribute("request", new CommercialRequestMassage());
+        return "business";
+    }
+
+    @PostMapping("/business/send-request")
+    public String sendCommercialRequest(CommercialRequestMassage message, Model model) {
+        model.addAttribute("request", new CommercialRequestMassage());
+        mailingService.sendCommercialRequestMessage(message);
+        return "business";
     }
 
     @GetMapping("/blog")

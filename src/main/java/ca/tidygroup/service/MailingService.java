@@ -1,6 +1,7 @@
 package ca.tidygroup.service;
 
 import ca.tidygroup.dto.BookingForm;
+import ca.tidygroup.dto.CommercialRequestMassage;
 import ca.tidygroup.dto.EmailMessage;
 import ca.tidygroup.event.NewBookingEvent;
 import org.slf4j.Logger;
@@ -56,6 +57,28 @@ public class MailingService {
         mes.setSubject(message.getSubject());
         mes.setText("You have new message on the website from: \n\r" + message.getName() + "\n"
                 + message.getEmail() + "\n\r" + message.getMessage());
+        try {
+            mailSender.send(mes);
+            log.debug("Email sent successfully");
+        } catch (MailException e) {
+            log.error("Exception is thrown at attempt to send an email", e);
+        }
+    }
+
+    @Async
+    public void sendCommercialRequestMessage(CommercialRequestMassage message) {
+        log.info("Going to send a commercial request");
+        if (log.isDebugEnabled()) {
+            log.debug("Using mailbox: {} and sending to: {}", mailBoxUserEmail, adminEmail);
+        }
+        SimpleMailMessage mes = new SimpleMailMessage();
+        mes.setFrom(mailBoxUserEmail);
+        mes.setTo(adminEmail);
+        mes.setSubject("Commercial request from" + message.getCompanyName());
+        mes.setText("You have new commercial request from: \n\r" + message.getCompanyName() + "\n"
+                + message.getEmail() + "\n" + "Contact person: " + message.getContactPerson() + "\n" + "phone: " + message.getPhone() +
+                "\n" + "Floor space: " + message.getFloorSpace() + "\n" + "Frequency: " + message.getFrequency() +
+                "\n" + "Additional information: " + message.getNotes());
         try {
             mailSender.send(mes);
             log.debug("Email sent successfully");
