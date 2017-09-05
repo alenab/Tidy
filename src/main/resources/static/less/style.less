@@ -106,7 +106,7 @@ h5, h6 {
 
   &:hover,
   &:focus,
-  &:active {
+  &:active, &.active {
     background-color: rgba(139, 209, 205, 1);
     border-color: rgba(139, 209, 205, 1);
     color: white;
@@ -389,7 +389,7 @@ h5, h6 {
     position: absolute;
     background: url("../images/services_background.jpg") no-repeat center;
     background-size: cover;
-    height: 400px;
+    height: 380px;
     width: 100%;
     left: 0;
     top: 0;
@@ -398,28 +398,43 @@ h5, h6 {
 
   h2 {
     text-align: left;
-    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
   }
 
   span {
     font-size: 70px;
+    padding: 0;
     color: #3ACCCC;
     text-align: center;
     font-family: TheHand;
     font-weight: bold;
   }
-  .services_top {
-    margin-top: 40px;
-    margin-bottom: 40px;
-  }
+
   .frame_price {
-    border: 2px solid @text-color;
+    border: 2px solid @dark-btn-color;
   }
 
   .btn {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
-}
+
+  .service_desc {
+    background: white;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    opacity: 0.7;
+    color: #696969;
+    span {
+      font-size: 18px;
+      color: #999999;
+      font-family: Dosis;
+      }
+    }
+  }
 
 .block-checklist {
 
@@ -738,6 +753,9 @@ div.media:first-child {
   .btn-choice {
     float: right;
   }
+
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .input-group-addon {

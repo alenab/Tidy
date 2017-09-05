@@ -44,6 +44,16 @@ public class MainController {
         return "services";
     }
 
+    @GetMapping("/standardcleaning")
+    public String standardcleaning() {
+        return "standardcleaning";
+    }
+
+    @GetMapping("/deepcleaning")
+    public String deepcleaning() {
+        return "deepcleaning";
+    }
+
     @GetMapping("/faq")
     public String faq() {
         return "faq";

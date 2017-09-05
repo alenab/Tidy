@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head data-th-include="fragments/head :: head">
-    <title>services</title>
+    <title>standard</title>
 </head>
 
 <body>
@@ -15,12 +15,12 @@
                 <div class="row">
                     <div class="col-md-4">
                         <a href="../services">
-                            <button type="button" class="btn btn-choice active">TIDY LITE</button>
+                            <button type="button" class="btn btn-choice">TIDY LITE</button>
                         </a>
                     </div>
                     <div class="col-md-4">
                         <a href="../standardcleaning">
-                            <button type="button" class="btn btn-choice">STANDARD CLEANING</button>
+                            <button type="button" class="btn btn-choice active">STANDARD CLEANING</button>
                         </a>
                     </div>
                     <div class="col-md-4">
@@ -30,22 +30,22 @@
                     </div>
                 </div>
                 <div class="service_desc">
-                    <span>Tidy Lite is for when you're looking for a quick touch up. We'll hit all the important
-                        spots to spruce up your place. Perfect for vacation rentals and for those who get
-                        cleaners regularly.</span>
+                    <span>Tidy Standard is our most popular package. We'll clean all the major areas of your home to
+                        get that clean feel. If you're getting a one-off professional cleaning or want to have your
+                        place cleaned ahead of an event this one's for you.</span>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="frame_price text-center">
                     <h5>STARTING FROM:</h5>
-                    <span>89 CAD</span>
+                    <span>159 CAD</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div data-th-include="fragments/tidy_checklist :: tidy_checklist" class="container-fluid block-checklist"></div>
+<div data-th-include="fragments/standard_checklist :: standard_checklist " class="container-fluid block-checklist"></div>
 
 <div data-th-include="fragments/ready_book :: ready_book" class="container block-ready_book"></div>
 
