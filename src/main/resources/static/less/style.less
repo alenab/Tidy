@@ -41,6 +41,11 @@
 @font-size-h5: 20px;
 @font-size-h6: 16px;
 
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
 h1 {
   margin-top: 50px;
 }
@@ -148,11 +153,19 @@ h5, h6 {
   }
 }
 
+// parallax: https://www.script-tutorials.com/bootstrap-one-page-template-with-parallax-effect/
 .block-top {
   margin-top: 30px;
-  background: url("../images/kitchen_background._with_cup.png") no-repeat center;
+  position: relative;
+  display: table;
+  background: url("../images/kitchen_background._with_cup.png") no-repeat center center fixed;
   background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   height: 570px;
+  //height: 100%;
+  width: 100%;
   text-align: center;
   .btn {
     height: 50px;
@@ -188,8 +201,15 @@ h5, h6 {
 
 @media screen and (min-width: @container-desktop) {
   .block-advantage {
-    background: url("../images/window_and_girl.png") no-repeat center;
+    background: url("../images/window_and_girl.png") no-repeat center center fixed;
     background-size: cover;
+    display: table;
+    height: 800px;
+    position: relative;
+    width: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
   }
 }
 
